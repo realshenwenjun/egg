@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.user.mapper.RoleMapper">
+    <cache></cache>
+    <resultMap type="com.dskj.user.entity.Role" id="role">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <select id="getList" resultMap="role">
+        SELECT * FROM user_role
+    </select>
+    <select id="get" parameterType="java.lang.Integer" resultMap="role">
+        SELECT * FROM user_role WHERE id = #{0}
+    </select>
+    <insert id="add" parameterType="com.dskj.user.entity.Role">
+        INSERT INTO user_role (name,create_time) VALUES (#{name},#{createTime})
+    </insert>
+    <update id="update" parameterType="com.dskj.user.entity.Role">
+        UPDATE user_role ur SET ur.name = #{name} WHERE ur.id = #{id}
+    </update>
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM user_role WHERE id = #{0}
+    </delete>
+</mapper>

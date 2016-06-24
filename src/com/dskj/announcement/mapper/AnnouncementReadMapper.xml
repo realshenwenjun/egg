@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.announcement.mapper.AnnouncementReadMapper">
+	<cache>
+	</cache>
+	<resultMap type="com.dskj.announcement.entity.AnnouncementRead"
+		id="announcementRead">
+		<id property="id" column="id" />
+		<result property="institutionId" column="institution_id" />
+		<result property="userId" column="user_id" />
+		<result property="announcementId" column="announcement_id" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<insert id="doRead" parameterType="com.dskj.announcement.entity.AnnouncementRead"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into announcement_read
+		(user_id,announcement_id,institution_id,create_time) values
+		(#{userId},#{announcementId},#{institutionId},#{createTime})
+	</insert>
+	<select id="getRead" parameterType="com.dskj.announcement.entity.AnnouncementRead"
+		resultMap="announcementRead">
+		SELECT * FROM announcement_read ar WHERE ar.user_id =
+		#{userId} AND ar.announcement_id = #{announcementId}
+	</select>
+	<delete id="deleteRead" parameterType="java.util.ArrayList">
+		delete from announcement_read where
+		announcement_id in
+		<foreach collection="list" item="announcementIds" index="index"
+			open="(" separator="," close=")">#{announcementIds}
+		</foreach>
+	</delete>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+</mapper>

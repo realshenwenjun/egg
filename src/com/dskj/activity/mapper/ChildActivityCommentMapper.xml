@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.activity.mapper.ChildActivityCommentMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+    </cache>
+    <insert id="add" parameterType="com.dskj.activity.entity.ChildActivityComment">
+        INSERT INTO child_activity_comment (activity_id,comment_id,create_time) VALUES
+        (#{activityId},#{commentId},#{createTime})
+    </insert>
+    <select id="getCommentCount" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM child_activity_comment cac WHERE cac.activity_id = #{0}
+    </select>
+    <select id="getActivityCommentIds" resultType="java.lang.Integer">
+        SELECT cac.comment_id FROM child_activity_comment cac WHERE cac.activity_id =  #{activityId} ORDER BY cac.create_time DESC LIMIT #{page.pageNo},#{page.pageSize}
+    </select>
+</mapper>

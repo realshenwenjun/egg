@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.course.mapper.ClassLoveMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<insert id="add" parameterType="com.dskj.course.entity2_0.ClassLove" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO course_classes_love (class_id,user_id,create_time) VALUES (#{classId},#{userId},#{createTime})
+	</insert>
+	<select id="getClassLoveCount" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM course_classes_love ccl WHERE ccl.class_id = #{0}
+	</select>
+	<select id="getLoveId" resultType="java.lang.Integer">
+		SELECT ccl.id FROM course_classes_love ccl WHERE ccl.class_id = #{0} AND ccl.user_id = #{1}
+	</select>
+	<delete id="delete" parameterType="int">
+		DELETE FROM course_classes_love WHERE id = #{0}
+	</delete>
+</mapper>

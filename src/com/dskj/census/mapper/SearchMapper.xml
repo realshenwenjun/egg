@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.census.mapper.SearchMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<resultMap type="com.dskj.census.entity.SearchResult" id="searchResult">
+		<result property="type" column="type" />
+		<result property="institutionId" column="institution_id" />
+		<result property="institutionName" column="institution_name" />
+		<result property="institutionLogo" column="institution_logo" />
+		<result property="institutionCourseType" column="institution_course_type" />
+		<result property="institutionCommentCount" column="institution_comment_count" />
+		<result property="institutionAddress" column="institution_address" />
+		<result property="classId" column="class_id" />
+		<result property="classCover" column="class_cover" />
+		<result property="className" column="class_name" />
+		<result property="classPlanCount" column="class_plan_count" />
+		<result property="classStudentCount" column="class_student_count" />
+		<result property="classStartDate" column="class_start_date" />
+		<result property="classEndDate" column="class_end_date" />
+		<result property="classStartTime" column="class_start_time" />
+		<result property="classEndTime" column="class_end_time" />
+		<result property="classTeacherName" column="class_teacher_name" />
+		<result property="classPrice" column="class_price" />
+		<result property="activityId" column="activity_id" />
+		<result property="activityAdverImg" column="activity_adverImg" />
+		<result property="activityTitle" column="activity_title" />
+		<result property="activityOldPrice" column="activity_old_price" />
+		<result property="activityPrice" column="activity_price" />
+		<result property="activitySaleCount" column="activity_sale_count" />
+		<result property="postId" column="post_id" />
+		<result property="postContext" column="post_context" />
+		<result property="postUserName" column="post_user_name" />
+		<result property="postLoveCount" column="post_love_count" />
+		<result property="postCollectCount" column="post_collect_count" />
+		<result property="postCommentCount" column="post_comment_count" />
+		<result property="postUserPhoto" column="post_user_photo" />
+		<result property="postUserSex" column="post_user_sex" />
+		<result property="postCreateTime" column="post_create_time" />
+		<result property="postLoveId" column="post_love_id" />
+		<result property="postCollectId" column="post_collect_id" />
+		<result property="friendId" column="friend_id" />
+		<result property="friendPhoto" column="friend_photo" />
+		<result property="friendName" column="friend_name" />
+		<result property="friendPhone" column="friend_phone" />
+		<result property="friendSex" column="friend_sex" />
+		<collection property="postImgUrls" ofType="java.util.ArrayList"
+			select="getPostImgUrls" column="{postId = post_id}">
+		</collection>
+	</resultMap>
+	<select id="getPostImgUrls" parameterType="java.util.HashMap"
+		resultType="java.lang.String">
+		SELECT cpi.url FROM community_post_img cpi WHERE
+		cpi.post_id = #{postId}
+	</select>
+	<select id="getSearch" resultMap="searchResult">
+		SELECT 1 AS `type`, i.id AS
+		institution_id,i.name AS institution_name,i.logo AS
+		institution_logo,i.course_type AS institution_course_type,
+		(SELECT COUNT(*) FROM institution_comment ic WHERE ic.institution_id = i.id)
+		AS institution_comment_count,
+		i.address AS institution_address,
+		NULL AS class_id,NULL AS class_cover,NULL AS class_name,0 AS
+		class_plan_count,0 AS class_student_count,
+		NULL AS class_start_date,NULL AS class_end_date,NULL AS
+		class_start_time,NULL AS class_end_time,NULL class_teacher_name,NULL
+		AS class_price,
+		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
+		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,
+		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
+		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
+		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
+		friend_phone,NULL AS friend_sex
+		FROM institution i WHERE i.name LIKE '%${key}%'
+		UNION
+		SELECT 2 AS `type`,
+		NULL AS institution_id,NULL AS institution_name,NULL AS
+		institution_logo,NULL AS institution_course_type,0 AS
+		institution_comment_count,NULL AS institution_address,
+		cc.id AS class_id,cc.cover AS class_cover,cc.name AS
+		class_name,cc.plan_count AS class_plan_count,cc.student_count AS
+		class_student_count,
+		cc.start_date AS class_start_date,cc.end_date AS class_end_date,cc.start_time AS
+		class_start_time,cc.end_time AS class_end_time,u.name AS
+		class_teacher_name,
+		cc.price AS class_price,
+		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
+		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,
+		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
+		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
+		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
+		friend_phone,NULL AS friend_sex
+		FROM course_classes cc JOIN `user` u ON u.id = cc.user_id WHERE cc.name
+		LIKE '%${key}%'
+		UNION
+		SELECT 3 AS `type`,
+		NULL AS institution_id,NULL AS institution_name,NULL AS
+		institution_logo,NULL AS institution_course_type,0 AS
+		institution_comment_count,NULL AS institution_address,
+		NULL AS class_id,NULL AS class_cover,NULL AS class_name,0 AS
+		class_plan_count,0 AS class_student_count,
+		NULL AS class_start_date,NULL AS class_end_date,NULL AS
+		class_start_time,NULL AS class_end_time,NULL class_teacher_name,NULL
+		AS class_price,
+		ca.id AS activity_id,ca.adver_img AS activity_adverImg,ca.title AS
+		activity_title,ca.old_price AS activity_old_price,ca.price AS
+		activity_price,ca.sale_count AS activity_sale_count,
+		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
+		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
+		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
+		friend_phone,NULL AS friend_sex
+		FROM child_activity ca WHERE ca.name LIKE '%${key}%'
+		UNION
+		SELECT 4 AS `type`,
+		NULL AS institution_id,NULL AS institution_name,NULL AS
+		institution_logo,NULL AS institution_course_type,0 AS
+		institution_comment_count,NULL AS institution_address,
+		NULL AS class_id,NULL AS class_cover,NULL AS class_name,0 AS
+		class_plan_count,0 AS class_student_count,
+		NULL AS class_start_date,NULL AS class_end_date,NULL AS
+		class_start_time,NULL AS class_end_time,NULL class_teacher_name,NULL
+		AS class_price,
+		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
+		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,
+		cp.id AS post_id,cp.context AS post_context,u.name AS post_user_name,
+		(SELECT
+		COUNT(*) FROM community_post_love cpl WHERE cpl.post_id = cp.id) AS
+		post_love_count,
+		(SELECT
+		COUNT(*) FROM community_post_collect cpc WHERE cpc.post_id = cp.id)
+		AS
+		post_collect_count,
+		(SELECT
+		COUNT(*) FROM community_post_comment cpc WHERE cpc.post_id = cp.id)
+		AS
+		post_comment_count,
+		u.photo AS post_user_photo,u.sex AS post_user_sex,cp.create_time AS post_create_time,
+		(SELECT cpl.id FROM community_post_love cpl WHERE
+		cpl.post_id = cp.id
+		AND
+		cpl.user_id = #{userId}) AS post_love_id,
+		(SELECT cpc.id FROM community_post_collect cpc WHERE
+		cpc.post_id =
+		cp.id AND
+		cpc.user_id = #{userId}) AS post_collect_id,
+		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
+		friend_phone,NULL AS friend_sex
+		FROM community_post cp JOIN `user` u ON u.id = cp.user_id WHERE cp.context
+		LIKE '%${key}%'
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getClassSearch" resultMap="searchResult">
+		SELECT 2 AS `type`, cc.id
+		AS class_id,cc.cover AS class_cover,cc.name AS
+		class_name,cc.plan_count AS class_plan_count,cc.student_count AS
+		class_student_count,
+		cc.start_date AS class_start_date,cc.end_date AS
+		class_end_date,cc.start_time AS
+		class_start_time,cc.end_time AS
+		class_end_time,u.name AS
+		class_teacher_name,
+		cc.price AS class_price,
+		NULL AS institution_id,NULL AS institution_name,NULL AS
+		institution_logo,NULL AS institution_course_type,0 AS
+		institution_comment_count,NULL AS institution_address,
+		NULL AS
+		activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
+		AS
+		activity_old_price,NULL AS activity_price,0 AS activity_sale_count,
+		NULL AS post_id,NULL AS
+		post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
+		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
+		NULL AS friend_id,NULL AS
+		friend_photo,NULL AS friend_name,NULL AS
+		friend_phone,NULL AS
+		friend_sex
+		FROM course_classes cc JOIN `user` u ON u.id = cc.user_id
+		WHERE cc.name
+		LIKE '%${key}%'
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getInstitutionSearch" resultMap="searchResult">
+		SELECT 1 AS `type`, i.id AS
+		institution_id,i.name AS institution_name,i.logo AS
+		institution_logo,i.course_type AS institution_course_type,
+		(SELECT COUNT(*) FROM institution_comment ic WHERE ic.institution_id = i.id)
+		AS institution_comment_count,
+		i.address AS institution_address,
+		NULL AS class_id,NULL AS class_cover,NULL AS class_name,0 AS
+		class_plan_count,0 AS class_student_count,
+		NULL AS class_start_date,NULL AS class_end_date,NULL AS
+		class_start_time,NULL AS class_end_time,NULL class_teacher_name,NULL
+		AS class_price,
+		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
+		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,
+		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
+		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
+		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
+		friend_phone,NULL AS friend_sex
+		FROM institution i WHERE i.name LIKE '%${key}%'
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getActivitySearch" resultMap="searchResult">
+		SELECT 3 AS `type`,
+		NULL AS institution_id,NULL AS institution_name,NULL AS
+		institution_logo,NULL AS institution_course_type,0 AS
+		institution_comment_count,NULL AS institution_address,
+		NULL AS class_id,NULL AS class_cover,NULL AS class_name,0 AS
+		class_plan_count,0 AS class_student_count,
+		NULL AS class_start_date,NULL AS class_end_date,NULL AS
+		class_start_time,NULL AS class_end_time,NULL class_teacher_name,NULL
+		AS class_price,
+		ca.id AS activity_id,ca.adver_img AS activity_adverImg,ca.title AS
+		activity_title,ca.old_price AS activity_old_price,ca.price AS
+		activity_price,ca.sale_count AS activity_sale_count,
+		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
+		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
+		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
+		friend_phone,NULL AS friend_sex
+		FROM child_activity ca WHERE ca.name LIKE '%${key}%'
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+</mapper>
