@@ -350,13 +350,13 @@
 	</delete>
 	<select id="selectAll" resultMap="BaseResultMap">
 		select
-		id,
-		institution_id,activity_type, title, name,
-		price,old_price,sale_count,
+		ca.id,
+		ca.institution_id,ca.activity_type, ca.title, ca.name,
+		ca.price,ca.old_price,(SELECT count(*) from child_activity_reservation car WHERE  car.child_activity_id = ca.id AND car.state = 1) as sale_count,
 		thumb_img, adver_img,short_detail,url
-		from child_activity
+		from child_activity ca
 		order by
-		create_time desc
+		ca.create_time desc
 		LIMIT #{page.pageNo},#{page.pageSize}
 	</select>
 	<select id="selectBySearch" resultMap="BaseResultMap">
@@ -422,7 +422,7 @@
 	<select id="getActivityFeedbackList" resultMap="childActivityFeedBack">
 		SELECT
 		car.id AS id,car.user_id AS user_id,u.name AS user_name,u.photo AS
-		photo,u.sex AS sex,car.child_activity_id AS activity_id,
+		user_photo,u.sex AS sex,car.child_activity_id AS activity_id,
 		car.cancel_remark AS context,car.create_time AS create_time
 		FROM child_activity_reservation car JOIN `user` u ON car.user_id = u.id
 		WHERE car.cancel_remark IS NOT NULL
