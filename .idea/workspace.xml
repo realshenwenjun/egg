@@ -34,8 +34,8 @@
       <file leaf-file-name="ChildActivtiyControll.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/dskj/activity/controll/ChildActivtiyControll.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.28315413">
-              <caret line="856" column="43" selection-start-line="856" selection-start-column="21" selection-end-line="856" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.4874552">
+              <caret line="863" column="113" selection-start-line="863" selection-start-column="113" selection-end-line="863" selection-end-column="113" />
               <folding />
             </state>
           </provider>
@@ -45,7 +45,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/dskj/activity/service/ChildActivityService.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="65" column="91" selection-start-line="65" selection-start-column="4" selection-end-line="65" selection-end-column="91" />
+              <caret line="47" column="14" selection-start-line="47" selection-start-column="14" selection-end-line="47" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -56,7 +56,11 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="78" column="44" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="44" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#4759#4775#0" expanded="false" />
+                <element signature="e#6579#6597#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -66,7 +70,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="58" column="48" selection-start-line="58" selection-start-column="31" selection-end-line="58" selection-end-column="48" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -74,7 +80,7 @@
       <file leaf-file-name="ChildActivityMapper.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/dskj/activity/mapper/ChildActivityMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.0689654">
+            <state vertical-scroll-proportion="0.0">
               <caret line="457" column="99" selection-start-line="457" selection-start-column="99" selection-end-line="457" selection-end-column="99" />
               <folding>
                 <marker date="1467090955508" expanded="true" signature="3514:3679" placeholder="SELECT caa.*..child_activity_ask..." />
@@ -167,11 +173,11 @@
         <option value="$PROJECT_DIR$/src/com/dskj/user/mapper/InstitutionMapper.xml" />
         <option value="$PROJECT_DIR$/src/com/dskj/enu/OSAskLimit.java" />
         <option value="$PROJECT_DIR$/src/com/dskj/activity/service/ChildActivityReservationServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/com/dskj/activity/controll/ChildActivtiyControll.java" />
         <option value="$PROJECT_DIR$/src/com/dskj/activity/service/ChildActivityService.java" />
         <option value="$PROJECT_DIR$/src/com/dskj/activity/service/ChildActivityServiceImpl.java" />
         <option value="$PROJECT_DIR$/src/com/dskj/activity/mapper/ChildActivityMapper.java" />
         <option value="$PROJECT_DIR$/src/com/dskj/activity/mapper/ChildActivityMapper.xml" />
+        <option value="$PROJECT_DIR$/src/com/dskj/activity/controll/ChildActivtiyControll.java" />
       </list>
     </option>
   </component>
@@ -247,6 +253,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -590,8 +598,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -982,24 +988,6 @@
     <supportedVersion>125</supportedVersion>
     <option name="FORCE_UPDATE" value="true" />
   </component>
-  <component name="SvnFileUrlMappingImpl">
-    <option name="myMappingRoots">
-      <list>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\idea\dskj" />
-          <option name="myCopyRoot" value="D:\idea\dskj" />
-        </SvnCopyRootSimple>
-      </list>
-    </option>
-    <option name="myMoreRealMappingRoots">
-      <list>
-        <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="D:\idea\dskj" />
-          <option name="myCopyRoot" value="D:\idea\dskj" />
-        </SvnCopyRootSimple>
-      </list>
-    </option>
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="32d73df1-5689-4c11-8e0b-9986f730c30d" name="Default" comment="" />
@@ -1366,10 +1354,11 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32789558" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3752039" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32482994" sideWeight="0.5030211" order="8" side_tool="true" content_ui="tabs" />
@@ -1384,7 +1373,6 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3752039" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -1773,7 +1761,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.366667">
           <caret line="173" column="43" selection-start-line="173" selection-start-column="16" selection-end-line="173" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1781,7 +1768,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33213645">
           <caret line="38" column="19" selection-start-line="38" selection-start-column="19" selection-end-line="38" selection-end-column="19" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1793,19 +1779,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/dskj/activity/service/ChildActivityService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="65" column="91" selection-start-line="65" selection-start-column="4" selection-end-line="65" selection-end-column="91" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dskj/activity/service/ChildActivityServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="78" column="44" selection-start-line="78" selection-start-column="35" selection-end-line="78" selection-end-column="44" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#4759#4775#0" expanded="false" />
+            <element signature="e#6579#6597#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1813,13 +1795,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="58" column="48" selection-start-line="58" selection-start-column="31" selection-end-line="58" selection-end-column="48" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dskj/activity/mapper/ChildActivityMapper.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.0689654">
+        <state vertical-scroll-proportion="0.0">
           <caret line="457" column="99" selection-start-line="457" selection-start-column="99" selection-end-line="457" selection-end-column="99" />
           <folding>
             <marker date="1467090955508" expanded="true" signature="3514:3679" placeholder="SELECT caa.*..child_activity_ask..." />
@@ -1847,10 +1831,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/dskj/activity/service/ChildActivityService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="47" column="14" selection-start-line="47" selection-start-column="14" selection-end-line="47" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dskj/activity/controll/ChildActivtiyControll.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28315413">
-          <caret line="856" column="43" selection-start-line="856" selection-start-column="21" selection-end-line="856" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.4874552">
+          <caret line="863" column="113" selection-start-line="863" selection-start-column="113" selection-end-line="863" selection-end-column="113" />
           <folding />
         </state>
       </provider>

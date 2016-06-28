@@ -858,10 +858,10 @@ public class ChildActivtiyControll extends Base {
     public void getMyActivityList(HttpServletRequest request,
                                           HttpServletResponse response) {
         try {
-            String jsoString = request.getParameter("childActivity");
-            logger.info(jsoString);
-            Page page = stringToObj(jsoString, Page.class);
-            List<ChildActivity> list = childActivityService.getList(page);
+            String jsonString = request.getParameter("childActivity");
+            logger.info(jsonString);
+            Page page = stringToObj(jsonString, Page.class);
+            List<ChildActivity> list = childActivityService.getMyActivityList(readTree(jsonString, "userId"),page);
             write(response, null, null, null, list);
         } catch (Exception e) {
             e.printStackTrace();
