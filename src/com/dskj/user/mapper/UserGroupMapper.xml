@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.user.mapper.UserGroupMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+    </cache>
+    <resultMap type="com.dskj.user.entity2_0.UserGroup" id="userGroup">
+        <id property="id" column="id"/>
+        <result property="uid" column="uid"/>
+        <result property="url" column="url"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <select id="clear" resultType="int" flushCache="true">
+        SELECT 1
+    </select>
+    <insert id="add" parameterType="com.dskj.user.entity2_0.UserGroup" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_group (uid,url,create_time) VALUES (#{uid},#{url},#{createTime})
+    </insert>
+    <select id="get" parameterType="java.lang.String" resultMap="userGroup">
+        SELECT * FROM user_group ug where ug.uid = #{0}
+    </select>
+</mapper>

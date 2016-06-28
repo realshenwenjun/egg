@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.spread.mapper.CarouselCommentMapper">
+	<cache></cache>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<insert id="add" parameterType="com.dskj.spread.entity.CarouselComment">
+		INSERT INTO
+		system_carousel_comment (carousel_id,comment_id,create_time) VALUES
+		(#{carouselId},#{commentId},#{createTime})
+	</insert>
+	<select id="getCommentCount" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM system_carousel_comment scc WHERE scc.carousel_id = #{0}
+	</select>
+	<select id="getCarouselCommentIds" resultType="java.lang.Integer">
+		SELECT scc.comment_id FROM system_carousel_comment scc WHERE scc.carousel_id =  #{carouselId} ORDER BY scc.create_time DESC LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+</mapper>

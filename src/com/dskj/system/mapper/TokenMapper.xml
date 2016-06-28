@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.system.mapper.TokenMapper">
+	<cache></cache>
+	<resultMap type="com.dskj.system.entity.TokenConfig" id="tokenConfig">
+		<id property="id" column="id" />
+		<result property="key" column="key" />
+		<result property="value" column="value" />
+	</resultMap>
+	<select id="getTokenConfig" resultMap="tokenConfig">
+		select * from
+		system_config
+		sc where sc.key like "sys_token_%"
+	</select>
+	<update id="updateToken">
+		update system_config sc
+		set sc.value = case sc.key
+		when 'sys_token_value' then
+		#{0}
+		when 'sys_token_expires_in' then #{1}
+		end
+		where
+		sc.key in ("sys_token_value","sys_token_expires_in")
+	</update>
+</mapper>

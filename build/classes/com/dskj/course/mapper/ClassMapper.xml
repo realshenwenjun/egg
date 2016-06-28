@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.course.mapper.ClassMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<resultMap type="com.dskj.course.entity.Clazz" id="clazz">
+		<id property="id" column="id" />
+		<result property="institutionId" column="institution_id" />
+		<result property="courseId" column="course_id" />
+		<result property="name" column="name" />
+		<result property="userId" column="user_id" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.ManageCourseCount"
+		id="manageCourseCount">
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="cover" column="cover" />
+		<result property="classCount" column="class_count" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.ManageClassTeacherList"
+		id="manageClassTeacherList">
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="cover" column="cover" />
+		<result property="classId" column="class_id" />
+		<result property="className" column="class_name" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.CourserClassTeacherList"
+		id="courserClassTeacherList">
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="cover" column="cover" />
+		<result property="classId" column="class_id" />
+		<result property="className" column="class_name" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="phone" column="phone" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.PassClass" id="passClass">
+		<result property="courseId" column="course_id" />
+		<result property="classId" column="class_id" />
+		<result property="className" column="class_name" />
+		<result property="userName" column="user_name" />
+		<result property="userPhone" column="user_phone" />
+		<result property="planCount" column="plan_count" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity2_0.CourseClassDetail"
+		id="courseClassDetail">
+		<result property="id" column="id" />
+		<result property="cover" column="cover" />
+		<result property="institutionId" column="institution_id" />
+		<result property="courseTypeId" column="course_type_id" />
+		<result property="courseId" column="course_id" />
+		<result property="userId" column="user_id" />
+		<result property="name" column="name" />
+		<result property="summary" column="summary" />
+		<result property="price" column="price" />
+		<result property="startDate" column="start_date" />
+		<result property="endDate" column="end_date" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="address" column="address" />
+		<result property="planCount" column="plan_count" />
+		<result property="studentCount" column="student_count" />
+		<result property="createTime" column="create_time" />
+		<collection property="imgUrls" ofType="java.util.ArrayList"
+			select="getClassImgUrls2_0" column="{classId = id}">
+		</collection>
+	</resultMap>
+
+	<resultMap type="com.dskj.course.entity2_0.CourseClassList"
+		id="courseClassList">
+		<result property="id" column="id" />
+		<result property="cover" column="cover" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="name" column="name" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="startDate" column="start_date" />
+		<result property="endDate" column="end_date" />
+		<result property="planCount" column="plan_count" />
+		<result property="studentCount" column="student_count" />
+		<result property="price" column="price" />
+		<result property="institutionName" column="institution_name" />
+		<collection property="imgUrls" ofType="java.util.ArrayList"
+			select="getClassImgUrls2_0" column="{classId = id}">
+		</collection>
+	</resultMap>
+
+	<resultMap type="com.dskj.course.entity2_0.CourseClassInfo"
+		id="courseClassInfo">
+		<result property="id" column="id" />
+		<result property="cover" column="cover" />
+		<result property="institutionId" column="institution_id" />
+		<result property="courseTypeId" column="course_type_id" />
+		<result property="courseId" column="course_id" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="userPhoto" column="user_photo" />
+		<result property="institutionName" column="institution_name" />
+		<result property="interest" column="interest" />
+		<result property="shortIntroduction" column="short_introduction" />
+		<result property="name" column="name" />
+		<result property="summary" column="summary" />
+		<result property="price" column="price" />
+		<result property="startDate" column="start_date" />
+		<result property="endDate" column="end_date" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="address" column="address" />
+		<result property="planCount" column="plan_count" />
+		<result property="signCount" column="sign_count" />
+		<result property="studentCount" column="student_count" />
+		<result property="createTime" column="create_time" />
+		<collection property="imgUrls" ofType="java.util.ArrayList"
+			select="getClassImgUrls2_0" column="{classId = id}">
+		</collection>
+	</resultMap>
+	<resultMap type="com.dskj.course.entity2_0.CourseClassManageList"
+		id="courseClassManageList">
+		<result property="id" column="id" />
+		<result property="cover" column="cover" />
+		<result property="name" column="name" />
+		<result property="planCount" column="plan_count" />
+		<result property="studentCount" column="student_count" />
+		<result property="institutionName" column="institution_name" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity2_0.TeacherClassPlan"
+			   id="teacherClassPlan">
+		<result property="classId" column="class_id" />
+		<result property="cover" column="cover" />
+		<result property="institutionName" column="institution_name" />
+		<result property="className" column="class_name" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="address" column="address" />
+	</resultMap>
+	<insert id="addClass" parameterType="com.dskj.course.entity.Clazz"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO course_classes
+		(institution_id,course_id,name,user_id,create_time)
+		VALUES
+		(#{institutionId},#{courseId},#{name},#{userId},#{createTime})
+	</insert>
+	<update id="updateClass" parameterType="com.dskj.course.entity.Clazz">
+		update course_classes
+		<set>
+			<if test="userId != null">user_id = #{userId},</if>
+			<if test="name != null">name = #{name},</if>
+		</set>
+		where id = #{id}
+	</update>
+	<delete id="deleteClass" parameterType="java.lang.Integer">
+		delete from
+		course_classes where id = #{0}
+	</delete>
+	<select id="getClassByCourse" parameterType="int" resultMap="clazz">
+		select * from
+		course_classes cc where cc.course_id =
+		#{courseId}
+	</select>
+	<delete id="deleteClassByCourse" parameterType="java.lang.Integer">
+		delete from
+		course_classes where course_id = #{0}
+	</delete>
+	<select id="getManageCourseCount" resultMap="manageCourseCount">
+		SELECT c.id AS
+		course_id,c.name AS course_name,c.cover AS
+		cover,(SELECT
+		COUNT(cc.id)
+		FROM course_classes cc WHERE cc.course_id =
+		c.id AND ((SELECT COUNT(*)
+		FROM course_classes_plan ccp
+		WHERE ccp.course_classes_id = cc.id) = 0
+		OR (SELECT MAX(ccp.date) FROM course_classes_plan ccp WHERE
+		ccp.course_classes_id = cc.id) >= DATE(NOW()))) AS
+		class_count FROM
+		course c WHERE c.institution_id = #{1} AND
+		c.course_type_id = #{0}
+	</select>
+	<select id="getCourseClassTeacherList" resultMap="manageClassTeacherList">
+		SELECT c.id AS
+		course_id,c.name AS course_name,c.cover AS cover,cc.id AS
+		class_id,cc.name AS
+		class_name,u.id AS user_id,u.name AS user_name FROM
+		user u
+		JOIN
+		course_classes cc ON u.id = cc.user_id
+		JOIN course c ON
+		cc.course_id =
+		c.id
+		WHERE (u.name = #{1} OR u.phone = #{1}) AND u.type =
+		2
+		AND (SELECT
+		DAYOFYEAR(MAX(ccp.date)) FROM course_classes_plan ccp
+		WHERE
+		ccp.course_classes_id = cc.id) >= DAYOFYEAR(NOW())
+		AND
+		c.institution_id
+		= #{0}
+	</select>
+	<select id="getByName" resultMap="clazz">
+		SELECT * FROM course_classes cc
+		WHERE cc.name = #{0} AND cc.institution_id = #{2} AND cc.course_id =
+		#{1}
+	</select>
+	<select id="getClassByCourseId" parameterType="int"
+		resultMap="courserClassTeacherList">
+		SELECT c.id AS course_id,c.name AS course_name,c.cover AS
+		cover,
+		cc.id AS class_id,cc.name AS class_name,u.id AS user_id,u.name
+		AS user_name,u.phone AS phone
+		FROM course c JOIN course_classes cc ON
+		c.id =
+		cc.course_id
+		JOIN user u ON cc.user_id = u.id
+		WHERE c.id = #{0}
+	</select>
+	<select id="getPassClass" resultMap="passClass">
+		SELECT cc.course_id AS
+		course_id,cc.id AS class_id,cc.name AS class_name, u.name AS
+		user_name,u.phone AS user_phone,
+		(SELECT COUNT(ccp.id) FROM
+		course_classes_plan ccp WHERE
+		ccp.course_classes_id = cc.id) AS
+		plan_count
+		FROM course_classes cc JOIN user u ON cc.user_id = u.id
+		WHERE cc.course_id = #{courseId}
+		AND (SELECT MAX(ccp.date) FROM
+		course_classes_plan ccp WHERE
+		ccp.course_classes_id = cc.id) &lt;
+		DATE(NOW()) LIMIT
+		#{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<insert id="addCourseClass2_0" parameterType="com.dskj.course.entity2_0.CourseClass"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO course_classes
+		(cover,institution_id,course_type_id,course_id,user_id,`name`,summary,price,start_date,end_date,start_time,end_time,address,plan_count,student_count,create_time)
+		VALUES
+		(#{cover},#{institutionId},#{courseTypeId},#{courseId},#{userId},#{name},#{summary},#{price},#{startDate},#{endDate},#{startTime},#{endTime},#{address},#{planCount},#{studentCount},#{createTime})
+	</insert>
+	<insert id="addCourseClassImg2_0" parameterType="java.util.ArrayList">
+		INSERT INTO course_classes_img (class_id,url,create_time) VALUES
+		<foreach collection="urls" item="url" index="index" separator=",">
+			(#{url.classId},#{url.url},#{url.createTime})
+		</foreach>
+	</insert>
+	<select id="getCourseClassDetail2_0" parameterType="int"
+		resultMap="courseClassDetail">
+		SELECT * FROM course_classes WHERE id = #{0}
+	</select>
+	<select id="getClassImgUrls2_0" parameterType="java.util.HashMap"
+		resultType="java.lang.String">
+		SELECT url FROM course_classes_img WHERE class_id =
+		#{classId}
+	</select>
+	<delete id="deleteCourseClass2_0" parameterType="int">
+		DELETE FROM
+		course_classes WHERE id = #{0}
+	</delete>
+	<delete id="deleteCourseClassImg2_0" parameterType="int">
+		DELETE FROM
+		course_classes_img WHERE class_id = #{0}
+	</delete>
+	<select id="getCourseClassList2_0" resultMap="courseClassList">
+		SELECT cc.id AS
+		id,null AS institution_name,cc.cover AS
+		cover,cc.user_id AS user_id,u.name AS user_name,cc.name AS
+		`name`,cc.start_time AS start_time,cc.end_time AS end_time,
+		cc.start_date AS start_date,cc.end_date AS end_date,cc.plan_count AS
+		plan_count,
+		cc.student_count AS student_count,cc.price AS price
+		FROM
+		course_classes cc JOIN `user` u ON cc.user_id = u.id
+		WHERE
+		cc.institution_id = #{institutionId}
+		<if test="date != null">
+			AND cc.start_date &lt;= DATE(#{date})
+			AND cc.end_date &gt;=
+			DATE(#{date})
+		</if>
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getCourseClassTeacherList2_0" resultMap="courseClassList">
+		SELECT cc.id
+		AS
+		id,null AS institution_name,cc.user_id AS user_id,u.name AS
+		user_name,cc.name AS
+		`name`,cc.start_time AS start_time,cc.end_time AS
+		end_time,
+		cc.start_date AS start_date,cc.end_date AS
+		end_date,cc.plan_count AS
+		plan_count,
+		cc.student_count AS
+		student_count,cc.price AS price
+		FROM
+		course_classes cc JOIN `user` u ON
+		cc.user_id = u.id
+		WHERE
+		cc.user_id =
+		#{userId}
+		LIMIT
+		#{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getCourseClassStudentList2_0" resultMap="courseClassList">
+		SELECT cc.id AS
+		id,null AS institution_name,cc.cover AS
+		cover,cc.user_id AS user_id,u.name AS user_name,cc.name AS
+		`name`,cc.start_time AS start_time,cc.end_time AS end_time,
+		cc.start_date AS start_date,cc.end_date AS end_date,cc.plan_count AS
+		plan_count,
+		cc.student_count AS student_count,cc.price AS price
+		FROM
+		course_classes cc JOIN `user` u ON cc.user_id = u.id
+		WHERE
+		cc.id IN
+		<foreach collection="classIds" item="classId" index="index"
+			open="(" separator="," close=")">
+			#{classId}
+		</foreach>
+		ORDER BY cc.start_date DESC
+	</select>
+	<select id="getCourseClassInfo" parameterType="int" resultMap="courseClassInfo">
+		SELECT cc.*,i.name AS institution_name, u.name AS user_name,u.photo AS
+		user_photo,u.interest AS interest,u.short_introduction AS
+		short_introduction
+		FROM course_classes cc JOIN institution i ON
+		cc.institution_id = i.id JOIN
+		`user` u ON cc.user_id = u.id
+		WHERE cc.id
+		= #{0}
+	</select>
+	<select id="getCourseClassListByType2_0" resultMap="courseClassList">
+		SELECT cc.id
+		AS
+		id,i.name AS institution_name,cc.cover AS cover,cc.user_id AS
+		user_id,u.name AS user_name,cc.name AS
+		`name`,cc.start_time AS
+		start_time,cc.end_time AS end_time,
+		cc.start_date AS
+		start_date,cc.end_date AS end_date,cc.plan_count AS
+		plan_count,
+		cc.student_count AS student_count,cc.price AS price,
+		(SELECT ABS(parent_id - #{regionId}) FROM region WHERE id = i.region_id) AS sort1
+		FROM
+		course_classes
+		cc JOIN `user` u ON cc.user_id = u.id
+		JOIN institution i ON
+		cc.institution_id = i.id
+		WHERE
+		cc.course_id = #{courseId}
+		ORDER BY sort1
+		LIMIT
+		#{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getCourseClassManageList2_0" resultMap="courseClassManageList">
+		SELECT cc.id AS
+		id,cc.cover AS cover,cc.name AS `name`,
+		cc.plan_count AS plan_count,
+		(SELECT COUNT(*) FROM course_classes_sign ccs WHERE ccs.classes_id = cc.id)
+		AS student_count,i.name AS institution_name
+		FROM course_classes cc JOIN institution i ON cc.institution_id = i.id
+		WHERE cc.user_id = #{0} AND cc.start_date &lt;= DATE(#{1})
+		AND cc.end_date >= DATE(#{1}) ORDER BY cc.start_time
+	</select>
+	<select id="getCourseClassTeacherPlanList2_0" resultMap="teacherClassPlan">
+		SELECT cc.`id` AS class_id,cc.`address` AS address,cc.`name` AS class_name,
+		cc.`start_time` AS start_time,cc.`end_time` AS end_time,i.`name` AS institution_name,
+		cc.cover AS cover
+		FROM course_classes cc JOIN institution i ON cc.`institution_id` = i.`id`
+		WHERE cc.`user_id` = #{0} AND cc.`start_date` &lt;= DATE(#{1}) AND cc.`end_date` >= DATE(#{1})
+		ORDER BY cc.start_time
+	</select>
+</mapper>

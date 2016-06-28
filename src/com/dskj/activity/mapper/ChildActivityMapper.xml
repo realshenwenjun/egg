@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.activity.mapper.ChildActivityMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<resultMap id="BaseResultMap" type="com.dskj.activity.entity.ChildActivity">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="institution_id" jdbcType="VARCHAR" property="institutionId" />
+		<result column="activity_type" jdbcType="INTEGER" property="activityType" />
+		<result column="ticket_type" jdbcType="VARCHAR" property="ticketType" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="price" jdbcType="DECIMAL" property="price" />
+		<result column="old_price" jdbcType="DECIMAL" property="oldPrice" />
+		<result column="sale_count" jdbcType="INTEGER" property="saleCount" />
+		<result column="thumb_img" jdbcType="VARCHAR" property="thumbImg" />
+		<result column="adver_img" jdbcType="VARCHAR" property="adverImg" />
+		<result column="short_detail" jdbcType="VARCHAR" property="shortDetail" />
+		<result column="detail" jdbcType="VARCHAR" property="detail" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="share_count" jdbcType="INTEGER" property="shareCount" />
+		<result column="comment_count" jdbcType="INTEGER" property="commentCount" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="begin_date" jdbcType="TIMESTAMP" property="beginDate" />
+		<result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+		<result column="reserve_begin_date" jdbcType="TIMESTAMP"
+			property="reserveBeginDate" />
+		<result column="reserve_end_date" jdbcType="TIMESTAMP"
+			property="reserveEndDate" />
+	</resultMap>
+	<resultMap id="childActivityAsk" type="com.dskj.activity.entity.ChildActivityAsk">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_photo" property="userPhoto" />
+		<result column="sex" property="sex" />
+		<result column="activity_id" property="activityId" />
+		<result column="context" property="context" />
+		<result column="create_time" property="createTime" />
+		<association property="answer" column="id" select="getMyAnswer">
+		</association>
+	</resultMap>
+	<resultMap id="childActivityFeedBack" type="com.dskj.activity.entity.ChildActivityAsk">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_photo" property="userPhoto" />
+		<result column="sex" property="sex" />
+		<result column="activity_id" property="activityId" />
+		<result column="context" property="context" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+	<resultMap id="answer" type="com.dskj.activity.entity.ChildActivityAsk">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="user_photo" property="userPhoto" />
+		<result column="sex" property="sex" />
+		<result column="activity_id" property="activityId" />
+		<result column="context" property="context" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+	<select id="getMyAnswer" parameterType="int" resultMap="answer">
+		SELECT
+		caa.*,u.name AS user_name,u.photo AS user_photo,u.sex AS sex FROM
+		child_activity_ask caa JOIN `user` u ON caa.user_id = u.id WHERE
+		caa.parent_id = #{id}
+	</select>
+	<sql id="Base_Column_List">
+		id, institution_id,ticket_type, activity_type, title, name,
+		price,old_price,sale_count, thumb_img, adver_img,short_detail,detail,
+		url,share_count, comment_count,
+		create_time,begin_date,end_date,reserve_begin_date,reserve_end_date
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from child_activity
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<insert id="insert" parameterType="com.dskj.activity.entity.ChildActivity">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into child_activity (institution_id,activity_type,ticket_type,
+		title, name,
+		price, old_price,sale_count, thumb_img,
+		adver_img,short_detail, detail,url,share_count,
+		comment_count,
+		create_time,begin_date,end_date,reserve_begin_date,reserve_end_date)
+		values
+		(#{institutionId,jdbcType=VARCHAR},#{activityType,jdbcType=INTEGER},#{ticketType,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{price,jdbcType=DECIMAL},#{oldPrice,jdbcType=DECIMAL},
+		#{saleCount,jdbcType=INTEGER},
+		#{thumbImg,jdbcType=VARCHAR},
+		#{adverImg,jdbcType=VARCHAR},#{shortDetail,jdbcType=VARCHAR},
+		#{detail,jdbcType=VARCHAR},#{url,jdbcType=VARCHAR},
+		#{shareCount,jdbcType=INTEGER},
+		#{commentCount,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP},#{beginDate,jdbcType=TIMESTAMP},#{endDate,jdbcType=TIMESTAMP},#{reserveBeginDate,jdbcType=TIMESTAMP},#{reserveEndDate,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.dskj.activity.entity.ChildActivity">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into child_activity
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="institutionId != null">
+				institution_id,
+			</if>
+			<if test="activityType != null">
+				activity_type,
+			</if>
+			<if test="ticketType != null">
+				ticket_type,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+			<if test="price != null">
+				old_price,
+			</if>
+			<if test="saleCount != null">
+				sale_count,
+			</if>
+			<if test="thumbImg != null">
+				thumb_img,
+			</if>
+			<if test="adverImg != null">
+				adver_img,
+			</if>
+			<if test="shortDetail != null">
+				short_detail,
+			</if>
+			<if test="detail != null">
+				detail,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="shareCount != null">
+				share_count,
+			</if>
+			<if test="commentCount != null">
+				comment_count,
+			</if>
+			<if test="createTime != null">
+				create_time,
+			</if>
+			<if test="beginDate != null">
+				begin_date,
+			</if>
+			<if test="endDate != null">
+				end_date,
+			</if>
+			<if test="reserveBeginDate != null">
+				reserve_begin_date,
+			</if>
+			<if test="reserveEndDate != null">
+				reserve_end_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="institutionId != null">
+				#{institutionId,jdbcType=VARCHAR},
+			</if>
+			<if test="activityType != null">
+				#{activityType,jdbcType=INTEGER},
+			</if>
+			<if test="activityType != null">
+				#{ticketType,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="oldPrice != null">
+				#{oldPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="saleCount != null">
+				#{saleCount,jdbcType=INTEGER},
+			</if>
+			<if test="thumbImg != null">
+				#{thumbImg,jdbcType=VARCHAR},
+			</if>
+			<if test="adverImg != null">
+				#{adverImg,jdbcType=VARCHAR},
+			</if>
+			<if test="shortDetail != null">
+				#{shortDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="detail != null">
+				#{detail,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="shareCount != null">
+				#{shareCount,jdbcType=INTEGER},
+			</if>
+			<if test="commentCount != null">
+				#{commentCount,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="beginDate != null">
+				#{beginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endDate != null">
+				#{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reserveBeginDate != null">
+				#{reserveBeginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reserveEndDate != null">
+				#{reserveEndDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.dskj.activity.entity.ChildActivity">
+		update child_activity
+		<set>
+			<if test="institutionId != null">
+				institution_id = #{institutionId,jdbcType=VARCHAR},
+			</if>
+			<if test="activityType != null">
+				activity_type = #{activityType,jdbcType=INTEGER},
+			</if>
+
+			<if test="ticketType != null">
+				ticket_type = #{ticketType,jdbcType=INTEGER},
+			</if>
+
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="old_price != null">
+				old_price = #{oldPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="saleCount != null">
+				sale_count = #{saleCount,jdbcType=INTEGER},
+			</if>
+			<if test="thumbImg != null">
+				thumb_img = #{thumbImg,jdbcType=VARCHAR},
+			</if>
+			<if test="adverImg != null">
+				adver_img = #{adverImg,jdbcType=VARCHAR},
+			</if>
+			<if test="shortDetail ! =null">
+				short_detail={shortDetail,jdbcType=VARCHAR}
+			</if>
+			<if test="detail != null">
+				detail = #{detail,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="shareCount != null">
+				share_count = #{shareCount,jdbcType=INTEGER},
+			</if>
+			<if test="commentCount != null">
+				comment_count = #{commentCount,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null">
+				create_time = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="beginDate != null">
+				begin_date = #{beginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endDate != null">
+				end_date = #{endDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reserveBeginDate != null">
+				reserve_begin_date =
+				#{reserveBeginDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="reserveEndDate != null">
+				reserve_end_date = #{reserveEndDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.dskj.activity.entity.ChildActivity">
+		update
+		child_activity
+		set institution_id = #{institutionId,jdbcType=VARCHAR},
+		activity_type = #{activityType,jdbcType=INTEGER},
+		ticket_type =
+		#{ticketType,jdbcType=VARCHAR},
+		title = #{title,jdbcType=VARCHAR},
+		name
+		= #{name,jdbcType=VARCHAR},
+		price = #{price,jdbcType=DECIMAL},
+		old_price = #{oldPrice,jdbcType=DECIMAL},
+		sale_count =
+		#{saleCount,jdbcType=INTEGER},
+		thumb_img =
+		#{thumbImg,jdbcType=VARCHAR},
+		adver_img = #{adverImg,jdbcType=VARCHAR},
+		short_detail=#{shortDetail,jdbcType=VARCHAR},
+		detail =
+		#{detail,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR},
+		share_count =
+		#{shareCount,jdbcType=INTEGER},
+		comment_count =
+		#{commentCount,jdbcType=INTEGER},
+		create_time =
+		#{createTime,jdbcType=TIMESTAMP},
+		begin_date =
+		#{beginDate,jdbcType=TIMESTAMP},
+		end_date =
+		#{endDate,jdbcType=TIMESTAMP},
+		reserve_begin_date =
+		#{reserveBeginDate,jdbcType=TIMESTAMP},
+		reserve_end_date =
+		#{reserveEndDate,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="delete" parameterType="java.util.ArrayList">
+		delete from child_activity where
+		id in
+		<foreach collection="list" item="ids" index="index" open="("
+			separator="," close=")">#{ids}
+		</foreach>
+	</delete>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		id,
+		institution_id,activity_type, title, name,
+		price,old_price,sale_count,
+		thumb_img, adver_img,short_detail,url
+		from child_activity
+		order by
+		create_time desc
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="selectBySearch" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from child_activity
+		<if test="searchItem != null and searchItem != ''">
+			where title like CONCAT('%',#{searchItem},'%') or name
+			like
+			CONCAT('%',#{searchItem},'%')
+		</if>
+		order by create_time desc
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		child_activity
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<select id="getChildActivityCount" resultType="int">
+		SELECT COUNT(*)
+		FROM child_activity
+	</select>
+	<insert id="addChildActivityAsk" parameterType="com.dskj.activity.entity.ChildActivityAsk"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO child_activity_ask
+		(user_id,context,activity_id,create_time) VALUES
+		(#{userId},#{context},#{activityId},NOW())
+	</insert>
+	<select id="getActivityMyAsk" resultMap="childActivityAsk">
+		SELECT caa.*,u.name AS user_name,u.photo AS user_photo,u.sex AS sex
+		FROM child_activity_ask caa JOIN `user` u ON caa.user_id = u.id WHERE
+		1 = 1
+		<if test="activityId != null">
+			AND caa.activity_id = #{activityId}
+		</if>
+		<if test="userId != null">
+			AND caa.user_id = #{userId}
+		</if>
+		AND caa.parent_id IS NULL
+		ORDER BY caa.create_time DESC
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getAsk" parameterType="int" resultMap="childActivityAsk">
+		SELECT * FROM
+		child_activity_ask where id = #{0}
+	</select>
+	<insert id="addChildActivityAskAnswer">
+		INSERT INTO child_activity_ask
+		(user_id,context,activity_id,parent_id,create_time) VALUES
+		(#{2},#{3},#{1},#{0},NOW())
+	</insert>
+	<select id="getActivityMyAskCount" resultType="int">
+		SELECT COUNT(*) FROM child_activity_ask caa WHERE 1 = 1
+		<if test="activityId != null">
+			AND caa.activity_id = #{activityId}
+		</if>
+		<if test="userId != null">
+			AND caa.user_id = #{userId}
+		</if>
+		AND caa.parent_id IS NULL
+	</select>
+	<select id="getActivityFeedbackList" resultMap="childActivityFeedBack">
+		SELECT
+		car.id AS id,car.user_id AS user_id,u.name AS user_name,u.photo AS
+		photo,u.sex AS sex,car.child_activity_id AS activity_id,
+		car.cancel_remark AS context,car.create_time AS create_time
+		FROM child_activity_reservation car JOIN `user` u ON car.user_id = u.id
+		WHERE car.cancel_remark IS NOT NULL
+		ORDER BY car.create_time DESC LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getActivityFeedbackCount" resultType="int">
+		SELECT COUNT(*)
+		FROM child_activity_reservation car JOIN `user` u ON car.user_id = u.id
+		WHERE car.cancel_remark IS NOT NULL
+	</select>
+	<delete id="deleteActivityMyAsk" parameterType="int">
+		delete from child_activity_ask where id = #{0}
+	</delete>
+	<delete id="deleteAllActivityMyAsk">
+		delete from child_activity_ask where user_id = #{0} and activity_id = #{1}
+	</delete>
+	<select id="getAllActivityMyAnswerAsk" resultType="java.lang.Integer">
+		SELECT id from child_activity_ask where user_id = #{0} and activity_id = #{1}
+	</select>
+	<delete id="deleteAllActivityMyAnswerAsk" parameterType="java.util.ArrayList">
+		delete from child_activity_ask where
+		id in
+		<foreach collection="list" item="ids" index="index" open="("
+			separator="," close=")">#{ids}
+		</foreach>
+	</delete>
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.community.mapper.InformationLoveMapper">
+	<insert id="add" parameterType="com.dskj.community.entity.InformationLove" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO community_info_love (info_id,user_id,create_time)
+		VALUES
+		(#{infoId},#{userId},NOW())
+	</insert>
+	<delete id="delete">
+		DELETE FROM community_info_love WHERE info_id = #{0} AND user_id = #{1}
+	</delete>
+</mapper>
