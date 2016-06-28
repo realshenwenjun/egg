@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.census.mapper.UserCensusMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<resultMap type="com.dskj.census.entity.UserCensusByCourseType"
+		id="userCensusByCourseType">
+		<result property="courseTypeName" column="course_type_name" />
+		<result property="userCount" column="user_count" />
+	</resultMap>
+	<resultMap type="com.dskj.census.entity.UserCensusByChildInstitution"
+		id="userCensusByChildInstitution">
+		<result property="institutionName" column="institution_name" />
+		<result property="userCount" column="user_count" />
+	</resultMap>
+	<select id="getCourseTypeList" parameterType="java.lang.String"
+		resultType="int">
+		SELECT ct.id FROM course_type ct
+		WHERE ct.id IN (SELECT
+		c.course_type_id FROM course c WHERE
+		c.institution_id = #{0})
+	</select>
+	<select id="getUserCensusByOneCourseType" resultMap="userCensusByCourseType">
+		SELECT
+		ct.name AS course_type_name,
+		(SELECT COUNT(*) FROM (SELECT ccs.user_id
+		AS user_id,c.course_type_id AS course_type_id FROM course_classes_sign
+		ccs JOIN course_classes cc
+		ON ccs.classes_id = cc.id JOIN course c ON
+		cc.course_id = c.id
+		WHERE c.institution_id = #{0} AND c.course_type_id
+		= #{1} GROUP BY
+		ccs.user_id) un2) AS
+		user_count
+		FROM course_type ct
+		WHERE
+		ct.id = #{1}
+	</select>
+	<select id="getUserCensusOther" parameterType="java.lang.String"
+		resultMap="userCensusByCourseType">
+		SELECT '其他' AS course_type_name,
+		(SELECT
+		COUNT(u.id) FROM
+		institution_user iu JOIN user u ON iu.user_id = u.id
+		WHERE u.type = 3
+		AND iu.institution_id = #{0} AND iu.user_id
+		NOT IN (SELECT ccs.user_id
+		FROM course_classes_sign ccs JOIN
+		course_classes cc ON ccs.classes_id =
+		cc.id WHERE cc.institution_id =
+		#{0})) AS user_count
+	</select>
+	<select id="getUserCensusByChildInstitution" parameterType="java.lang.String"
+		resultMap="userCensusByChildInstitution">
+		SELECT i.name AS institution_name,
+		(SELECT COUNT(u.id) FROM
+		institution_user iu JOIN user u ON iu.user_id = u.id WHERE u.type = 3
+		AND iu.institution_id = i.id) AS user_count
+		FROM institution i
+		WHERE
+		i.parent_id =
+		#{0} OR i.id = #{0}
+	</select>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+</mapper>

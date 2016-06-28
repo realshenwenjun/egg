@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+<<<<<<< HEAD
 import com.dskj.census.entity.SearchResult;
 import com.dskj.census.entity.TimingCensusUserSignList;
 import com.dskj.census.entity.UserCensusByChildInstitution;
@@ -15,6 +16,10 @@ import com.dskj.community.entity.PostCollect;
 import com.dskj.community.entity.PostDetails;
 import com.dskj.community.entity.PostLove;
 
+=======
+import com.dskj.community.entity.Information;
+import com.dskj.course.entity.ClassSignUser;
+>>>>>>> 03b1d83889e641ee167a1e0a32ac19ee83b6207e
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser.Feature;
@@ -34,6 +39,7 @@ import com.dskj.comment.entity.Comment;
 import com.dskj.comment.entity.CommentChildVO;
 import com.dskj.comment.entity.CommentLove;
 import com.dskj.comment.entity.CommentVO;
+<<<<<<< HEAD
 import com.dskj.course.entity.PlanSign;
 import com.dskj.course.entity2_0.ClassFans;
 import com.dskj.course.entity2_0.ClassLove;
@@ -53,6 +59,8 @@ import com.dskj.user.entity.UserFans;
 import com.dskj.user.entity2_0.MyCollect;
 import com.dskj.user.entity2_0.MyFans;
 import com.dskj.user.entity2_0.UserAsk;
+=======
+>>>>>>> 03b1d83889e641ee167a1e0a32ac19ee83b6207e
 
 public class JSONUtil {
 	private static ObjectMapper objectMapper;
@@ -125,6 +133,10 @@ public class JSONUtil {
 		return list;
 	}
 	public static void main(String[] args) throws Exception {
+<<<<<<< HEAD
 		System.out.println(JSONUtil.objToString(new InstitutionWithPropa()));
+=======
+		System.out.println(JSONUtil.objToString(new ClassSignUser()));
+>>>>>>> 03b1d83889e641ee167a1e0a32ac19ee83b6207e
 	}
 }

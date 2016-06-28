@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.spread.mapper.CarouselMapper">
+	<cache></cache>
+	<resultMap type="com.dskj.spread.entity.Carousel" id="carousel">
+		<id property="id" column="id" />
+		<result property="path" column="path" />
+		<result property="val" column="val" />
+		<result property="title" column="title" />
+		<result property="context" column="context" />
+		<result property="institutionName" column="institution_name" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<resultMap type="com.dskj.spread.entity.CarouselDetail" id="carouselDetail">
+		<id property="id" column="id" />
+		<result property="path" column="path" />
+		<result property="val" column="val" />
+		<result property="title" column="title" />
+		<result property="context" column="context" />
+		<result property="institutionName" column="institution_name" />
+		<result property="createTime" column="create_time" />
+		<result property="commentCount" column="comment_count" />
+		<result property="loveCount" column="love_count" />
+	</resultMap>
+	<insert id="add" parameterType="com.dskj.spread.entity.Carousel">
+		INSERT INTO system_carousel
+		(path,val,title,context,institution_name,create_time) values
+		(#{path},#{val},#{title},#{context},#{institutionName},#{createTime})
+	</insert>
+	<select id="getList" resultMap="carousel">
+		SELECT * FROM system_carousel sc
+		ORDER BY create_time DESC
+	</select>
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM
+		system_carousel WHERE id = #{0}
+	</delete>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<select id="getById" parameterType="int" resultMap="carousel">
+		SELECT * FROM
+		system_carousel sc WHERE sc.id = #{0}
+	</select>
+	<select id="getDetailById" parameterType="int" resultMap="carouselDetail">
+		SELECT
+		sc.*,0 AS comment_count,0 AS love_count FROM
+		system_carousel sc WHERE
+		sc.id = #{0}
+	</select>
+	<update id="update" parameterType="com.dskj.spread.entity.Carousel">
+		UPDATE system_carousel SET val = #{val},title = #{title},path = #{path},context = #{context} WHERE id = #{id}
+	</update>
+</mapper>

@@ -4,8 +4,14 @@
 	<classpathentry kind="src" path="config"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+<<<<<<< HEAD
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="lib" path="E:/apache-tomcat-7.0.68/lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="E:/apache-tomcat-7.0.68/lib/servlet-api.jar"/>
+=======
+	<classpathentry kind="lib" path="D:/apache-tomcat-7.0.26/apache-tomcat-7.0.26/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="D:/apache-tomcat-7.0.26/apache-tomcat-7.0.26/lib/servlet-api.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+>>>>>>> 03b1d83889e641ee167a1e0a32ac19ee83b6207e
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

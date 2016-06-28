@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.activity.mapper.ChildActivityLoveMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<resultMap type="com.dskj.activity.entity.ChildActivityLove" id="childActivityLove">
+		<id property="id" column="id" />
+		<result property="userId" column="user_id" />
+		<result property="activityId" column="activity_id" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<insert id="add" parameterType="com.dskj.activity.entity.ChildActivityLove">
+		INSERT INTO child_activity_love
+		(user_id,activity_id,create_time) values
+		(#{userId},#{activityId},#{createTime})
+	</insert>
+	<delete id="deleteById">
+		DELETE FROM
+		child_activity_love WHERE activity_id =
+		#{0} AND user_id = #{1}
+	</delete>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<select id="getLoveCount" parameterType="int" resultType="int">
+		SELECT
+		COUNT(*) FROM child_activity_love cal WHERE cal.activity_id = #{0}
+	</select>
+	<select id="getByActivitylIdAndUserId" resultType="java.lang.Integer">
+		SELECT cal.id
+		FROM child_activity_love cal WHERE cal.activity_id = #{0} AND
+		cal.user_id = #{1}
+	</select>
+</mapper>

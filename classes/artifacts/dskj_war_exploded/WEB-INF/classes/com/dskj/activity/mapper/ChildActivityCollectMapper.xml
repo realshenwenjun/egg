@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.activity.mapper.ChildActivityCollectMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<resultMap type="com.dskj.user.entity2_0.MyCollect" id="myCollect">
+		<result property="collectId" column="collect_id" />
+		<result property="type" column="type" />
+		<result property="createTime" column="create_time" />
+		<result property="adverImg" column="adver_img" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="title" column="title" />
+		<result property="activityId" column="activity_id" />
+		<result property="oldPrice" column="old_price" />
+	</resultMap>
+	<insert id="add" parameterType="com.dskj.activity.mapper.ChildActivityCollectMapper"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO child_activity_collect (user_id,activity_id,create_time) VALUES
+		(#{userId},#{activityId},#{createTime})
+	</insert>
+	<select id="getId" resultType="java.lang.Integer">
+		SELECT id FROM child_activity_collect cac WHERE cac.user_id = #{0} AND
+		cac.activity_id = #{1}
+	</select>
+	<delete id="delete" parameterType="int">
+		DELETE FROM child_activity_collect WHERE id = #{0}
+	</delete>
+	<select id="getUserCollectList2_0" parameterType="java.lang.String"
+		resultMap="myCollect">
+		SELECT cac.id AS collect_id,cac.create_time AS create_time,2
+		AS `type`,ca.adver_img AS adver_img,
+		ca.name AS `name`,ca.price AS price,ca.title AS title,ca.id AS activity_id,ca.old_price AS old_price
+		FROM child_activity_collect cac JOIN child_activity ca ON cac.activity_id
+		= ca.id
+		WHERE cac.user_id = #{0}
+	</select>
+</mapper>

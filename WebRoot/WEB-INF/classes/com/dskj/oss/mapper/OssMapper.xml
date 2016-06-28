@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.oss.mapper.OssMapper">
+	<cache></cache>
+	<resultMap type="com.dskj.oss.entity.OssConfig" id="ossConfig">
+		<result property="key" column="key" />
+		<result property="value" column="value" />
+	</resultMap>
+	<select id="getOssConfig" resultMap="ossConfig">
+		SELECT * FROM system_config sc WHERE sc.key like "aliyun_oss_%"
+	</select>
+</mapper>

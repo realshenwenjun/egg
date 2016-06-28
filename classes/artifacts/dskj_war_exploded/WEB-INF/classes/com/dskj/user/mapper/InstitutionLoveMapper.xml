@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.user.mapper.InstitutionLoveMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+    <select id="clear" resultType="int" flushCache="true">
+        SELECT 1
+    </select>
+    <insert id="add" parameterType="com.dskj.user.entity.InstitutionLove" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO institution_love (institution_id,user_id,create_time) VALUES
+        (#{institutionId},#{userId},#{createTime})
+    </insert>
+    <delete id="delete" parameterType="int">
+        DELETE FROM institution_love WHERE id = #{0}
+    </delete>
+    <select id="getInstitutionLoveCount" parameterType="java.lang.String" resultType="int">
+        SELECT COUNT(*) FROM institution_love WHERE institution_id = #{0}
+    </select>
+    <select id="getLoveId" resultType="java.lang.Integer">
+        SELECT id FROM institution_love WHERE institution_id = #{0} AND user_id = #{1}
+    </select>
+</mapper>

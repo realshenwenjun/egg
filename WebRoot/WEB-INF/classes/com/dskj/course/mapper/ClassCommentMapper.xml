@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.course.mapper.ClassCommentMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<insert id="add" parameterType="com.dskj.course.entity2_0.ClassComment" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO course_classes_comment (class_id,comment_id,create_time) VALUES (#{classId},#{commentId},#{createTime})
+	</insert>
+	<delete id="delete">
+		DELETE FROM course_classes_comment ccc WHERE ccc.class_id = #{0} AND ccc.comment_id = #{1}
+	</delete>
+	<select id="getCommentIds" resultType="java.lang.Integer">
+		SELECT ccc.comment_id FROM course_classes_comment ccc WHERE ccc.class_id = #{classId} ORDER BY ccc.create_time LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getCommentCount" parameterType="int" resultType="int">
+		SELECT COUNT(ccc.id) FROM course_classes_comment ccc WHERE ccc.class_id = #{0}
+	</select>
+</mapper>

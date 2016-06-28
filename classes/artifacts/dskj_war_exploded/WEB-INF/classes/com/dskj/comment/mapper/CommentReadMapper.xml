@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.comment.mapper.CommentReadMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<insert id="add" parameterType="com.dskj.comment.entity.CommentRead"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO comment_read
+		(user_id,comment_id,create_time) values
+		(#{userId},#{commentId},#{createTime})
+	</insert>
+</mapper>

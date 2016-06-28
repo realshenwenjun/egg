@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.census.mapper.ScatterCensusMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<resultMap type="com.dskj.census.entity.ScatterCensusList"
+		id="scatterCensusList">
+		<result property="areaId" column="area_id" />
+		<result property="area" column="area" />
+		<result property="count" column="count" />
+		<result property="percent" column="percent" />
+	</resultMap>
+	<select id="getScatterCensusCourseUserList" parameterType="com.dskj.util.Page"
+		resultMap="scatterCensusList">
+		SELECT ct.name AS area,
+		@count:=(SELECT COUNT(ccs.id)
+		FROM course c
+		JOIN course_classes cc ON c.id =
+		cc.course_id JOIN
+		course_classes_sign
+		ccs ON cc.id = ccs.classes_id
+		WHERE
+		c.course_type_id = ct.id) AS count,
+		(SELECT @count/((SELECT
+		COUNT(ccs.id) FROM course_classes_sign ccs) +
+		(SELECT COUNT(*) FROM user u WHERE
+		u.type = 3 AND u.id NOT IN (SELECT
+		ccs.user_id FROM
+		course_classes_sign ccs)))) AS
+		percent
+		FROM course_type
+		ct
+		UNION
+		SELECT '其他' AS area, @count:=(SELECT COUNT(*) FROM user u WHERE u.type
+		= 3 AND u.id
+		NOT IN (SELECT ccs.user_id FROM course_classes_sign ccs))
+		AS
+		count,(SELECT @count/((SELECT
+		COUNT(ccs.id) FROM course_classes_sign
+		ccs) + (SELECT COUNT(*) FROM user u WHERE
+		u.type = 3 AND u.id NOT IN
+		(SELECT ccs.user_id FROM
+		course_classes_sign ccs)))) AS
+		percent
+	</select>
+	<select id="getScatterCensusInstitutionList" parameterType="java.lang.Integer"
+		resultMap="scatterCensusList">
+		SELECT r.id AS area_id,r.name AS area,
+		<choose>
+			<when test="parentId == null">
+				@count:=(SELECT COUNT(i.id) FROM institution i JOIN region rr
+				ON i.region_id =
+				rr.id
+				JOIN region rrr ON rr.parent_id = rrr.id WHERE
+				rrr.id = r.id) AS
+				count,
+				(SELECT @count/(SELECT COUNT(*) FROM
+				institution)) AS percent
+				FROM region r WHERE r.parent_id = 0
+				UNION
+				SELECT 10000000 AS area_id,'其他' AS area,
+				@count:=(SELECT COUNT(*) FROM
+				institution i WHERE i.region_id = 0 OR i.region_id IS NULL) AS
+				count,(SELECT @count/(SELECT COUNT(*) FROM
+				institution)) AS percent
+			</when>
+			<otherwise>
+				@count:=(SELECT COUNT(i.id) FROM institution i WHERE i.region_id =
+				r.id) AS count,
+				(SELECT @count/(SELECT COUNT(*) FROM institution)) AS
+				percent
+				FROM region r WHERE r.parent_id = #{parentId}
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getScatterCensusUserList" parameterType="java.lang.Integer"
+		resultMap="scatterCensusList">
+		SELECT r.id AS area_id,r.name AS area,
+		<choose>
+			<when test="parentId == null">
+				@count:=(SELECT COUNT(u.id) FROM user u JOIN region rr ON
+				u.region_id = rr.id JOIN region rrr ON rr.parent_id = rrr.id WHERE
+				rrr.id = r.id AND u.type = 3) AS count,
+				(SELECT @count/(SELECT COUNT(*)
+				FROM user uu
+				WHERE uu.type = 3)) AS percent
+				FROM region r WHERE
+				r.parent_id = 0
+				UNION
+				SELECT 10000000 AS area_id,'其他' AS area,
+				@count:=(SELECT
+				COUNT(*) FROM
+				user u WHERE u.type = 3 AND (u.region_id = 0 OR
+				u.region_id IS NULL)) AS
+				count,(SELECT @count/(SELECT COUNT(*) FROM
+				user uu
+				WHERE uu.type = 3)) AS percent
+			</when>
+			<otherwise>
+				@count:=(SELECT COUNT(u.id) FROM user u WHERE u.region_id = r.id AND u.type = 3)
+				AS count,
+				(SELECT @count/(SELECT COUNT(*) FROM user uu WHERE uu.type =
+				3)) AS percent
+				FROM region r WHERE r.parent_id = #{parentId}
+			</otherwise>
+		</choose>
+	</select>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+</mapper>
