@@ -350,15 +350,6 @@
 	</delete>
 	<select id="selectAll" resultMap="BaseResultMap">
 		select
-<<<<<<< HEAD
-		id,
-		institution_id,activity_type, title, name,
-		price,old_price,sale_count,
-		thumb_img, adver_img,short_detail,url
-		from child_activity
-		order by
-		create_time desc
-=======
 		ca.id,
 		ca.institution_id,ca.activity_type, ca.title, ca.name,
 		ca.price,ca.old_price,(SELECT count(*) from child_activity_reservation car WHERE  car.child_activity_id = ca.id AND car.state = 1) as sale_count,
@@ -366,7 +357,6 @@
 		from child_activity ca
 		order by
 		ca.create_time desc
->>>>>>> 03b1d83889e641ee167a1e0a32ac19ee83b6207e
 		LIMIT #{page.pageNo},#{page.pageSize}
 	</select>
 	<select id="selectBySearch" resultMap="BaseResultMap">
@@ -432,11 +422,7 @@
 	<select id="getActivityFeedbackList" resultMap="childActivityFeedBack">
 		SELECT
 		car.id AS id,car.user_id AS user_id,u.name AS user_name,u.photo AS
-<<<<<<< HEAD
-		photo,u.sex AS sex,car.child_activity_id AS activity_id,
-=======
 		user_photo,u.sex AS sex,car.child_activity_id AS activity_id,
->>>>>>> 03b1d83889e641ee167a1e0a32ac19ee83b6207e
 		car.cancel_remark AS context,car.create_time AS create_time
 		FROM child_activity_reservation car JOIN `user` u ON car.user_id = u.id
 		WHERE car.cancel_remark IS NOT NULL
@@ -463,8 +449,6 @@
 			separator="," close=")">#{ids}
 		</foreach>
 	</delete>
-<<<<<<< HEAD
-=======
 	<select id="getMyActivityList" resultMap="BaseResultMap">
 		select
 		ca.id,
@@ -477,5 +461,4 @@
 		car.create_time desc
 		LIMIT #{page.pageNo},#{page.pageSize}
 	</select>
->>>>>>> 03b1d83889e641ee167a1e0a32ac19ee83b6207e
 </mapper>

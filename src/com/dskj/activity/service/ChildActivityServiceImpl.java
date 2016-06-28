@@ -219,12 +219,8 @@ public class ChildActivityServiceImpl extends Base implements ChildActivityServi
         childActivityMapper.deleteAllActivityMyAsk(userId,activityId);
     }
 
-<<<<<<< HEAD
-=======
     @Override
     public List<ChildActivity> getMyActivityList(String userId, Page page) throws Exception {
         return childActivityMapper.getMyActivityList(userId,page);
     }
-
->>>>>>> 03b1d83889e641ee167a1e0a32ac19ee83b6207e
 }
