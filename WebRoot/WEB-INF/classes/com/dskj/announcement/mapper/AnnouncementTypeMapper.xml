@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.announcement.mapper.AnnouncementTypeMapper">
+	<cache></cache>
+	<resultMap type="com.dskj.announcement.entity.AnnouncementType"
+		id="announcementType">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+
+	<select id="getType" parameterType="java.lang.Integer"
+		resultMap="announcementType">
+		select * from announcement_type where id = #{id}
+	</select>
+	<select id="listType" resultMap="announcementType">
+		select * from announcement_type
+	</select>
+	<insert id="addType" parameterType="com.dskj.announcement.entity.AnnouncementType">
+		insert into announcement_type
+		(name,create_time)
+		values
+		(#{name},#{createTime})
+	</insert>
+	<update id="updateType" parameterType="com.dskj.announcement.entity.AnnouncementType">
+		update announcement_type
+		set
+		name = #{name},create_time = #{createTime} where id =
+		#{id}
+	</update>
+	<delete id="deleteType" parameterType="com.dskj.announcement.entity.AnnouncementType">
+		delete from
+		announcement_type where
+		id = #{id}
+	</delete>
+	<delete id="clear">
+		DELETE FROM announcement_type WHERE id IS NULL
+	</delete>
+</mapper>

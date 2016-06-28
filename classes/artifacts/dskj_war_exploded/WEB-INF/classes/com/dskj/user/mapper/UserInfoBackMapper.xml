@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.user.mapper.UserInfoBackMapper">
+    <cache></cache>
+    <resultMap type="com.dskj.user.entity.UserInfoBack" id="userInfoBack">
+        <id property="id" column="id"/>
+        <result property="info" column="info"/>
+        <result property="picture" column="picture"/>
+        <result property="userId" column="user_id"/>
+        <result property="status" column="stat"/>
+        <result property="userName" column="user_name"/>
+        <result property="phone" column="phone"/>
+        <result property="photo" column="photo"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <insert id="add" parameterType="com.dskj.user.entity.UserInfoBack">
+        INSERT INTO user_info_back
+        (info,picture,user_id,stat,create_time) VALUES
+        (#{info},#{picture},#{userId},#{status},#{createTime})
+    </insert>
+    <select id="list" resultMap="userInfoBack">
+        SELECT uib.*,u.name AS
+        user_name,u.phone AS phone,u.photo AS photo FROM user_info_back uib
+        JOIN user u ON u.id = uib.user_id ORDER BY uib.create_time DESC LIMIT
+        #{page.pageNo},#{page.pageSize}
+    </select>
+</mapper>

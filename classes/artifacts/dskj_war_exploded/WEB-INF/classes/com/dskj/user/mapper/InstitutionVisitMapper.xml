@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.user.mapper.InstitutionVisitMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+    <select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+    <insert id="add" parameterType="com.dskj.user.entity.InstitutionVisit" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO institution_visit (institution_id,user_id,create_time) VALUES (#{institutionId},#{userId},#{createTime})
+	</insert>
+    <select id="getUserVisitCount" resultType="int">
+		SELECT COUNT(*) FROM  institution_visit WHERE institution_id = #{0} AND user_id = #{1} AND DATE(create_time) = DATE(NOW())
+	</select>
+</mapper>

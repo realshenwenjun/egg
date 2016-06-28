@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.user.mapper.InstitutionMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<resultMap type="com.dskj.user.entity.InstitutionEntity" id="institutionEntity">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="summary" column="summary" />
+		<result property="address" column="address" />
+		<result property="logo" column="logo" />
+		<result property="face" column="face" />
+		<result property="tel" column="tel" />
+		<result property="parentId" column="parent_id" />
+		<result property="regionId" column="region_id" />
+		<result property="createTime" column="create_time" />
+		<result property="teacherCount" column="teacher_count" />
+		<result property="courseType" column="course_type" />
+		<result property="sign" column="sign" />
+		<result property="teacherCount" column="teacher_count" />
+	</resultMap>
+	<resultMap type="com.dskj.user.entity.InstitutionFace" id="institutionFace">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="summary" column="summary" />
+		<result property="address" column="address" />
+		<result property="logo" column="logo" />
+		<result property="face" column="face" />
+		<result property="tel" column="tel" />
+		<result property="parentId" column="parent_id" />
+		<result property="regionId" column="region_id" />
+		<result property="visitCount" column="visit_count" />
+		<result property="createTime" column="create_time" />
+		<result property="fatherInstitution" column="father_institution" />
+		<result property="sign" column="sign" />
+	</resultMap>
+	<resultMap type="com.dskj.user.entity.InstitutionWithPropa"
+		id="institutionWithPropa">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="summary" column="summary" />
+		<result property="address" column="address" />
+		<result property="logo" column="logo" />
+		<result property="face" column="face" />
+		<result property="tel" column="tel" />
+		<result property="parentId" column="parent_id" />
+		<result property="regionId" column="region_id" />
+		<result property="propaCount" column="propa_count" />
+		<result property="commentCount" column="comment_count" />
+		<result property="createTime" column="create_time" />
+		<result property="courseType" column="course_type" />
+	</resultMap>
+	<resultMap type="com.dskj.user.entity.InstitutionWithCurrent"
+		id="institutionWithCurrent">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="summary" column="summary" />
+		<result property="address" column="address" />
+		<result property="logo" column="logo" />
+		<result property="face" column="face" />
+		<result property="tel" column="tel" />
+		<result property="parentId" column="parent_id" />
+		<result property="regionId" column="region_id" />
+		<result property="createTime" column="create_time" />
+		<result property="teacherCount" column="teacher_count" />
+		<result property="courseType" column="course_type" />
+		<result property="sign" column="sign" />
+		<result property="teacherCount" column="teacher_count" />
+		<result property="current" column="current" />
+	</resultMap>
+	<resultMap type="com.dskj.user.entity.ChildInstitutionList"
+		id="childInstitutionList">
+		<result property="institutionId" column="institution_id" />
+		<result property="institutionName" column="institution_name" />
+		<result property="courseType" column="course_type" />
+		<result property="logo" column="logo" />
+		<result property="address" column="address" />
+	</resultMap>
+	<resultMap type="com.dskj.user.entity.InstitutionUserEntity"
+		id="institutionUserEntity">
+		<result property="id" column="id" />
+		<result property="institutionId" column="institution_id" />
+		<result property="userId" column="user_id" />
+		<result property="current" column="current" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<resultMap type="com.dskj.user.entity.UserEntity" id="userEntity">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="levelId" column="level_id" />
+		<result property="type" column="type" />
+		<result property="phone" column="phone" />
+		<result property="photo" column="photo" />
+		<result property="qqOpenId" column="qq_open_id" />
+		<result property="weixinOpenId" column="weixin_open_id" />
+		<result property="sinaOpenId" column="sina_open_id" />
+		<result property="address" column="address" />
+		<result property="sex" column="sex" />
+		<result property="birthday" column="birthday" />
+		<result property="regionId" column="region_id" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<insert id="addInstitution" parameterType="com.dskj.user.entity.InstitutionEntity">
+		INSERT INTO
+		institution
+		(id,name,summary,logo,face,tel,parent_id,region_id,create_time)
+		VALUES
+		(#{id},#{name},#{summary},#{logo},#{face},#{tel},#{parentId},#{regionId},#{createTime})
+	</insert>
+	<insert id="addInstitutionUser">
+		INSERT INTO institution_user
+		(institution_id,user_id,create_time)
+		VALUES
+		(#{0},#{1},NOW())
+	</insert>
+	<insert id="addInstitutionUserEntity" parameterType="com.dskj.user.entity.InstitutionUserEntity">
+		INSERT INTO
+		institution_user
+		(institution_id,user_id,current,create_time)
+		VALUES
+		(#{institutionId},#{userId},#{current},#{createTime})
+	</insert>
+	<select id="getInstitutionByName" parameterType="java.lang.String"
+		resultMap="institutionEntity">
+		select * from institution i where i.name = #{0}
+	</select>
+	<select id="getInstitutionById" parameterType="java.lang.String"
+		resultMap="institutionEntity">
+		select * from institution i where i.id = #{0}
+	</select>
+	<update id="updateInstitutionLogo">
+		update institution i set i.logo = #{0} where id =
+		#{1}
+	</update>
+	<update id="updateInstitutionInfo" parameterType="com.dskj.user.entity.InstitutionEntity">
+		update institution u
+		<set>
+			<if test="name != null">u.name = #{name},</if>
+			<if test="summary != null">u.summary = #{summary},</if>
+			<if test="address != null">u.address = #{address},</if>
+			<if test="tel != null">u.tel = #{tel},</if>
+			<if test="parentId != null">u.parent_id = #{parentId},</if>
+			<if test="regionId != null">u.region_id = #{regionId},</if>
+			<if test="courseType != null">u.course_type = #{courseType},</if>
+			<if test="logo != null">u.logo = #{logo},</if>
+			<if test="teacherCount != null">u.teacher_count = #{teacherCount}</if>
+			<if test="sign != null">u.sign = #{sign}</if>
+		</set>
+		where u.id = #{id}
+	</update>
+	<select id="getInstitutionListPage" parameterType="com.dskj.util.Page"
+		resultMap="institutionEntity">
+		SELECT i.* FROM institution i JOIN institution_user iu ON
+		i.id = iu.institution_id
+		JOIN user u ON iu.user_id = u.id WHERE u.type
+		= 1 GROUP BY i.id limit
+		#{pageNo},#{pageSize}
+	</select>
+	<select id="getMyInstitution" parameterType="java.lang.String"
+		resultMap="institutionEntity">
+		SELECT i.* FROM institution i JOIN institution_user iu ON
+		i.id = iu.institution_id WHERE iu.user_id = #{0}
+	</select>
+	<insert id="registInstitutions" parameterType="java.util.ArrayList">
+		INSERT INTO institution_user
+		(institution_id,user_id,current,create_time)
+		VALUES
+		<foreach collection="list" item="institutionUserEntities"
+			index="index" separator=",">
+			(#{institutionUserEntities.institutionId},#{institutionUserEntities.userId},#{institutionUserEntities.current},#{institutionUserEntities.createTime})
+		</foreach>
+	</insert>
+	<select id="getOtherInstitution" resultMap="institutionEntity">
+		SELECT ii.* FROM
+		institution ii
+		WHERE ii.id NOT IN
+		(SELECT iu.institution_id FROM
+		institution_user iu
+		WHERE iu.user_id = #{id}) AND ii.id NOT IN
+		(SELECT
+		iu.institution_id FROM institution_user iu JOIN user u ON iu.user_id =
+		u.id WHERE
+		u.type = 0) limit
+		#{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getInstitutionListByName" resultMap="institutionEntity">
+		SELECT ii.* FROM
+		institution ii where ii.name like '%${name}%' limit
+		#{page.pageNo},#{page.pageSize}
+	</select>
+	<delete id="deleteMyInstitution">
+		DELETE FROM institution_user WHERE user_id = #{0} AND
+		institution_id = #{1}
+	</delete>
+	<select id="getMyChildInstitution" resultMap="childInstitutionList"
+		useCache="false">
+		SELECT i.id AS institution_id,i.name AS institution_name,
+		i.logo AS
+		logo,i.course_type AS course_type,CONCAT((SELECT
+		CONCAT(r_p.name,r.name) FROM region r JOIN region r_p ON r_p.id =
+		r.parent_id WHERE r.id = i.region_id)," ",i.address) AS address
+		FROM
+		institution i
+		WHERE i.parent_id = #{institutionId}
+		<if test="key != null">
+			AND i.name LIKE '%${key}%'
+		</if>
+	</select>
+	<delete id="deleteMyChildInstitution" parameterType="java.lang.String">
+		DELETE FROM
+		institution WHERE id = #{0}
+	</delete>
+	<select id="getChildInstitutionCourseCount" parameterType="java.lang.String"
+		resultType="int">
+		SELECT COUNT(c.id) FROM course c WHERE c.institution_id =
+		#{0}
+	</select>
+	<delete id="deleteInstitutionUser" parameterType="java.lang.String">
+		DELETE FROM
+		institution_user WHERE institution_id = #{0}
+	</delete>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<update id="updateInstitutionFace">
+		UPDATE institution SET face = #{1} WHERE id = #{0}
+	</update>
+	<select id="getOtherInstitutionSearch" resultMap="institutionEntity">
+		SELECT ii.*
+		FROM
+		institution ii
+		WHERE ii.id NOT IN
+		(SELECT iu.institution_id FROM
+		institution_user iu
+		WHERE iu.user_id = #{id}) AND ii.id NOT IN
+		(SELECT
+		iu.institution_id FROM institution_user iu JOIN user u ON iu.user_id =
+		u.id WHERE
+		u.type = 0) AND ii.name LIKE '%${key}%'
+	</select>
+	<select id="getMyInstitutionUser" parameterType="java.lang.String"
+		resultMap="institutionUserEntity">
+		SELECT * FROM institution_user iu WHERE iu.user_id = #{0}
+	</select>
+	<update id="addCurrentInstitution" parameterType="com.dskj.user.entity.InstitutionUserEntity">
+		UPDATE
+		institution_user SET current = 1 WHERE user_id = #{userId} AND
+		institution_id = #{institutionId}
+	</update>
+	<update id="deleteAllCurrentInstitution" parameterType="java.lang.String">
+		UPDATE
+		institution_user SET current = NULL WHERE user_id = #{0}
+	</update>
+	<select id="getMyInstitutionWithCurrent" parameterType="java.lang.String"
+		resultMap="institutionWithCurrent">
+		SELECT i.*,iu.current AS current FROM institution i JOIN
+		institution_user iu
+		ON
+		i.id = iu.institution_id WHERE iu.user_id = #{0}
+		ORDER BY current
+		DESC,iu.create_time DESC
+	</select>
+	<update id="updateCurrentStatus" parameterType="java.lang.String">
+		UPDATE
+		institution_user SET current = 1 WHERE user_id = #{0}
+	</update>
+	<select id="getInstitutionWithPropaListPage" resultMap="institutionWithPropa">
+		SELECT CONCAT((SELECT rp.name FROM region r JOIN region rp ON
+		r.parent_id = rp.id WHERE r.id = i.region_id),(SELECT r.name FROM
+		region r WHERE r.id = i.region_id),' ', i.address) AS
+		address,i.*,(SELECT COUNT(*) FROM institution_propa ip WHERE
+		ip.institution_id = i.id) AS propa_count,
+		(SELECT COUNT(*) FROM
+		institution_comment WHERE institution_id = i.id) AS
+		comment_count,(SELECT ABS(parent_id - #{regionId}) FROM region WHERE
+		id = i.region_id) AS sort1
+		FROM
+		institution i
+		<if test="key!=null">
+			where (i.tel = #{key} or i.name like '%${key}%')
+		</if>
+		ORDER BY sort1 limit
+		#{page.pageNo},#{page.pageSize}
+	</select>
+	<update id="updateVisitCount" parameterType="java.lang.String">
+		UPDATE institution
+		SET visit_count = visit_count + 1 WHERE id = #{0}
+	</update>
+	<select id="getById" parameterType="java.lang.String" resultMap="institutionFace">
+		select i.*,(SELECT ic.name from institution ic WHERE ic.id =
+		i.parent_id) AS father_institution from institution i where i.id =
+		#{0}
+	</select>
+	<select id="getCourseNames" parameterType="java.lang.String"
+		resultType="java.lang.String">
+		SELECT ct.name FROM course c JOIN course_type ct ON
+		c.course_type_id = ct.id
+		WHERE c.institution_id = #{0}
+	</select>
+	<select id="getCourseName" parameterType="java.util.HashMap"
+		resultType="java.lang.String">
+		SELECT c.name FROM course c JOIN course_classes cc ON c.id
+		= cc.course_id
+		WHERE cc.institution_id = #{institutionId}
+	</select>
+	<select id="getInstitutionTeacherSearch2_0" resultMap="userEntity">
+		SELECT u.* FROM `user` u WHERE u.type = 2 AND u.id NOT IN
+		(SELECT uu.id
+		FROM institution_user iu JOIN `user` uu ON iu.user_id = uu.id
+		WHERE
+		uu.type = 2 AND iu.institution_id = #{institutionId})
+		<if test="key!=null">
+			AND (u.name LIKE '%${key}%' OR u.phone = #{key})
+		</if>
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<delete id="deleteInstitutionTeacherSearchBatch2_0">
+		DELETE FROM institution_user WHERE institution_id = #{institutionId}
+		AND user_id IN
+		<foreach collection="teacherIds" item="teacherId" open="("
+			separator="," close=")">
+			#{teacherId}
+		</foreach>
+	</delete>
+	<insert id="addInstitutionTeacherSearchBatch2_0" parameterType="java.util.ArrayList">
+		INSERT INTO institution_user (institution_id,user_id,create_time)
+		VALUES
+		<foreach collection="teacherIds" item="teacherId" index="index"
+			separator=",">
+			(#{teacherId.institutionId},#{teacherId.userId},NOW())
+		</foreach>
+	</insert>
+	<select id="getInstitutionStudentAll2_0" resultType="java.lang.String">
+		SELECT
+		iu.user_id FROM institution_user iu WHERE iu.institution_id =
+		#{institutionId} LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getInstitutionStudentSearch2_0" resultMap="userEntity">
+		SELECT u.* FROM `user` u WHERE u.type = 3 AND u.id NOT IN
+		(SELECT uu.id
+		FROM institution_user iu JOIN `user` uu ON iu.user_id = uu.id
+		WHERE
+		uu.type = 3 AND iu.institution_id = #{institutionId})
+		<if test="key!=null">
+			AND (u.name LIKE '%${key}%' OR u.phone = #{key})
+		</if>
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getUserMyInstitution2_0" resultMap="institutionWithPropa">
+		SELECT
+		i.*,(SELECT COUNT(*) FROM institution_propa ip WHERE
+		ip.institution_id
+		= i.id) AS propa_count,
+		(SELECT COUNT(*) FROM institution_comment WHERE
+		institution_id = i.id) AS
+		comment_count
+		FROM
+		institution i JOIN
+		institution_user iu ON
+		i.id = iu.institution_id
+		WHERE iu.user_id =
+		#{userId} GROUP BY i.id
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getUserMyInstitutionSearch2_0" resultMap="institutionWithPropa">
+		SELECT i.*,(SELECT COUNT(*) FROM institution_propa ip WHERE
+		ip.institution_id = i.id) AS propa_count,
+		(SELECT COUNT(*) FROM
+		institution_comment WHERE institution_id = i.id) AS
+		comment_count
+		FROM
+		institution i JOIN institution_user iu ON
+		i.id = iu.institution_id
+		WHERE iu.user_id = #{userId}
+		<if test="key!=null">
+			AND i.name LIKE '%${key}%'
+		</if>
+		GROUP BY i.id
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<insert id="addUserMyInstitution">
+		INSERT INTO institution_user (institution_id,user_id,create_time)
+		VALUES
+		<foreach collection="institutionIds" item="institutionId"
+			index="index" separator=",">
+			(#{institutionId.institutionId},#{institutionId.userId},NOW())
+		</foreach>
+	</insert>
+	<select id="getUserMyInstitutionCount" parameterType="java.lang.String"
+		resultType="int">
+		SELECT COUNT(*) FROM institution_user iu WHERE iu.user_id =
+		#{0}
+	</select>
+	<select id="getUserNotInstitutionSearch2_0" resultMap="institutionWithPropa">
+		SELECT i.*,(SELECT COUNT(*) FROM institution_propa ip WHERE
+		ip.institution_id = i.id) AS propa_count,
+		(SELECT COUNT(*) FROM
+		institution_comment WHERE institution_id = i.id) AS
+		comment_count
+		FROM
+		institution i
+		WHERE i.id NOT IN
+		(SELECT DISTINCT iu.institution_id FROM
+		institution_user iu WHERE iu.user_id
+		= #{userId})
+		<if test="key!=null">
+			AND i.name LIKE '%${key}%'
+		</if>
+		GROUP BY i.id
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<delete id="deleteUserMyInstitution2_0">
+		DELETE FROM institution_user WHERE user_id = #{userId} AND
+		institution_id IN
+		<foreach collection="institutionIds" item="institutionId"
+			open="(" separator="," close=")">
+			#{institutionId}
+		</foreach>
+	</delete>
+	<select id="getInstitutionManagerList" resultMap="userEntity">
+		SELECT u.* FROM institution_user iu JOIN `user` u ON iu.user_id = u.id
+		WHERE iu.institution_id = #{institutionId} AND u.type = 1
+		<if test="key != null">
+			AND (u.phone = #{key} OR u.name LIKE '%${key}%')
+		</if>
+	</select>
+	<select id="getUnMyChildInstitution" resultMap="childInstitutionList"
+		useCache="false">
+		SELECT i.id AS institution_id,i.name AS institution_name,
+		i.logo AS
+		logo,i.course_type AS course_type,CONCAT((SELECT
+		CONCAT(r_p.name,r.name) FROM region r JOIN region r_p ON r_p.id =
+		r.parent_id WHERE r.id = i.region_id)," ",i.address) AS address
+		FROM
+		institution i
+		WHERE (i.parent_id &lt;> #{institutionId} OR i.parent_id
+		IS NULL) AND i.id &lt;> #{institutionId}
+		<if test="key != null">
+			AND i.name LIKE '%${key}%'
+		</if>
+	</select>
+	<update id="addBatchMyChildInstitution">
+		UPDATE institution SET parent_id = #{institutionId} WHERE id IN
+		<foreach collection="childIds" item="childId" open="("
+			separator="," close=")">
+			#{childId}
+		</foreach>
+	</update>
+	<update id="deleteBatchMyChildInstitution">
+		UPDATE institution SET parent_id = NULL WHERE parent_id =
+		#{institutionId} AND id IN
+		<foreach collection="childIds" item="childId" open="("
+			separator="," close=")">
+			#{childId}
+		</foreach>
+	</update>
+	<select id="getInstitutionUnManagerList" resultMap="userEntity">
+		SELECT u.* FROM institution_user iu JOIN `user` u ON iu.user_id = u.id
+		WHERE iu.institution_id = #{institutionId} AND u.type &lt;> 1
+		<if test="key != null">
+			AND (u.phone = #{key} OR u.name LIKE '%${key}%')
+		</if>
+	</select>
+	<update id="addInstitutionManagerBatch" parameterType="java.lang.String">
+		UPDATE
+		`user` SET `type` = 1 WHERE id = #{0}
+	</update>
+	<select id="getMyInstitutionCount" parameterType="java.lang.String"
+		resultType="int">
+		SELECT COUNT(*) FROM institution_user iu WHERE iu.user_id =
+		#{0}
+	</select>
+	<update id="updateMyOldType" parameterType="java.lang.String">
+		UPDATE `user` SET
+		old_type = `type` WHERE id = #{0}
+	</update>
+	<update id="updateBackMyOldType" parameterType="java.lang.String">
+		UPDATE `user` SET
+		`type` = old_type,old_type = NULL WHERE id = #{0} AND old_type IS NOT
+		NULL
+	</update>
+	<select id="getMyOldType" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT old_type FROM `user` WHERE id = #{0}
+	</select>
+	<select id="getInstitutionCount" resultType="int">
+		select count(*) from
+		institution i where i.tel = #{key} or i.name like '%${key}%'
+	</select>
+	<delete id="deleteInstitution" parameterType="java.lang.String">
+		delete from
+		institution where id = #{0}
+	</delete>
+</mapper>

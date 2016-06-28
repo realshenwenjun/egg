@@ -62,4 +62,6 @@ public interface ChildActivityService {
     public void deleteActivityMyAsk(int askId) throws Exception;
 
     public void deleteAllActivityMyAsk(String userId,int activityId) throws Exception;
+
+    public List<ChildActivity> getMyActivityList(String userId,Page page) throws Exception;
 }

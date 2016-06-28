@@ -449,4 +449,16 @@
 			separator="," close=")">#{ids}
 		</foreach>
 	</delete>
+	<select id="getMyActivityList" resultMap="BaseResultMap">
+		select
+		ca.id,
+		ca.institution_id,ca.activity_type, ca.title, ca.name,
+		ca.price,ca.old_price,(SELECT count(*) from child_activity_reservation car WHERE  car.child_activity_id = ca.id AND car.state = 1) as sale_count,
+		thumb_img, adver_img,short_detail,url
+		from child_activity ca JOIN child_activity_reservation car ON ca.id = car.child_activity_id
+		WHERE car.user_id = #{userId}
+		order by
+		car.create_time desc
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
 </mapper>

@@ -850,4 +850,22 @@ public class ChildActivtiyControll extends Base {
             write(response, false, 911, e.getMessage(), null);
         }
     }
+
+    /*
+     * 我的活动列表 childActivity={"userId":"","pageNo":0,"pageSize":10}
+     */
+    @RequestMapping("/childActivity/my/list")
+    public void getMyActivityList(HttpServletRequest request,
+                                          HttpServletResponse response) {
+        try {
+            String jsoString = request.getParameter("childActivity");
+            logger.info(jsoString);
+            Page page = stringToObj(jsoString, Page.class);
+            List<ChildActivity> list = childActivityService.getList(page);
+            write(response, null, null, null, list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            write(response, false, 911, e.getMessage(), null);
+        }
+    }
 }

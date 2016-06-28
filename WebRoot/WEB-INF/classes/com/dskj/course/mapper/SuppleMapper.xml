@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.course.mapper.SuppleMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<resultMap type="com.dskj.course.entity.ClassPlanLackList"
+		id="classPlanLackList">
+		<result property="classId" column="class_id" />
+		<result property="planId" column="plan_id" />
+		<result property="planDate" column="plan_date" />
+		<result property="planStart" column="plan_start" />
+		<result property="planEnd" column="plan_End" />
+		<result property="address" column="address" />
+		<result property="lackId" column="lack_id" />
+		<result property="cancelId" column="cancel_id" />
+		<result property="suppleId" column="supple_id" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.SuppleDetail" id="suppleDetail">
+		<result property="studentName" column="student_name" />
+		<result property="courseName" column="course_name" />
+		<result property="teacherName" column="teacher_name" />
+		<result property="teacherPhoto" column="teacher_photo" />
+		<result property="planDate" column="plan_date" />
+		<result property="planStart" column="plan_start" />
+		<result property="planEnd" column="plan_end" />
+		<result property="address" column="address" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.Supple" id="supple">
+		<result property="id" column="id" />
+		<result property="classId" column="class_id" />
+		<result property="planId" column="class_plan_id" />
+		<result property="userId" column="user_id" />
+		<result property="suppleClassId" column="supple_class_id" />
+		<result property="supplePlanId" column="supple_class_plan_id" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.CourserClassTeacherList"
+		id="courserClassTeacherList">
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="cover" column="cover" />
+		<result property="classId" column="class_id" />
+		<result property="className" column="class_name" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="phone" column="phone" />
+	</resultMap>
+	<insert id="addSupple" parameterType="com.dskj.course.entity.Supple"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		course_classes_plan_supple
+		(class_id,class_plan_id,user_id,supple_class_id,supple_class_plan_id,create_time)
+		VALUES
+		(#{classId},#{planId},#{userId},#{suppleClassId},#{supplePlanId},#{createTime})
+	</insert>
+	<delete id="deleteSuppleByClass" parameterType="int">
+		DELETE FROM
+		course_classes_plan_supple WHERE supple_class_id = #{0}
+	</delete>
+	<delete id="deleteSuppleByPlan" parameterType="int">
+		DELETE FROM
+		course_classes_plan_supple WHERE supple_class_plan_id = #{0}
+	</delete>
+	<select id="getClassPlanLackList" resultMap="classPlanLackList">
+		SELECT
+		ccp.course_classes_id AS class_id,ccp.address AS address,ccp.id AS
+		plan_id,ccp.date AS
+		plan_date,ccp.start_time AS
+		plan_start,ccp.end_time AS
+		plan_end,ccpl2.lack_id AS lack_id,(SELECT ccpl.id AS cancel_id FROM
+		course_classes_plan_lack ccpl WHERE ccpl.class_plan_id = ccp.id AND
+		ccpl.user_id = cc.user_id) AS cancel_id,
+		(SELECT ccps.id AS supple_id
+		FROM course_classes_plan_supple ccps WHERE ccps.class_plan_id = ccp.id
+		AND ccps.user_id = #{0}) AS supple_id
+		FROM course_classes cc JOIN
+		course_classes_plan ccp ON cc.id = ccp.course_classes_id
+		LEFT JOIN
+		(SELECT ccpl.id AS
+		lack_id,ccpl.class_plan_id AS plan_id FROM
+		course_classes_plan_lack
+		ccpl WHERE ccpl.user_id = #{0} AND
+		ccpl.class_id = #{1}) ccpl2
+		ON ccp.id
+		= ccpl2.plan_id
+		WHERE
+		ccp.course_classes_id = #{1} AND
+		(DAYOFYEAR(ccp.date) >
+		DAYOFYEAR(NOW())
+		OR (DAYOFYEAR(ccp.date) =
+		DAYOFYEAR(NOW()) AND
+		TIME(ccp.start_time) >
+		TIME(NOW()))) HAVING lack_id IS NOT NULL AND supple_id IS NULL
+	</select>
+	<select id="getSuppleByPlanId" parameterType="int" resultType="int">
+		SELECT COUNT(id) FROM course_classes_plan_supple ccps WHERE
+		ccps.class_plan_id = #{0} OR ccps.supple_class_plan_id = #{0}
+	</select>
+	<select id="getSuppleDetail" parameterType="int" resultMap="suppleDetail">
+		SELECT (SELECT u.name FROM user u WHERE u.id = ccps.user_id) AS
+		student_name,
+		c.name AS course_name,u.name AS teacher_name,u.photo AS
+		teacher_photo,
+		ccp.date AS plan_date,ccp.start_time AS
+		plan_start,ccp.end_time AS
+		plan_end,ccp.address AS address
+		FROM
+		course_classes_plan_supple ccps
+		JOIN course_classes_plan ccp ON
+		ccps.class_id = ccp.course_classes_id AND
+		ccps.class_plan_id = ccp.id
+		JOIN course_classes cc ON ccp.course_classes_id = cc.id
+		JOIN course c
+		ON c.id = cc.course_id
+		JOIN user u ON u.id = cc.user_id
+		WHERE ccps.id =
+		#{0}
+	</select>
+	<select id="getByPlanAndUser" resultMap="supple">
+		SELECT * FROM course_classes_plan_supple WHERE class_plan_id = #{0} AND user_id = #{1} 
+	</select>
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM course_classes_plan_supple WHERE id = #{0}
+	</delete>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<select id="getSuppleClassList" resultMap="courserClassTeacherList">
+		SELECT c.id AS course_id,c.name AS course_name,c.cover AS
+		cover,
+		cc.id AS class_id,cc.name AS class_name,u.id AS user_id,u.name
+		AS user_name,u.phone AS phone
+		FROM course c JOIN course_classes cc ON c.id =
+		cc.course_id
+		JOIN user u ON cc.user_id = u.id
+		WHERE c.id = #{1} AND cc.id &lt;&gt; #{0}
+	</select>
+</mapper>

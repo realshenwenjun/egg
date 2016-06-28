@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.course.mapper.AdminCourseMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"></cache>
+	<resultMap type="com.dskj.course.entity.CourseTypeOf" id="courseTypeOf">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.CourseType" id="courseType">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="cover" column="cover" />
+		<result property="ofId" column="of_id" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	
+	<resultMap type="com.dskj.course.entity2_0.CourseClassTypeOf" id="courseClassTypeOf">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<collection property="courses" ofType="java.util.ArrayList"
+			select="getCourseClass2_0" column="ofId = id}">
+		</collection>
+	</resultMap>
+	<resultMap type="com.dskj.course.entity2_0.CourseClassType" id="courseClassType">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+	</resultMap>
+	<select id="getCourseTypeOf" parameterType="java.lang.Integer" resultMap="courseTypeOf">
+		SELECT * FROM course_type_of cto WHERE cto.id = #{0}
+	</select>
+	<insert id="addCourseTypeOf" parameterType="com.dskj.course.entity.CourseTypeOf">
+		INSERT INTO course_type_of
+		(name,create_time)
+		VALUES
+		(#{name},#{createTime})
+	</insert>
+	<update id="updateCourseTypeOf" parameterType="com.dskj.course.entity.CourseTypeOf">
+		UPDATE course_type_of cto SET cto.name = #{name} WHERE cto.id = #{id}
+	</update>
+	<delete id="deleteCourseTypeOf" parameterType="java.lang.Integer">
+		DELETE FROM course_type_of WHERE id = #{0}
+	</delete>
+	<select id="getCourseTypeOfList" resultMap="courseTypeOf">
+		SELECT * FROM course_type_of
+	</select>
+	<select id="getCourseTypeOfByName" parameterType="java.lang.String" resultMap="courseTypeOf">
+		SELECT * FROM course_type_of cto WHERE cto.name = #{0}
+	</select>
+	<!-- ********************************************************************************** -->
+	<select id="getCourseType" parameterType="java.lang.Integer" resultMap="courseType">
+		SELECT * FROM course_type ct WHERE ct.id = #{0}
+	</select>
+	<insert id="addCourseType" parameterType="com.dskj.course.entity.CourseType" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO course_type
+		(name,cover,of_id,create_time)
+		VALUES
+		(#{name},#{cover},#{ofId},#{createTime})
+	</insert>
+	<update id="updateCourseType" parameterType="com.dskj.course.entity.CourseType">
+		UPDATE course_type ct 
+		<set>
+			<if test="name != null">ct.name = #{name},</if>
+			<if test="cover != null">ct.cover = #{cover},</if>
+			<if test="ofId != null">ct.of_id = #{ofId},</if>
+		</set>
+		where ct.id = #{id}
+	</update>
+	<delete id="deleteCourseType" parameterType="java.lang.Integer">
+		DELETE FROM course_type WHERE id = #{0}
+	</delete>
+	<select id="getCourseTypeList" parameterType="java.lang.Integer" resultMap="courseType">
+		SELECT * FROM course_type
+		<if test="ofId!=null">
+		 where of_id = #{0}
+		</if>
+		 ORDER BY create_time DESC
+	</select>
+	<select id="getCourseTypeByName" parameterType="java.lang.String" resultMap="courseType">
+		SELECT * FROM course_type ct WHERE ct.name = #{0}
+	</select>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<select id="getCourseClass2_0" parameterType="java.util.HashMap"
+		resultMap="courseClassType">
+		SELECT c.id AS id,c.name AS name FROM course c WHERE c.course_type_id = #{ofId}
+	</select>
+	<select id="getCourseClassType" resultMap="courseClassTypeOf">
+		SELECT * FROM course_type
+	</select>
+	<select id="getCourseTypeSearch2_0" parameterType="java.lang.String" resultMap="courseClassType">
+		SELECT cc.id AS id,cc.name AS name FROM course_classes cc WHERE cc.name LIKE '%${key}%'
+	</select>
+</mapper>

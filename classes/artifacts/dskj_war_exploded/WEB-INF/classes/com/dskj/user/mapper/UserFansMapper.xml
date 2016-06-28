@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.user.mapper.UserFansMapper">
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+    </cache>
+    <resultMap type="com.dskj.user.entity2_0.MyFans" id="myFans">
+    	<result property="fansId" column="fans_id"/>
+    	<result property="name" column="name"/>
+    	<result property="photo" column="photo"/>
+    	<result property="type" column="type"/>
+    </resultMap>
+    <select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+    <insert id="add" parameterType="com.dskj.user.entity.UserFans" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO user_fans (user_id,been_user_id,create_time) VALUES (#{userId},#{beenUserId},#{createTime})
+	</insert>
+    <select id="getBeenUserFans" parameterType="java.lang.String" resultType="int">
+		SELECT COUNT(*) FROM user_fans uf WHERE uf.been_user_id = #{0}
+	</select>
+    <select id="getUserFansId" resultType="java.lang.Integer">
+		SELECT id FROM user_fans WHERE user_id = #{0} AND been_user_id = #{1}
+	</select>
+    <delete id="delete" parameterType="java.lang.Integer">
+		DELETE FROM user_fans WHERE id = #{0}
+	</delete>
+	<select id="getUserFansList2_0" resultMap="myFans">
+		SELECT uf.id AS fans_id,u.name AS `name`,u.photo AS photo,u.type AS `type` 
+		FROM user_fans uf JOIN `user` u ON uf.been_user_id = u.id WHERE uf.user_id = #{0}
+	</select>
+</mapper>

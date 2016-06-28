@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.community.mapper.TopicMapper">
+    <cache></cache>
+    <resultMap type="com.dskj.community.entity.Topic" id="BaseResultMap">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="title" column="title"/>
+        <result property="context" column="context"/>
+        <result property="imgUrl" column="img_url"/>
+        <result property="type" column="type"/>
+        <result property="createTime" column="create_time"/>
+
+    </resultMap>
+
+
+    <insert id="add" parameterType="com.dskj.community.entity.Topic" useGeneratedKeys="true">
+
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        INSERT INTO community_topic
+        (`id`,`user_id`,`title`,`context`,`img_url`,`type`,`create_time`)
+        VALUES (#{id},
+        #{userId},
+        #{title},
+        #{context},
+        #{imgUrl},
+        #{type},
+        #{createTime});
+    </insert>
+
+    <update id="update" parameterType="com.dskj.community.entity.Topic">
+        UPDATE community_topic SET type = #{type} ,
+        context = #{context},img_url = #{imgUrl} ,type = #{type}
+        WHERE id = #{id};
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM community_topic WHERE id = #{0}
+    </delete>
+
+
+    <select id="getList" resultMap="BaseResultMap">
+
+        SELECT * FROM community_topic com LIMIT #{page.pageNo},#{page.pageSize}
+    </select>
+
+
+</mapper>

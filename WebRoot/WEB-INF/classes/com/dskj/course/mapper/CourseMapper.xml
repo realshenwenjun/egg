@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.course.mapper.CourseMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<resultMap type="com.dskj.course.entity.Course" id="course">
+		<id property="id" column="id" />
+		<result property="courseTypeId" column="course_type_id" />
+		<result property="institutionId" column="institution_id" />
+		<result property="name" column="name" />
+		<result property="describition" column="describition" />
+		<result property="cover" column="cover" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.CourseVO" id="courseVO">
+		<id property="id" column="id" />
+		<result property="courseTypeId" column="course_type_id" />
+		<result property="institutionId" column="institution_id" />
+		<result property="institutionName" column="institution_name" />
+		<result property="name" column="name" />
+		<result property="describition" column="describition" />
+		<result property="cover" column="cover" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<insert id="addCourse" parameterType="com.dskj.course.entity.Course"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO course
+		(course_type_id,institution_id,name,describition,cover,create_time)
+		VALUES
+		(#{courseTypeId},#{institutionId},#{name},#{describition},#{cover},#{createTime})
+	</insert>
+	<select id="getByName" resultMap="course">
+		SELECT * FROM course c
+		WHERE c.name = #{name}
+		<if test="institutionId != null">
+			AND c.institution_id = #{institutionId}
+		</if>
+	</select>
+	<select id="getCourseListByTypeOf" resultMap="courseVO">
+		select c.*,i.name
+		as institution_name
+		from institution i join course c
+		on
+		c.institution_id = i.id join
+		course_type ct on c.course_type_id =
+		ct.id
+		join course_type_of cto on
+		ct.of_id = cto.id where cto.id = #{id}
+		<if test="institutionId!=null">
+			and c.institution_id = #{institutionId}
+		</if>
+		limit
+		#{page.pageNo},#{page.pageSize}
+	</select>
+	<update id="updateCourse" parameterType="com.dskj.course.entity.Course">
+		update course c
+		<set>
+			<if test="courseTypeId != null">c.course_type_id = #{courseTypeId},</if>
+			<if test="name != null">c.name = #{name},</if>
+			<if test="describition != null">c.describition = #{describition},</if>
+			<if test="cover != null">c.cover = #{cover},</if>
+		</set>
+		where c.id = #{id}
+	</update>
+	<select id="getCourse" parameterType="java.lang.Integer"
+		resultMap="course">
+		SELECT * FROM course c
+		WHERE c.id = #{0}
+	</select>
+	<delete id="deleteCourse" parameterType="java.lang.Integer">
+		delete from course
+		where
+		id = #{0}
+	</delete>
+	<select id="getCourseListByType" resultMap="courseVO">
+		SELECT * FROM course
+		c
+		WHERE c.course_type_id = #{type}
+		 order by c.create_time desc
+		limit
+		#{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getCourseListByInstitution" resultMap="courseVO">
+		SELECT * FROM
+		course c
+		WHERE c.institution_id = #{insId} limit
+		#{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getCourseVOByName" parameterType="java.lang.String"
+		resultMap="courseVO">
+		SELECT
+		c.*,i.id AS institution_id,i.name AS institution_name
+		FROM course c
+		JOIN institution i ON c.institution_id = i.id WHERE
+		c.name LIKE '%${name}%'
+	</select>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+</mapper>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dskj.course.mapper.ClassSignMapper">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache">
+	</cache>
+	<resultMap type="com.dskj.course.entity.ClassSign" id="classSign">
+		<id property="id" column="id" />
+		<result property="classId" column="classes_id" />
+		<result property="userId" column="user_id" />
+		<result property="institutionId" column="institution_id" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.ClassSignUser" id="classSignUser">
+		<id property="userId" column="id" />
+		<result property="photo" column="photo" />
+		<result property="name" column="name" />
+		<result property="phone" column="phone" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.CourseVO" id="courseVO">
+		<id property="id" column="id" />
+		<result property="courseTypeId" column="course_type_id" />
+		<result property="institutionId" column="institution_id" />
+		<result property="institutionName" column="institution_name" />
+		<result property="name" column="name" />
+		<result property="describition" column="describition" />
+		<result property="cover" column="cover" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity.CourserClassTeacherList"
+		id="courserClassTeacherList">
+		<result property="courseId" column="course_id" />
+		<result property="courseName" column="course_name" />
+		<result property="cover" column="cover" />
+		<result property="classId" column="class_id" />
+		<result property="className" column="class_name" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="phone" column="phone" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity2_0.ClassSignList" id="classSignList">
+		<result property="id" column="id" />
+		<result property="cover" column="cover" />
+		<result property="name" column="name" />
+		<result property="startDate" column="start_date" />
+		<result property="endDate" column="end_date" />
+		<result property="startTime" column="start_time" />
+		<result property="endTime" column="end_time" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="planCount" column="plan_count" />
+		<result property="studentCount" column="student_count" />
+		<result property="price" column="price" />
+		<result property="institutionName" column="institution_name" />
+		<result property="address" column="address" />
+		<result property="signId" column="sign_id" />
+		<result property="totalSignCount" column="total_sign_count" />
+		<result property="totalCount" column="total_count" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity2_0.CourseClassStudent"
+		id="courseClassStudent">
+		<result property="id" column="id" />
+		<result property="photo" column="photo" />
+		<result property="name" column="name" />
+		<result property="phone" column="phone" />
+		<result property="sex" column="sex" />
+	</resultMap>
+	<resultMap type="com.dskj.course.entity2_0.CourseClassSign"
+		id="courseClassSign">
+		<result property="id" column="id" />
+		<result property="code" column="code" />
+		<result property="classId" column="class_id" />
+		<result property="className" column="class_name" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="userPhone" column="user_phone" />
+		<result property="institutionId" column="institution_id" />
+		<result property="institutionName" column="institution_name" />
+		<result property="userCount" column="user_count" />
+		<result property="price" column="price" />
+		<result property="createTime" column="create_time" />
+	</resultMap>
+	<insert id="addClassSign" parameterType="java.util.ArrayList">
+		INSERT INTO course_classes_sign
+		(classes_id,user_id,institution_id,create_time)
+		VALUES
+		<foreach collection="list" item="classSigns" index="index"
+			separator=",">(#{classSigns.classId},#{classSigns.userId},#{classSigns.institutionId},#{classSigns.createTime})
+		</foreach>
+	</insert>
+	<delete id="deleteClassSignByCourse" parameterType="java.lang.Integer">
+		delete from
+		course_classes_sign ccs where ccs.classes_id in (select cc.id from
+		course_classes cc where cc.course_id = #{0})
+	</delete>
+	<delete id="deleteClassSignByClass" parameterType="java.lang.Integer">
+		delete from
+		course_classes_sign where classes_id = #{0}
+	</delete>
+	<delete id="deleteClassSign">
+		DELETE FROM
+		course_classes_sign where user_id = #{0}
+		AND classes_id = #{1}
+	</delete>
+	<select id="getUsersFromClass" parameterType="java.lang.Integer"
+		resultMap="classSignUser">
+		SELECT u.id AS id,
+		u.name AS name,u.photo AS photo,u.phone AS
+		phone FROM user u JOIN
+		course_classes_sign ccs ON u.id = ccs.user_id
+		WHERE ccs.classes_id = #{0} GROUP BY ccs.create_time DESC
+	</select>
+	<select id="getCourseListByUser" parameterType="java.lang.String"
+		resultMap="courseVO">
+		select c.*,i.name as
+		institution_name from institution i join
+		course c on i.id =
+		c.institution_id join course_classes cc on c.id =
+		cc.course_id join
+		course_classes_sign ccs on cc.id = ccs.classes_id
+		where ccs.user_id =
+		#{0}
+	</select>
+	<select id="getUnSignUsersByName" resultMap="classSignUser">
+		SELECT u.id AS
+		id,u.name AS NAME,u.photo AS photo,u.phone AS phone FROM user u JOIN
+		institution_user iu ON u.id = iu.user_id WHERE
+		(u.name = #{0} OR
+		u.phone = #{0}) AND u.id NOT IN (SELECT ccs.user_id FROM
+		course_classes_sign ccs WHERE ccs.classes_id = #{1})
+		AND
+		iu.institution_id IN (SELECT cc2.institution_id FROM course_classes
+		cc2 WHERE cc2.id = #{1})
+	</select>
+	<select id="getMyUsersByName" resultMap="classSignUser">
+		select u.id as
+		id,u.name
+		as name,u.photo as photo,u.phone as phone from user u where
+		(u.name =
+		#{0} or u.phone = #{0}) and u.id in (select ccs.user_id from
+		course_classes_sign ccs where ccs.classes_id = #{1})
+	</select>
+	<select id="getCourseClassTeacherList" resultMap="courserClassTeacherList">
+		SELECT c.id AS
+		course_id,c.name AS course_name,c.cover AS cover,cc.id AS
+		class_id,cc.name AS
+		class_name,u.id AS user_id,u.name AS
+		user_name,u.phone AS phone
+		FROM course_classes_sign ccs
+		JOIN
+		course_classes cc ON ccs.classes_id = cc.id
+		JOIN course c ON
+		cc.course_id = c.id
+		JOIN user u ON cc.user_id = u.id
+		WHERE (SELECT
+		DAYOFYEAR(MAX(ccp.date)) FROM course_classes_plan ccp WHERE
+		ccp.course_classes_id = cc.id) >= DAYOFYEAR(NOW())
+		AND ccs.user_id =
+		#{0} AND cc.institution_id = #{1}
+	</select>
+	<select id="getClassSignByUserIdAndClassId" resultType="int">
+		SELECT
+		COUNT(id) FROM course_classes_sign ccs WHERE ccs.user_id = #{0} AND
+		ccs.classes_id = #{1}
+	</select>
+	<select id="clear" resultType="int" flushCache="true">
+		SELECT 1
+	</select>
+	<select id="getStudentClass" resultType="java.lang.Integer">
+		SELECT ccs.classes_id
+		FROM course_classes_sign ccs JOIN course_classes cc ON ccs.classes_id
+		= cc.id WHERE ccs.user_id = #{userId} ORDER BY ccs.create_time DESC
+		LIMIT #{page.pageNo},#{page.pageSize}
+	</select>
+	<select id="getClassStudentCount" parameterType="int"
+		resultType="int">
+		SELECT COUNT(*) FROM course_classes_sign ccs WHERE
+		ccs.classes_id = #{0}
+	</select>
+	<insert id="addClassSign2_0" parameterType="com.dskj.course.entity2_0.CourseClassSign"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO course_classes_order
+		(code,class_id,user_id,institution_id,user_name,user_phone,class_name,institution_name,user_count,price,create_time)
+		VALUES
+		(#{code},#{classId},#{userId},#{institutionId},#{userName},#{userPhone},#{className},#{institutionName},#{userCount},#{price},#{createTime})
+	</insert>
+	<select id="getClassSignOrderByUserIdAndClassId" resultType="int">
+		SELECT COUNT(*) FROM course_classes_order WHERE user_id = #{0} AND
+		class_id = #{1}
+	</select>
+	<select id="getStudentClassSign" resultMap="classSignList">
+		SELECT cc.id AS
+		id,cc.cover AS cover,cc.name AS name,
+		cc.start_date AS
+		start_date,cc.end_date AS end_date,
+		cc.start_time AS
+		start_time,cc.end_time AS end_time,
+		cc.user_id AS user_id,u.name AS
+		user_name,cc.plan_count AS plan_count,
+		cc.student_count AS
+		student_count,cc.price AS price,i.name AS institution_name,
+		cc.address
+		AS address,(SELECT ccps.id FROM course_classes_plan_sign ccps WHERE
+		ccps.class_id = cc.id AND ccps.user_id = #{0} AND
+		DATE(ccps.create_time) = DATE(#{1}) ) AS sign_id,
+		(SELECT COUNT(*) FROM
+		course_classes_plan_sign ccps WHERE ccps.class_id = cc.id) AS
+		total_sign_count,
+		cc.plan_count AS total_count
+		FROM course_classes cc
+		JOIN course_classes_sign ccs ON cc.id =
+		ccs.classes_id
+		JOIN `user` u ON
+		cc.user_id = u.id JOIN institution i ON cc.institution_id
+		= i.id
+		WHERE
+		ccs.user_id = #{0} AND cc.start_date &lt;= DATE(#{1})
+		AND cc.end_date
+		>= DATE(#{1}) ORDER BY cc.start_time
+	</select>
+	<select id="getCourseClassManageStudentList2_0" parameterType="java.lang.Integer"
+		resultMap="courseClassStudent">
+		SELECT u.id AS id,u.name AS `name`,u.phone AS phone,u.photo
+		AS photo,u.sex AS sex
+		FROM course_classes_sign ccs JOIN `user` u ON
+		ccs.user_id = u.id
+		WHERE ccs.classes_id = #{0}
+	</select>
+	<select id="getCourseClassManageStudentSearch2_0" resultMap="courseClassStudent">
+		SELECT u.id AS id,u.name AS `name`,u.phone AS phone,u.photo
+		AS
+		photo,u.sex AS sex
+		FROM course_classes_sign ccs JOIN `user` u ON
+		ccs.user_id = u.id
+		WHERE ccs.classes_id = #{classId}
+		<if test="key != null">
+			AND (u.name LIKE
+			'%${key}%' OR u.phone = #{key})
+		</if>
+	</select>
+	<select id="getCourseClassManageNotStudentSearch2_0" resultMap="courseClassStudent">
+		SELECT u.id AS id,u.name
+		AS `name`,u.phone AS phone,u.photo
+		AS
+		photo,u.sex AS sex
+		FROM `user` u
+		WHERE u.id NOT IN
+		(SELECT ccs.user_id
+		FROM course_classes_sign ccs WHERE ccs.classes_id =
+		#{classId})
+		<if test="key != null">
+			AND (u.name LIKE '%${key}%' OR u.phone= #{key})
+		</if>
+	</select>
+	<select id="getCourseTeacherStudentList2_0" resultMap="classSignUser">
+		SELECT
+		u.id AS id,u.photo AS photo,u.name AS `name`,u.phone AS phone
+		FROM
+		course_classes_sign ccs JOIN course_classes cc ON ccs.classes_id =
+		cc.id JOIN `user` u ON ccs.user_id = u.id
+		WHERE cc.user_id = #{userId}
+		<if test="key != null">
+			AND (u.phone = #{key} OR u.name LIKE '%${key}%')
+		</if>
+	</select>
+	<select id="getCourseClassOrderManageList2_0" parameterType="java.lang.String"
+		resultMap="courseClassSign">
+		SELECT
+		cco.id AS id,cco.code AS `code`,cco.class_id AS class_id,cc.name AS
+		class_name,
+		cco.user_id AS user_id,cco.user_name AS user_name,u.photo AS user_photo,
+		cco.institution_id AS institution_id,cco.institution_name AS
+		institution_name,
+		cco.user_count AS user_count,cco.price AS price,cco.create_time AS create_time
+		FROM course_classes_order cco JOIN course_classes cc ON cco.class_id =
+		cc.id
+		JOIN `user` u ON cco.user_id = u.id WHERE cco.institution_id = #{0}
+	</select>
+</mapper>

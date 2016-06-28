@@ -56,4 +56,6 @@ public interface ChildActivityMapper {
     
     public void deleteAllActivityMyAnswerAsk(List<Integer> ids) throws Exception;
 
+    public List<ChildActivity> getMyActivityList(@Param("userId") String userId,@Param("page") Page page) throws Exception;
+
 }
