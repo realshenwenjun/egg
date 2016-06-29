@@ -1,31 +1,23 @@
 package com.dskj.activity.controll;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.dskj.activity.entity.CancelReason;
-import com.dskj.activity.entity.ChildActivity;
-import com.dskj.activity.entity.ChildActivityAsk;
-import com.dskj.activity.entity.ChildActivityCollect;
-import com.dskj.activity.entity.ChildActivityImg;
-import com.dskj.activity.entity.ChildActivityLove;
-import com.dskj.activity.entity.ChildActivityReservation;
+import com.dskj.activity.entity.*;
 import com.dskj.activity.service.CancelResonService;
 import com.dskj.activity.service.ChildActivityReservationService;
 import com.dskj.activity.service.ChildActivityService;
 import com.dskj.base.Base;
 import com.dskj.util.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class ChildActivtiyControll extends Base {
@@ -864,12 +856,30 @@ public class ChildActivtiyControll extends Base {
      */
     @RequestMapping("/childActivity/my/list")
     public void getMyActivityList(HttpServletRequest request,
-                                          HttpServletResponse response) {
+                                  HttpServletResponse response) {
         try {
             String jsonString = request.getParameter("childActivity");
             logger.info(jsonString);
             Page page = stringToObj(jsonString, Page.class);
-            List<ChildActivity> list = childActivityService.getMyActivityList(readTree(jsonString, "userId"),page);
+            List<ChildActivity> list = childActivityService.getMyActivityList(readTree(jsonString, "userId"), page);
+            write(response, null, null, null, list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            write(response, false, 911, e.getMessage(), null);
+        }
+    }
+
+    /*
+     * 活动报名列表 childActivity={"activityId":0,"pageNo":0,"pageSize":10}
+     */
+    @RequestMapping("/childActivity/sign/user/list")
+    public void getActivityUserSign(HttpServletRequest request,
+                                    HttpServletResponse response) {
+        try {
+            String jsonString = request.getParameter("childActivity");
+            logger.info(jsonString);
+            Page page = stringToObj(jsonString, Page.class);
+            List<UserActivitySign> list = childActivityService.getActivityUserSign(readTreeAsInt(jsonString, "activityId"), page);
             write(response, null, null, null, list);
         } catch (Exception e) {
             e.printStackTrace();

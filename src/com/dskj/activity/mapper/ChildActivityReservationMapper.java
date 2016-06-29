@@ -2,6 +2,7 @@ package com.dskj.activity.mapper;
 
 import java.util.List;
 
+import com.dskj.activity.entity.UserActivitySign;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -34,4 +35,6 @@ public interface ChildActivityReservationMapper {
     List<ChildActivityReservation> selectListBySelectiveNoPage(@Param("record") ChildActivityReservation record);
     
     public List<CancelReason> getCancelCensus() throws Exception;
+
+    List<UserActivitySign> getActivityUserSign(@Param("activityId") Integer activityId,@Param("page") Page page) throws Exception;
 }

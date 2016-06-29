@@ -1,32 +1,15 @@
 package com.dskj.activity.service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.dskj.activity.entity.CancelReason;
-import com.dskj.activity.entity.ChildActivity;
-import com.dskj.activity.entity.ChildActivityAsk;
-import com.dskj.activity.entity.ChildActivityCollect;
-import com.dskj.activity.entity.ChildActivityComment;
-import com.dskj.activity.entity.ChildActivityImg;
-import com.dskj.activity.entity.ChildActivityLove;
-import com.dskj.activity.entity.ChildActivityReservation;
-import com.dskj.activity.mapper.ChildActivityCollectMapper;
-import com.dskj.activity.mapper.ChildActivityCommentMapper;
-import com.dskj.activity.mapper.ChildActivityImgMapper;
-import com.dskj.activity.mapper.ChildActivityLoveMapper;
-import com.dskj.activity.mapper.ChildActivityMapper;
-import com.dskj.activity.mapper.ChildActivityReservationMapper;
+import com.dskj.activity.entity.*;
+import com.dskj.activity.mapper.*;
 import com.dskj.base.Base;
 import com.dskj.comment.entity.Comment;
 import com.dskj.comment.mapper.CommentMapper;
 import com.dskj.util.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 @Service
 public class ChildActivityServiceImpl extends Base implements ChildActivityService {
@@ -222,5 +205,12 @@ public class ChildActivityServiceImpl extends Base implements ChildActivityServi
     @Override
     public List<ChildActivity> getMyActivityList(String userId, Page page) throws Exception {
         return childActivityMapper.getMyActivityList(userId,page);
+    }
+
+    @Override
+    public List<UserActivitySign> getActivityUserSign(Integer activityId, Page page) throws Exception {
+        if (activityId == 0)
+            activityId = null;
+        return childActivityReservationMapper.getActivityUserSign(activityId,page);
     }
 }

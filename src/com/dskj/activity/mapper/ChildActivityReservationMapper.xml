@@ -27,6 +27,17 @@
 		<result column="state" property="state" jdbcType="INTEGER" />
 		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
 	</resultMap>
+	<resultMap id="userActivitySign" type="com.dskj.activity.entity.UserActivitySign">
+		<result column="user_id" property="userId"/>
+		<result column="user_phone" property="userPhone"/>
+		<result column="user_photo" property="userPhoto"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_sex" property="userSex"/>
+		<result column="reserve_count" property="reserveCount"/>
+		<result column="activity_id" property="activityId"/>
+		<result column="activity_name" property="activityName"/>
+		<result column="create_time" property="createTime"/>
+	</resultMap>
 	<sql id="Base_Column_List">
 		id, order_number, child_activity_id, user_id, realname, phone,
 		reserve_count, price, state, cancel_code , cancel_remark ,create_time
@@ -233,5 +244,16 @@
 	</select>
 	<select id="getCancelCensus" resultMap="cancelReason">
 		SELECT (SELECT COUNT(*) FROM child_activity_reservation car WHERE car.cancel_code = cr.id) AS state,cr.* FROM cancel_reason cr
+	</select>
+	<select id="getActivityUserSign" resultMap="userActivitySign">
+		select u.id as user_id,u.phone as user_phone,u.photo as user_photo,u.name as user_name,u.sex as user_sex,
+		car.reserve_count as reserve_count,ca.id as activity_id,ca.name as activity_name,car.create_time
+		from child_activity_reservation car JOIN `user` u on car.user_id = u.id JOIN child_activity ca on car.child_activity_id = ca.id
+		WHERE car.state = 1
+		<if test="activityId != null">
+			and car.child_activity_id = #{activityId}
+		</if>
+		ORDER BY car.create_time DESC
+		limit #{page.pageNo},#{page.pageSize}
 	</select>
 </mapper>
