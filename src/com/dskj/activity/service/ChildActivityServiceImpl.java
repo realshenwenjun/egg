@@ -213,4 +213,11 @@ public class ChildActivityServiceImpl extends Base implements ChildActivityServi
             activityId = null;
         return childActivityReservationMapper.getActivityUserSign(activityId,page);
     }
+
+	@Override
+	public int getActivityUserSignCount(Integer activityId) throws Exception {
+		if (activityId == 0)
+            activityId = null;
+		return childActivityReservationMapper.getActivityUserSignCount(activityId);
+	}
 }

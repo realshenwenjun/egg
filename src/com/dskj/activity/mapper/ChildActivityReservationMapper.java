@@ -37,4 +37,6 @@ public interface ChildActivityReservationMapper {
     public List<CancelReason> getCancelCensus() throws Exception;
 
     List<UserActivitySign> getActivityUserSign(@Param("activityId") Integer activityId,@Param("page") Page page) throws Exception;
+    
+    int getActivityUserSignCount(@Param("activityId") Integer activityId) throws Exception;
 }

@@ -256,4 +256,12 @@
 		ORDER BY car.create_time DESC
 		limit #{page.pageNo},#{page.pageSize}
 	</select>
+	<select id="getActivityUserSignCount" resultType="int">
+		select count(*)
+		from child_activity_reservation car JOIN child_activity ca on car.child_activity_id = ca.id
+		WHERE car.state = 1
+		<if test="activityId != null">
+			and car.child_activity_id = #{activityId}
+		</if>
+	</select>
 </mapper>

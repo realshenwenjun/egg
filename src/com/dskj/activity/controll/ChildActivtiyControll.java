@@ -886,4 +886,20 @@ public class ChildActivtiyControll extends Base {
             write(response, false, 911, e.getMessage(), null);
         }
     }
+    /*
+     * 活动报名数量 childActivity={"activityId":0}
+     */
+    @RequestMapping("/childActivity/sign/user/count")
+    public void getActivityUserSignCount(HttpServletRequest request,
+                                    HttpServletResponse response) {
+        try {
+            String jsonString = request.getParameter("childActivity");
+            logger.info(jsonString);
+            int count = childActivityService.getActivityUserSignCount(readTreeAsInt(jsonString, "activityId"));
+            write(response, null, null, null, count);
+        } catch (Exception e) {
+            e.printStackTrace();
+            write(response, false, 911, e.getMessage(), null);
+        }
+    }
 }

@@ -61,4 +61,6 @@ public interface ChildActivityService {
     public List<ChildActivity> getMyActivityList(String userId,Page page) throws Exception;
 
     List<UserActivitySign> getActivityUserSign(Integer activityId,Page page) throws Exception;
+    
+    public int getActivityUserSignCount(Integer activityId) throws Exception;
 }
