@@ -75,7 +75,10 @@
 	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
 		select
-		<include refid="Base_Column_List" />
+		id, institution_id,ticket_type, activity_type, title, name,
+		price,old_price,(SELECT count(*) from child_activity_reservation car WHERE  car.child_activity_id = id AND car.state = 1) as sale_count, thumb_img, adver_img,short_detail,detail,
+		url,share_count, comment_count,
+		create_time,begin_date,end_date,reserve_begin_date,reserve_end_date
 		from child_activity
 		where id = #{id,jdbcType=INTEGER}
 	</select>
