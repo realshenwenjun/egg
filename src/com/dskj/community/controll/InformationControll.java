@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +32,12 @@ public class InformationControll extends Base {
 			logger.info(jsoString);
 			List<String> imgUrls = jsonToList(readTree(jsoString, "imgUrls"),
 					ArrayList.class, String.class);
+			String detailTemp = "";
+            detailTemp = readTree(jsoString, "context").replaceAll("\b","+").replaceAll(" ","+");
 			Integer infoId = informationService.addInformation(
 					readTree(jsoString, "userId"),
 					readTree(jsoString, "title"),
-					readTree(jsoString, "context"), imgUrls);
+					new String(Base64.decodeBase64(detailTemp),"UTF-8"), imgUrls);
 			write(response, null, null, null, infoId);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -51,10 +54,12 @@ public class InformationControll extends Base {
 		try {
 			String jsoString = request.getParameter("information");
 			logger.info(jsoString);
+			String detailTemp = "";
+            detailTemp = readTree(jsoString, "context").replaceAll("\b","+").replaceAll(" ","+");
 			informationService.updateInformation(
 					readTreeAsInt(jsoString, "id"),
 					readTree(jsoString, "title"),
-					readTree(jsoString, "context"),
+					new String(Base64.decodeBase64(detailTemp),"UTF-8"),
 					readTree(jsoString, "imgUrl"));
 			write(response, null, null, null, null);
 		} catch (Exception e) {

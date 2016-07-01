@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,9 @@ public class AnnouncementControll extends Base {
 			Announcement announcement = stringToObj(jsonString,
 					Announcement.class);
 			announcement.setCreateTime(new Date());
+			String detailTemp = "";
+            detailTemp = announcement.getContent().replaceAll("\b","+").replaceAll(" ","+");
+            announcement.setContent(new String(Base64.decodeBase64(detailTemp),"UTF-8"));
 			if (announcement.getUserId() == null
 					|| "".equals(announcement.getUserId()))
 				write(response, false, 500, "参数不完整", null);
@@ -63,6 +67,9 @@ public class AnnouncementControll extends Base {
 			logger.info(jsonString);
 			Announcement announcement = stringToObj(jsonString,
 					Announcement.class);
+			String detailTemp = "";
+            detailTemp = announcement.getContent().replaceAll("\b","+").replaceAll(" ","+");
+            announcement.setContent(new String(Base64.decodeBase64(detailTemp),"UTF-8"));
 			announcementService.update(announcement);
 			write(response, null, null, null, null);
 		} catch (Exception e) {

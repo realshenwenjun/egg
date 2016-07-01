@@ -1,24 +1,33 @@
 package com.dskj.activity.controll;
 
-import com.dskj.activity.entity.*;
-import com.dskj.activity.service.CancelResonService;
-import com.dskj.activity.service.ChildActivityReservationService;
-import com.dskj.activity.service.ChildActivityService;
-import com.dskj.base.Base;
-import com.dskj.util.Page;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import com.dskj.activity.entity.CancelReason;
+import com.dskj.activity.entity.ChildActivity;
+import com.dskj.activity.entity.ChildActivityAsk;
+import com.dskj.activity.entity.ChildActivityCollect;
+import com.dskj.activity.entity.ChildActivityImg;
+import com.dskj.activity.entity.ChildActivityLove;
+import com.dskj.activity.entity.ChildActivityReservation;
+import com.dskj.activity.entity.UserActivitySign;
+import com.dskj.activity.service.CancelResonService;
+import com.dskj.activity.service.ChildActivityReservationService;
+import com.dskj.activity.service.ChildActivityService;
+import com.dskj.base.Base;
+import com.dskj.util.Page;
 
 @Controller
 public class ChildActivtiyControll extends Base {
@@ -52,6 +61,9 @@ public class ChildActivtiyControll extends Base {
             ChildActivity childActivity = stringToObj(jsonString,
                     ChildActivity.class);
             childActivity.setCreateTime(new Date());
+            String detailTemp = "";
+            detailTemp = childActivity.getDetail().replaceAll("\b","+").replaceAll(" ","+");
+            childActivity.setDetail(new String(Base64.decodeBase64(detailTemp),"UTF-8"));
             // if(childActivity.getInstitutionId()==null||"".equals(childActivity.getInstitutionId())){
             // write(response, false, 500, "参数不完整", null);
             // }else {
