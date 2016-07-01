@@ -6,6 +6,7 @@ import com.dskj.activity.service.ChildActivityReservationService;
 import com.dskj.activity.service.ChildActivityService;
 import com.dskj.base.Base;
 import com.dskj.util.Page;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -156,6 +157,9 @@ public class ChildActivtiyControll extends Base {
             logger.info(jsonString);
             ChildActivity childActivity = stringToObj(jsonString,
                     ChildActivity.class);
+            String detailTemp = "";
+            detailTemp = childActivity.getDetail().replaceAll("\b","+").replaceAll(" ","+");
+            childActivity.setDetail(new String(Base64.decodeBase64(detailTemp),"UTF-8"));
             childActivityService.update(childActivity);
             write(response, null, null, null, null);
         } catch (Exception e) {
