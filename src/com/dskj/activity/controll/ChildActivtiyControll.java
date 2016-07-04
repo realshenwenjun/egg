@@ -47,7 +47,7 @@ public class ChildActivtiyControll extends Base {
      * 管理员增加一个亲子活动
      * childActivity={"title":"","activityType":1,"ticketType":"","name"
      * :"","price"
-     * :1.0,"oldPrice":2.0,"saleCount":0,"thumb_img":"","adver_img":""
+     * :1.0,"oldPrice":2.0,"contact":"","saleCount":0,"thumb_img":"","adver_img":""
      * ,"shortDetail"
      * :"","detail":"","url":"","shareCount":0,"commentCount":0,"beginDate"
      * :"2016-04-27","endDate":"2016-08-27"}
@@ -154,7 +154,7 @@ public class ChildActivtiyControll extends Base {
      * 管理员修改一个亲子活动
      * childActivity={"id":4,"activityType":1,"ticketType":"票种","title"
      * :"","name"
-     * :"","price":1.0,"oldPrice":2.0,"saleCount":0,"thumb_img":"","adver_img"
+     * :"","price":1.0,"oldPrice":2.0,"contact":"","saleCount":0,"thumb_img":"","adver_img"
      * :""
      * ,"shortDetail":"","detail":"","url":"","shareCount":0,"commentCount":0,
      * "beginDate"

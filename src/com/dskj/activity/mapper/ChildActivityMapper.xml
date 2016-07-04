@@ -12,6 +12,7 @@
 		<result column="name" jdbcType="VARCHAR" property="name" />
 		<result column="price" jdbcType="DECIMAL" property="price" />
 		<result column="old_price" jdbcType="DECIMAL" property="oldPrice" />
+		<result column="contact" jdbcType="VARCHAR" property="contact" />
 		<result column="sale_count" jdbcType="INTEGER" property="saleCount" />
 		<result column="thumb_img" jdbcType="VARCHAR" property="thumbImg" />
 		<result column="adver_img" jdbcType="VARCHAR" property="adverImg" />
@@ -76,7 +77,7 @@
 		resultMap="BaseResultMap">
 		select
 		id, institution_id,ticket_type, activity_type, title, name,
-		price,old_price,(SELECT count(*) from child_activity_reservation car WHERE  car.child_activity_id = #{id,jdbcType=INTEGER} AND car.state = 1) as sale_count, thumb_img, adver_img,short_detail,detail,
+		price,old_price,contact,(SELECT count(*) from child_activity_reservation car WHERE  car.child_activity_id = #{id,jdbcType=INTEGER} AND car.state = 1) as sale_count, thumb_img, adver_img,short_detail,detail,
 		url,share_count, comment_count,
 		create_time,begin_date,end_date,reserve_begin_date,reserve_end_date
 		from child_activity
@@ -90,14 +91,14 @@
 		</selectKey>
 		insert into child_activity (institution_id,activity_type,ticket_type,
 		title, name,
-		price, old_price,sale_count, thumb_img,
+		price, old_price,contact,sale_count, thumb_img,
 		adver_img,short_detail, detail,url,share_count,
 		comment_count,
 		create_time,begin_date,end_date,reserve_begin_date,reserve_end_date)
 		values
 		(#{institutionId,jdbcType=VARCHAR},#{activityType,jdbcType=INTEGER},#{ticketType,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR},
 		#{name,jdbcType=VARCHAR},
-		#{price,jdbcType=DECIMAL},#{oldPrice,jdbcType=DECIMAL},
+		#{price,jdbcType=DECIMAL},#{oldPrice,jdbcType=DECIMAL},#{contact,jdbcType=VARCHAR},
 		#{saleCount,jdbcType=INTEGER},
 		#{thumbImg,jdbcType=VARCHAR},
 		#{adverImg,jdbcType=VARCHAR},#{shortDetail,jdbcType=VARCHAR},
@@ -262,6 +263,9 @@
 			</if>
 			<if test="old_price != null">
 				old_price = #{oldPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="contact != null">
+				contact = #{contact,jdbcType=VARCHAR},
 			</if>
 			<if test="saleCount != null">
 				sale_count = #{saleCount,jdbcType=INTEGER},
