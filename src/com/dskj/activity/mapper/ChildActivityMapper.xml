@@ -322,6 +322,8 @@
 		= #{name,jdbcType=VARCHAR},
 		price = #{price,jdbcType=DECIMAL},
 		old_price = #{oldPrice,jdbcType=DECIMAL},
+		contact =
+		#{contact,jdbcType=VARCHAR},
 		sale_count =
 		#{saleCount,jdbcType=INTEGER},
 		thumb_img =
