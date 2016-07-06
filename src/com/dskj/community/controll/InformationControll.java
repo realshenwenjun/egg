@@ -37,6 +37,7 @@ public class InformationControll extends Base {
 			Integer infoId = informationService.addInformation(
 					readTree(jsoString, "userId"),
 					readTree(jsoString, "title"),
+					readTree(jsoString,"summary"),
 					new String(Base64.decodeBase64(detailTemp),"UTF-8"), imgUrls);
 			write(response, null, null, null, infoId);
 		} catch (Exception e) {
@@ -59,6 +60,7 @@ public class InformationControll extends Base {
 			informationService.updateInformation(
 					readTreeAsInt(jsoString, "id"),
 					readTree(jsoString, "title"),
+					readTree(jsoString,"summary"),
 					new String(Base64.decodeBase64(detailTemp),"UTF-8"),
 					readTree(jsoString, "imgUrl"));
 			write(response, null, null, null, null);
