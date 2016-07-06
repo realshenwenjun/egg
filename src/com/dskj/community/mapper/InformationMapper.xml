@@ -5,6 +5,7 @@
     <resultMap type="com.dskj.community.entity.Information" id="informationList">
     	<result property="id" column="id"/>
     	<result property="title" column="title"/>
+    	<result property="summary" column="summary"/>
     	<result property="context" column="context"/>
     	<result property="createTime" column="create_time"/>
     	<result property="loveCount" column="love_count"/>
@@ -23,13 +24,13 @@
         SELECT 1
     </select>
     <insert id="add" parameterType="com.dskj.community.entity.Information" useGeneratedKeys="true" keyProperty="id">
-    	INSERT INTO community_info (user_id,title,context,create_time) VALUES (#{userId},#{title},#{context},#{createTime})
+    	INSERT INTO community_info (user_id,title,summary,context,create_time) VALUES (#{userId},#{title},#{summary},#{context},#{createTime})
     </insert>
     <delete id="delete" parameterType="int">
     	DELETE FROM community_info WHERE id = #{0}
     </delete>
     <select id="getList" resultMap="informationList">
-    	SELECT ci.id AS id,ci.title AS title,ci.context AS context,ci.create_time AS create_time,
+    	SELECT ci.id AS id,ci.title AS title,ci.summary AS summary,null AS context,ci.create_time AS create_time,
 		(SELECT COUNT(*) FROM community_info_love cil WHERE cil.info_id = ci.id) AS love_count,
 		(SELECT COUNT(*) FROM community_info_collect cil WHERE cil.info_id = ci.id) AS collect_count,
 		(SELECT COUNT(*) FROM community_info_comment cic WHERE cic.info_id = ci.id) AS comment_count,
@@ -38,7 +39,7 @@
 		FROM community_info ci ORDER BY ci.create_time DESC LIMIT #{page.pageNo},#{page.pageSize}
     </select>
 	<select id="get" resultMap="informationList">
-		SELECT ci.id AS id,ci.title AS title,ci.context AS context,ci.create_time AS create_time,
+		SELECT ci.id AS id,ci.title AS title,ci.summary AS summary,ci.context AS context,ci.create_time AS create_time,
 		(SELECT COUNT(*) FROM community_info_love cil WHERE cil.info_id = ci.id) AS love_count,
 		(SELECT COUNT(*) FROM community_info_collect cil WHERE cil.info_id = ci.id) AS collect_count,
 		(SELECT COUNT(*) FROM community_info_comment cic WHERE cic.info_id = ci.id) AS comment_count,
@@ -64,6 +65,6 @@
 		SELECT COUNT(*) FROM community_info
 	</select>
 	<update id="update">
-		UPDATE community_info SET context = #{context},title = #{title} WHERE id = #{id}
+		UPDATE community_info SET context = #{context},title = #{title},summary = #{summary} WHERE id = #{id}
 	</update>
 </mapper>

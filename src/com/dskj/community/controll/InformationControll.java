@@ -22,7 +22,7 @@ public class InformationControll extends Base {
 	private InformationService informationService;
 
 	/*
-	 * 增加一个资讯 information={"userId":"","title":"","context":"","imgUrls":[""]}
+	 * 增加一个资讯 information={"userId":"","title":"","summary":"","context":"","imgUrls":[""]}
 	 */
 	@RequestMapping("/information/add")
 	public void addInformation(HttpServletRequest request,
@@ -46,7 +46,7 @@ public class InformationControll extends Base {
 	}
 
 	/*
-	 * 修改一个资讯 information={"id":1,"title":"","context":"","imgUrl":""}
+	 * 修改一个资讯 information={"id":1,"title":"","summary":"","context":"","imgUrl":""}
 	 */
 	@RequestMapping("/information/update")
 	public void updateInformation(HttpServletRequest request,
