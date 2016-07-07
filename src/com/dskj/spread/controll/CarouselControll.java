@@ -7,6 +7,7 @@ import com.dskj.spread.entity.CarouselDetail;
 import com.dskj.spread.entity.CarouselLove;
 import com.dskj.spread.service.CarouselService;
 import com.dskj.util.Page;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,9 @@ public class CarouselControll extends Base {
             String jsonString = request.getParameter("carousel");
             logger.info(jsonString);
             Carousel carousel = stringToObj(jsonString, Carousel.class);
+            String detailTemp = "";
+            detailTemp = carousel.getContext().replaceAll("\b", "+").replaceAll(" ","+");
+            carousel.setContext(new String(Base64.decodeBase64(detailTemp), "UTF-8"));
             carousel.setCreateTime(new Date());
             carouselService.add(carousel);
             write(response, null, null, null, carousel.getPath());
@@ -52,7 +56,9 @@ public class CarouselControll extends Base {
             logger.info(jsonString);
             Carousel carousel = new Carousel();
             carousel.setId(readTreeAsInt(jsonString, "id"));
-            carousel.setContext(readTree(jsonString, "context"));
+            String detailTemp = "";
+            detailTemp = readTree(jsonString, "context").replaceAll("\b", "+").replaceAll(" ","+");
+            carousel.setContext(new String(Base64.decodeBase64(detailTemp),"UTF-8"));
             carousel.setPath(readTree(jsonString, "path"));
             carousel.setVal(readTree(jsonString, "val"));
             carousel.setTitle(readTree(jsonString, "title"));
