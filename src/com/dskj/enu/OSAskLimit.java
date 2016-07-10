@@ -7,7 +7,7 @@ import java.util.Calendar;
  */
 public enum OSAskLimit {
     ANDROID, IOS, OTHER;
-    private int o = 300000;
+    private int o = 300000000;
     private int i = 0;
     private long d = 86400000;
     private long time = 0;
