@@ -488,6 +488,8 @@ public class UserServiceImpl extends Base implements UserService {
 	public List<UserEntity> getFirendSearch2_0(String key,List<String> ids) throws Exception {
 		if(ids == null || ids.size()== 0)
 			ids = null;
+		if (key == null || "".equals(key))
+            key = null;
 		return userMapper.getFirendSearch2_0(key, ids);
 	}
 

@@ -262,9 +262,12 @@
     <select id="getFirendSearch2_0"
             resultMap="userEntity">
         SELECT * FROM user u
-        WHERE (u.phone = #{key} or u.name like '%${key}%')
+        WHERE 1 = 1
+        <if test="key != null">
+        AND (u.phone = #{key} or u.name like '%${key}%')
+        </if>
         <if test="ids!=null">
-	        u.id in
+	       AND u.id in
 	        <foreach collection="ids" item="id" index="index" open="("
 	                 separator="," close=")">#{id}
 	        </foreach>
