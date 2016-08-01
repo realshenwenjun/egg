@@ -51,14 +51,14 @@
 		love_count,
 		(SELECT cpl.id FROM community_post_love cpl WHERE
 		cpl.post_id = cp.id AND
-		cpl.user_id = #{userId}) AS love_id,
+		cpl.user_id = #{userId} limit 1) AS love_id,
 		(SELECT
 		COUNT(*) FROM community_post_collect cpc WHERE cpc.post_id = cp.id)
 		AS
 		collect_count,
 		(SELECT cpc.id FROM community_post_collect cpc WHERE
 		cpc.post_id = cp.id AND
-		cpc.user_id = #{userId}) AS collect_id,
+		cpc.user_id = #{userId} limit 1) AS collect_id,
 		(SELECT
 		COUNT(*) FROM community_post_comment cpc WHERE cpc.post_id = cp.id)
 		AS
@@ -90,7 +90,7 @@
 		(SELECT cpl.id FROM community_post_love cpl WHERE
 		cpl.post_id = cp.id
 		AND
-		cpl.user_id = #{userId}) AS love_id,
+		cpl.user_id = #{userId} limit 1) AS love_id,
 		(SELECT
 		COUNT(*) FROM
 		community_post_collect cpc WHERE cpc.post_id = cp.id)
@@ -99,14 +99,14 @@
 		(SELECT cpc.id FROM community_post_collect cpc WHERE
 		cpc.post_id =
 		cp.id AND
-		cpc.user_id = #{userId}) AS collect_id,
+		cpc.user_id = #{userId} limit 1) AS collect_id,
 		(SELECT
 		COUNT(*) FROM
 		community_post_comment cpc WHERE cpc.post_id = cp.id)
 		AS
 		comment_count
 		FROM community_post cp JOIN `user` u ON cp.user_id = u.id ORDER BY
-		love_count,collect_count,comment_count DESC LIMIT
+		comment_count DESC,cp.create_time DESC LIMIT
 		#{page.pageNo},#{page.pageSize}
 	</select>
 	<select id="getPostDetail" resultMap="postDetail" useCache="false">

@@ -34,8 +34,8 @@
 		(SELECT COUNT(*) FROM community_info_love cil WHERE cil.info_id = ci.id) AS love_count,
 		(SELECT COUNT(*) FROM community_info_collect cil WHERE cil.info_id = ci.id) AS collect_count,
 		(SELECT COUNT(*) FROM community_info_comment cic WHERE cic.info_id = ci.id) AS comment_count,
-		(SELECT cil.id FROM community_info_love cil WHERE cil.info_id = ci.id AND cil.user_id = #{userId}) AS love_id,
-		(SELECT cil.id FROM community_info_collect cil WHERE cil.info_id = ci.id AND cil.user_id = #{userId}) AS collect_id
+		(SELECT cil.id FROM community_info_love cil WHERE cil.info_id = ci.id AND cil.user_id = #{userId} limit 1) AS love_id,
+		(SELECT cil.id FROM community_info_collect cil WHERE cil.info_id = ci.id AND cil.user_id = #{userId} limit 1) AS collect_id
 		FROM community_info ci ORDER BY ci.create_time DESC LIMIT #{page.pageNo},#{page.pageSize}
     </select>
 	<select id="get" resultMap="informationList">
