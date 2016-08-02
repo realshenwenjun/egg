@@ -29,6 +29,16 @@ public class InstitutionFace implements Serializable {
     private Integer loveId;
     private String sign;
     private List<String> courseName;
+    private String courseType;
+
+
+    public String getCourseType() {
+        return courseType;
+    }
+
+    public void setCourseType(String courseType) {
+        this.courseType = courseType;
+    }
 
     public String getId() {
         return id;

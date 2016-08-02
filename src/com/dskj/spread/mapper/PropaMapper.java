@@ -22,4 +22,6 @@ public interface PropaMapper extends CacheBean{
 	
 	public Propagate get(int id) throws Exception;
 
+	public void deleteByInstitutionId(String institutionId) throws Exception;
+
 }

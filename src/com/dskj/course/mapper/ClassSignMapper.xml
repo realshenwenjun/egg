@@ -277,4 +277,10 @@
 		cc.id
 		JOIN `user` u ON cco.user_id = u.id WHERE cco.institution_id = #{0} AND DATE(cco.create_time) = DATE(#{1})
 	</select>
+	<delete id="deleteByInstitutionId">
+		DELETE  FROM course_classes_order where institution_id = #{0}
+	</delete>
+	<delete id="deleteSignByInstitutionId">
+		DELETE FROM course_classes_sign where institution_id = #{0}
+	</delete>
 </mapper>

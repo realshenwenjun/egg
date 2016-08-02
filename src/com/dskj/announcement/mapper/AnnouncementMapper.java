@@ -41,5 +41,7 @@ public interface AnnouncementMapper extends CacheBean{
 	public int getAnnouncementAllCount(String userId) throws Exception;
 	
 	public int getAnnouncementReadedCount(String userId) throws Exception;
+
+	public void deleteByInstitutionId(String institutionId) throws Exception;
 	
 }

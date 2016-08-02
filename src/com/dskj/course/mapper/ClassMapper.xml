@@ -378,4 +378,7 @@
 		WHERE cc.`user_id` = #{0} AND cc.`start_date` &lt;= DATE(#{1}) AND cc.`end_date` >= DATE(#{1})
 		ORDER BY cc.start_time
 	</select>
+	<delete id="deleteByInstitutionId">
+		DELETE FROM course_classes where institution_id = #{0}
+	</delete>
 </mapper>

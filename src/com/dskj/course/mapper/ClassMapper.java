@@ -62,5 +62,7 @@ public interface ClassMapper extends CacheBean{
 	public List<CourseClassManageList> getCourseClassManageList2_0(String userId,Date date) throws Exception;
 
 	public List<TeacherClassPlan> getCourseClassTeacherPlanList2_0(String userId,Date date) throws Exception;
+
+	public void deleteByInstitutionId(String institutionId) throws Exception;
 	
 }

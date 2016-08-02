@@ -120,4 +120,6 @@ public interface InstitutionMapper extends CacheBean {
     public int getInstitutionCount(@Param("key") String key) throws Exception;
     
     public void deleteInstitution(String institutionId) throws Exception;
+
+    public void deleteReleationByDeletedInstitution(String institutionId) throws Exception;
 }

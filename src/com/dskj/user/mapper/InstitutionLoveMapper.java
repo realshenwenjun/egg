@@ -14,4 +14,6 @@ public interface InstitutionLoveMapper extends CacheBean {
     public int getInstitutionLoveCount(String institutionId) throws Exception;
 
     public Integer getLoveId(String institutionId, String userId) throws Exception;
+
+    public void deleteByInstitutionId(String institutionId) throws Exception;
 }

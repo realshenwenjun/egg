@@ -19,4 +19,6 @@ public interface InstitutionFansMapper extends CacheBean {
     public void delete(Integer id) throws Exception;
     
     public List<MyFans> getUserFansList2_0(String userId) throws Exception;
+
+    public void deleteByInstitutionId(String institutionId) throws Exception;
 }
