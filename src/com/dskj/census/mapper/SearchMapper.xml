@@ -31,6 +31,7 @@
 		<result property="activityOldPrice" column="activity_old_price" />
 		<result property="activityPrice" column="activity_price" />
 		<result property="activitySaleCount" column="activity_sale_count" />
+		<result property="activityUrl" column="activity_url" />
 		<result property="postId" column="post_id" />
 		<result property="postContext" column="post_context" />
 		<result property="postUserName" column="post_user_name" />
@@ -69,7 +70,7 @@
 		class_start_time,NULL AS class_end_time,NULL class_teacher_name,NULL
 		AS class_price,
 		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
-		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,
+		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,null as activity_url,
 		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
 		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
 		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
@@ -88,7 +89,7 @@
 		class_teacher_name,
 		cc.price AS class_price,
 		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
-		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,
+		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,null as activity_url,
 		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
 		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
 		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
@@ -107,7 +108,7 @@
 		AS class_price,
 		ca.id AS activity_id,ca.adver_img AS activity_adverImg,ca.title AS
 		activity_title,ca.old_price AS activity_old_price,ca.price AS
-		activity_price,ca.sale_count AS activity_sale_count,
+		activity_price,ca.sale_count AS activity_sale_count,ca.url as activity_url,
 		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
 		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
 		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
@@ -124,7 +125,7 @@
 		class_start_time,NULL AS class_end_time,NULL class_teacher_name,NULL
 		AS class_price,
 		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
-		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,
+		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,null as activity_url,
 		cp.id AS post_id,cp.context AS post_context,u.name AS post_user_name,
 		(SELECT
 		COUNT(*) FROM community_post_love cpl WHERE cpl.post_id = cp.id) AS
@@ -169,7 +170,7 @@
 		NULL AS
 		activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
 		AS
-		activity_old_price,NULL AS activity_price,0 AS activity_sale_count,
+		activity_old_price,NULL AS activity_price,0 AS activity_sale_count,null as activity_url,
 		NULL AS post_id,NULL AS
 		post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
 		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
@@ -195,7 +196,7 @@
 		class_start_time,NULL AS class_end_time,NULL class_teacher_name,NULL
 		AS class_price,
 		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
-		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,
+		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,null as activity_url,
 		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
 		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
 		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
@@ -215,7 +216,7 @@
 		AS class_price,
 		ca.id AS activity_id,ca.adver_img AS activity_adverImg,ca.title AS
 		activity_title,ca.old_price AS activity_old_price,ca.price AS
-		activity_price,ca.sale_count AS activity_sale_count,
+		activity_price,ca.sale_count AS activity_sale_count,ca.url as activity_url,
 		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
 		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
 		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
