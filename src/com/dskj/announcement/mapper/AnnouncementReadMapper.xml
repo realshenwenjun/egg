@@ -32,4 +32,7 @@
 	<select id="clear" resultType="int" flushCache="true">
 		SELECT 1
 	</select>
+	<delete id="deleteByInstitutionId">
+		DELETE from announcement_read where institution_id = #{0}
+	</delete>
 </mapper>

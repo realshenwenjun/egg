@@ -18,4 +18,7 @@
     <select id="getLoveId" resultType="java.lang.Integer">
         SELECT id FROM institution_love WHERE institution_id = #{0} AND user_id = #{1}
     </select>
+    <delete id="deleteByInstitutionId">
+        DELETE from institution_love WHERE institution_id = #{0}
+    </delete>
 </mapper>

@@ -5,6 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dskj.announcement.mapper.AnnouncementMapper;
+import com.dskj.announcement.mapper.AnnouncementReadMapper;
+import com.dskj.course.mapper.ClassMapper;
+import com.dskj.course.mapper.ClassSignMapper;
+import com.dskj.spread.mapper.PropaMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +56,16 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
     private InstitutionVisitMapper institutionVisitMapper;
     @Autowired
     private InstitutionFansMapper institutionFansMapper;
+    @Autowired
+    private AnnouncementMapper announcementMapper;
+    @Autowired
+    private AnnouncementReadMapper announcementReadMapper;
+    @Autowired
+    private ClassMapper classMapper;
+    @Autowired
+    private ClassSignMapper classSignMapper;
+    @Autowired
+    private PropaMapper propaMapper;
 
     public String addInstitution(InstitutionEntity institutionEntity, UserEntity userEntity) throws Exception {
         if (userEntity.getPhone() != null) {
@@ -301,5 +316,22 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
 
 	public void deleteInstitution(String institutionId) throws Exception {
 		institutionMapper.deleteInstitution(institutionId);
+        //删除机构的公告
+        announcementMapper.deleteByInstitutionId(institutionId);
+        //删除机构公告读
+        announcementReadMapper.deleteByInstitutionId(institutionId);
+        //删除班级
+        classMapper.deleteByInstitutionId(institutionId);
+        //删除班级报名
+        classSignMapper.deleteByInstitutionId(institutionId);
+        classSignMapper.deleteSignByInstitutionId(institutionId);
+        //删除机构fans
+        institutionFansMapper.deleteByInstitutionId(institutionId);
+        //删除机构love
+        institutionLoveMapper.deleteByInstitutionId(institutionId);
+        //删除机构propa
+        propaMapper.deleteByInstitutionId(institutionId);
+        //删除机构user
+        institutionMapper.deleteReleationByDeletedInstitution(institutionId);
 	}
 }

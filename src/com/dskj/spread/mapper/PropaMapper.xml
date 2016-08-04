@@ -34,4 +34,7 @@
 	<select id="clear" resultType="int" flushCache="true">
 		SELECT 1
 	</select>
+	<delete id="deleteByInstitutionId">
+		DELETE from institution_propa WHERE institution_id = #{0}
+	</delete>
 </mapper>

@@ -247,7 +247,8 @@
 		WHERE u.id NOT IN
 		(SELECT ccs.user_id
 		FROM course_classes_sign ccs WHERE ccs.classes_id =
-		#{classId})
+		#{classId}) AND
+		u.id IN (select cco.user_id from course_classes_order cco where cco.class_id = #{classId})
 		<if test="key != null">
 			AND (u.name LIKE '%${key}%' OR u.phone= #{key})
 		</if>
@@ -277,4 +278,10 @@
 		cc.id
 		JOIN `user` u ON cco.user_id = u.id WHERE cco.institution_id = #{0} AND DATE(cco.create_time) = DATE(#{1})
 	</select>
+	<delete id="deleteByInstitutionId">
+		DELETE  FROM course_classes_order where institution_id = #{0}
+	</delete>
+	<delete id="deleteSignByInstitutionId">
+		DELETE FROM course_classes_sign where institution_id = #{0}
+	</delete>
 </mapper>

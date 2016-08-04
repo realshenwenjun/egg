@@ -33,6 +33,7 @@
 		<result property="createTime" column="create_time" />
 		<result property="fatherInstitution" column="father_institution" />
 		<result property="sign" column="sign" />
+		<result property="courseType" column="course_type" />
 	</resultMap>
 	<resultMap type="com.dskj.user.entity.InstitutionWithPropa"
 		id="institutionWithPropa">
@@ -470,6 +471,7 @@
 		SELECT COUNT(*) FROM institution_user iu WHERE iu.user_id =
 		#{0}
 	</select>
+
 	<update id="updateMyOldType" parameterType="java.lang.String">
 		UPDATE `user` SET
 		old_type = `type` WHERE id = #{0}
@@ -490,5 +492,9 @@
 	<delete id="deleteInstitution" parameterType="java.lang.String">
 		delete from
 		institution where id = #{0}
+	</delete>
+	<delete id="deleteReleationByDeletedInstitution" parameterType="java.lang.String">
+		delete from
+		institution_user where institution_id = #{0}
 	</delete>
 </mapper>

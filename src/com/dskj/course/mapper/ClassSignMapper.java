@@ -58,5 +58,8 @@ public interface ClassSignMapper extends CacheBean{
 	public List<ClassSignUser> getCourseTeacherStudentList2_0(@Param("userId") String userId,@Param("key") String key) throws Exception;
 	
 	public List<CourseClassSign> getCourseClassOrderManageList2_0(String institutionId,Date date) throws Exception;
-	
+
+	public void deleteByInstitutionId(String institutionId) throws Exception;
+
+	public void deleteSignByInstitutionId(String institutionId) throws Exception;
 }

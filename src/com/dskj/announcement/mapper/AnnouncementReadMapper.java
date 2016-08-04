@@ -14,5 +14,7 @@ public interface AnnouncementReadMapper extends CacheBean{
 	public void deleteRead(List<Integer> announcementIds) throws Exception;
 	
 	public AnnouncementRead getRead(AnnouncementRead announcementRead) throws Exception;
+
+	public void deleteByInstitutionId(String institutionId) throws Exception;
 	
 }

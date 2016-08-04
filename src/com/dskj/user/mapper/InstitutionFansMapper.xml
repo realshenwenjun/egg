@@ -35,4 +35,7 @@
 		FROM institution_fans inf JOIN institution i ON inf.institution_id = i.id
 		WHERE inf.user_id = #{userId}
 	</select>
+	<delete id="deleteByInstitutionId">
+		DELETE from institution_fans WHERE institution_id = #{0}
+	</delete>
 </mapper>

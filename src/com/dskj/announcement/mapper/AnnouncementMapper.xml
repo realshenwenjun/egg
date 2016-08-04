@@ -203,7 +203,7 @@
 		#{page.pageNo},#{page.pageSize}
 	</select>
 	<select id="getUserType" parameterType="java.lang.String"
-		resultType="int">
+		resultType="java.lang.Integer">
 		SELECT u.type FROM user u WHERE u.id = #{0}
 	</select>
 	<select id="getAnnouncementCount" resultType="int">
@@ -245,4 +245,7 @@
 		WHERE a.institution_id IS NULL AND ar.user_id = #{userId} AND (a.create_time &gt;= (SELECT
 		u.create_time FROM user u WHERE u.id = #{userId}) OR a.type_id = 1))
 	</select>
+	<delete id="deleteByInstitutionId">
+		DELETE FROM announcement WHERE institution_id = #{0}
+	</delete>
 </mapper>

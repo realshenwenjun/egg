@@ -305,15 +305,12 @@ public class SearchResult implements Serializable{
 	public void setPostCollectId(Integer postCollectId) {
 		this.postCollectId = postCollectId;
 	}
+
 	public String getActivityUrl() {
 		return activityUrl;
 	}
+
 	public void setActivityUrl(String activityUrl) {
 		this.activityUrl = activityUrl;
 	}
-	
-	
-    
-    
-
 }
