@@ -247,7 +247,8 @@
 		WHERE u.id NOT IN
 		(SELECT ccs.user_id
 		FROM course_classes_sign ccs WHERE ccs.classes_id =
-		#{classId})
+		#{classId}) AND
+		u.id IN (select cco.user_id from course_classes_order cco where cco.class_id = #{classId})
 		<if test="key != null">
 			AND (u.name LIKE '%${key}%' OR u.phone= #{key})
 		</if>
