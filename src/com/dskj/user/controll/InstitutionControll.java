@@ -559,7 +559,7 @@ public class InstitutionControll extends Base {
 	}
 
 	/*
-	 * 添加分机构 institution={"institutionId":"","children":["",""]}
+	 * 添加分机构 institution={"institutionId":"","children":["",""],"credence":""}
 	 */
 	@RequestMapping("/institution/child/batch/add")
 	public void addBatchMyChildInstitution(HttpServletRequest request,
@@ -570,9 +570,19 @@ public class InstitutionControll extends Base {
 			List<String> childIds = jsonToList(
 					readTree(jsonString, "children"), ArrayList.class,
 					String.class);
-			institutionService.addBatchMyChildInstitution(
-					readTree(jsonString, "institutionId"), childIds);
-			write(response, null, null, null, null);
+			if(childIds != null && childIds.size() != 0){
+				write(response, false, 911, "请一个一个添加", null);
+				return;
+			}
+			boolean result = institutionService.addBatchMyChildInstitution(
+					readTree(jsonString, "institutionId"), childIds,readTree(jsonString, "credence"));
+			if(result){
+				write(response, null, null, null, null);
+				return;
+			}else {
+				write(response, false, 911, "添加失败，请确认填写的子机构凭证是正确的", null);
+				return;
+			}
 		} catch (Exception e) {
 			write(response, false, 911, e.getMessage(), null);
 		}

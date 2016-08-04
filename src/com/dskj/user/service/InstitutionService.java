@@ -56,7 +56,7 @@ public interface InstitutionService {
     
     public List<ChildInstitutionList> getUnMyChildInstitution(String institutionId,String key) throws Exception;
     
-    public void addBatchMyChildInstitution(String institutionId,List<String> childIds) throws Exception;
+    public boolean addBatchMyChildInstitution(String institutionId,List<String> childIds,String credence) throws Exception;
     
     public void deleteBatchMyChildInstitution(String institutionId,List<String> childIds) throws Exception;
     

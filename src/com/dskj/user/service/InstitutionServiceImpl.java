@@ -255,10 +255,14 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
 		return institutionMapper.getUnMyChildInstitution(institutionId,key);
 	}
 
-	public void addBatchMyChildInstitution(String institutionId,
-			List<String> childIds) throws Exception {
+	public boolean addBatchMyChildInstitution(String institutionId,
+			List<String> childIds,String credence) throws Exception {
+		InstitutionEntity institutionEntity = institutionMapper.getInstitutionById(credence);
+		if(institutionEntity == null || !institutionEntity.getId().equals(childIds.get(0)))
+			return false;
 		if(childIds != null && childIds.size() != 0)
 			institutionMapper.addBatchMyChildInstitution(institutionId,childIds);
+		return true;
 	}
 
 	public void deleteBatchMyChildInstitution(String institutionId,
