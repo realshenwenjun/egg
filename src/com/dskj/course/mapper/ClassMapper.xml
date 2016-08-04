@@ -52,6 +52,7 @@
 		<result property="id" column="id" />
 		<result property="cover" column="cover" />
 		<result property="institutionId" column="institution_id" />
+		<result property="institutionTel" column="institution_tel" />
 		<result property="courseTypeId" column="course_type_id" />
 		<result property="courseId" column="course_id" />
 		<result property="userId" column="user_id" />
@@ -254,7 +255,7 @@
 	</insert>
 	<select id="getCourseClassDetail2_0" parameterType="int"
 		resultMap="courseClassDetail">
-		SELECT * FROM course_classes WHERE id = #{0}
+		SELECT cc.*,i.tel as institution_tel FROM course_classes cc join institution i on cc.institution_id = i.id WHERE cc.id = #{0}
 	</select>
 	<select id="getClassImgUrls2_0" parameterType="java.util.HashMap"
 		resultType="java.lang.String">

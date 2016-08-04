@@ -119,23 +119,23 @@ public class PlanSignServiceImpl extends Base implements PlanSignService {
 	}
 
 	public Object getTeacherTodayPlanSignList(String userId, Date date) throws Exception {
-		Map<String,Object> cache = new HashMap<String, Object>();
+//		Map<String,Object> cache = new HashMap<String, Object>();
 		List<TeacherSign> list = planSignMapper.getTeacherTodayPlanSignList(userId, date);
-		List<TeacherSign> o = new ArrayList<TeacherSign>();
-		if (list != null && list.size() != 0){
-			for (TeacherSign teacherSign : list){
-				String key = getTeacherSignKey(teacherSign.getInstitutionId(), teacherSign.getCreateTime());
-				if (cache.get(key) == null){
-					cache.put(key, "");
-					if (key.contains("BEFORE"))
-						teacherSign.setType("before");
-					else
-						teacherSign.setType("after");
-					o.add(teacherSign);
-				}
-			}
-		}
-		return o;
+//		List<TeacherSign> o = new ArrayList<TeacherSign>();
+//		if (list != null && list.size() != 0){
+//			for (TeacherSign teacherSign : list){
+//				String key = getTeacherSignKey(teacherSign.getInstitutionId(), teacherSign.getCreateTime());
+//				if (cache.get(key) == null){
+//					cache.put(key, "");
+//					if (key.contains("BEFORE"))
+//						teacherSign.setType("before");
+//					else
+//						teacherSign.setType("after");
+//					o.add(teacherSign);
+//				}
+//			}
+//		}
+		return list;
 	}
 
 	public void clearCache() throws Exception {

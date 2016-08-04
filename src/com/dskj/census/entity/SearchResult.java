@@ -39,6 +39,7 @@ public class SearchResult implements Serializable{
 	private Double activityOldPrice;
 	private Double activityPrice;
 	private Integer activitySaleCount;
+	private String activityUrl;
 
 	private Integer postId;
 	private String postUserPhoto;
@@ -304,9 +305,12 @@ public class SearchResult implements Serializable{
 	public void setPostCollectId(Integer postCollectId) {
 		this.postCollectId = postCollectId;
 	}
-	
-	
-    
-    
 
+	public String getActivityUrl() {
+		return activityUrl;
+	}
+
+	public void setActivityUrl(String activityUrl) {
+		this.activityUrl = activityUrl;
+	}
 }

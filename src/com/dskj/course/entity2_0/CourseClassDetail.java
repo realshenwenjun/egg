@@ -14,6 +14,7 @@ public class CourseClassDetail implements Serializable{
 	private Integer id;
 	private String cover;
 	private String institutionId;
+	private String institutionTel;
 	private Integer courseTypeId;
 	private Integer courseId;
 	private String userId;
@@ -137,7 +138,12 @@ public class CourseClassDetail implements Serializable{
 	public void setPlanCount(int planCount) {
 		this.planCount = planCount;
 	}
-	
-	
-	
+
+	public String getInstitutionTel() {
+		return institutionTel;
+	}
+
+	public void setInstitutionTel(String institutionTel) {
+		this.institutionTel = institutionTel;
+	}
 }
