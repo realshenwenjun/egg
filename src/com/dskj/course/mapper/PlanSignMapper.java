@@ -40,7 +40,7 @@ public interface PlanSignMapper extends CacheBean{
 	
 	public List<UserPlanListByDay> getManageUserPlanSignList(String userId,int classId,Date startDate,Date endDate) throws Exception;
 	
-	public List<TeacherSign> getTeacherTodayPlanSignList(String userId,Date date) throws Exception;
+	public List<TeacherSign> getTeacherTodayPlanSignList(String institutionId,String userId,Date date) throws Exception;
 	
 	public int getClassSignCount(String userId,int classId) throws Exception;
 	

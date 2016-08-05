@@ -35,5 +35,5 @@ public interface PlanSignService {
 
 	public List<UserPlanListByDay> getManageUserPlanSignList(String userId, int classId, Date startDate, Date endDate) throws Exception;
 
-	public Object getTeacherTodayPlanSignList(String userId, Date date) throws Exception;
+	public Object getTeacherTodayPlanSignList(String institutionId,String userId, Date date) throws Exception;
 }

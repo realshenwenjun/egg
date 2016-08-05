@@ -519,9 +519,10 @@
 		SELECT i.id AS institution_id,i.name AS institution_name,i.logo AS logo,ccps.address AS address,ccps.create_time AS create_time  FROM
 		course_classes_plan_sign ccps JOIN institution i ON ccps.institution_id = i.id
 		WHERE
-		ccps.user_id = #{0}
+		ccps.institution_id = #{0} and
+		ccps.user_id = #{1}
 		AND
-		DATE(ccps.create_time) = DATE(#{1})
+		DATE(ccps.create_time) = DATE(#{2})
 		ORDER BY ccps.create_time DESC
 	</select>
 	<select id="getClassSignCount" resultType="int">

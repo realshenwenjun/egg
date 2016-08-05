@@ -259,7 +259,7 @@ public class PlanSignControll extends Base {
 	}
 
 	/*
-	 * 老师获取今日签到记录psign={"userId":"","date":1213323200000}
+	 * 老师获取今日签到记录psign={"institutionId":"","userId":"","date":1213323200000}
 	 */
 	@RequestMapping("/psign/teacher/plan/today/sign/list")
 	public void getTeacherTodayPlanSignList(HttpServletRequest request,
@@ -274,7 +274,7 @@ public class PlanSignControll extends Base {
 			else
 				date = new Date(dateTime);
 			Object list = planSignService
-					.getTeacherTodayPlanSignList(readTree(jsonString, "userId"),date);
+					.getTeacherTodayPlanSignList(readTree(jsonString, "institutionId"),readTree(jsonString, "userId"),date);
 			write(response, null, null, null, list);
 		} catch (Exception e) {
 			e.printStackTrace();
