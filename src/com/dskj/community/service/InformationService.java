@@ -1,6 +1,8 @@
 package com.dskj.community.service;
 
 import com.dskj.community.entity.Information;
+import com.dskj.community.entity.InformationCollect;
+import com.dskj.community.entity.InformationLove;
 import com.dskj.util.Page;
 
 import java.util.List;
@@ -16,11 +18,11 @@ public interface InformationService {
 
     public Information getInformation(int infoId, String userId) throws Exception;
 
-    public Integer addInformationLove(int infoId, String userId) throws Exception;
+    public InformationLove addInformationLove(int infoId, String userId) throws Exception;
 
     public void deleteInformationLove(int infoId, String userId) throws Exception;
 
-    public void addInformationCollect(int infoId, String userId) throws Exception;
+    public InformationCollect addInformationCollect(int infoId, String userId) throws Exception;
 
     public void deleteInformationCollect(int infoId, String userId) throws Exception;
 

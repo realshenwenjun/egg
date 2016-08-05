@@ -47,10 +47,13 @@
 		(SELECT cil.id FROM community_info_collect cil WHERE cil.info_id = ci.id AND cil.user_id = #{userId} limit 1) AS collect_id
 		FROM community_info ci WHERE ci.id = #{id}
 	</select>
-	<insert id="addInformationCollect">
+	<insert id="addInformationCollect" parameterType="com.dskj.community.entity.InformationCollect" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO community_info_collect (info_id,user_id,create_time)
-		VALUES (#{0},#{1},NOW())
+		VALUES (#{infoId},#{userId},NOW())
 	</insert>
+	<delete id="deleteInformationCollect">
+		DELETE from community_info_collect WHERE info_id = #{0} and user_id = #{1}
+	</delete>
 	<insert id="addInformationComment">
 		INSERT INTO community_info_comment (info_id,comment_id,create_time)
 		VALUES (#{0},#{1},NOW())

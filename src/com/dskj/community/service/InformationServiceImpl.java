@@ -4,6 +4,7 @@ import com.dskj.base.Base;
 import com.dskj.comment.entity.Comment;
 import com.dskj.comment.mapper.CommentMapper;
 import com.dskj.community.entity.Information;
+import com.dskj.community.entity.InformationCollect;
 import com.dskj.community.entity.InformationImg;
 import com.dskj.community.entity.InformationLove;
 import com.dskj.community.mapper.InformationImgMapper;
@@ -64,13 +65,13 @@ public class InformationServiceImpl extends Base implements InformationService {
         return informationMapper.get(infoId, userId);
     }
 
-    public Integer addInformationLove(int infoId, String userId)
+    public InformationLove addInformationLove(int infoId, String userId)
             throws Exception {
         InformationLove informationLove = new InformationLove();
         informationLove.setInfoId(infoId);
         informationLove.setUserId(userId);
         informationLoveMapper.add(informationLove);
-        return informationLove.getId();
+        return informationLove;
     }
 
     @Override
@@ -80,9 +81,13 @@ public class InformationServiceImpl extends Base implements InformationService {
     }
 
     @Override
-    public void addInformationCollect(int infoId, String userId)
+    public InformationCollect addInformationCollect(int infoId, String userId)
             throws Exception {
-        informationMapper.addInformationCollect(infoId, userId);
+        InformationCollect informationCollect = new InformationCollect();
+        informationCollect.setInfoId(infoId);
+        informationCollect.setUserId(userId);
+        informationMapper.addInformationCollect(informationCollect);
+        return informationCollect;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.dskj.community.mapper;
 
 import com.dskj.base.CacheBean;
 import com.dskj.community.entity.Information;
+import com.dskj.community.entity.InformationCollect;
 import com.dskj.util.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public interface InformationMapper extends CacheBean {
 
     public Information get(@Param("id") int id, @Param("userId") String userId) throws Exception;
 
-    public void addInformationCollect(int infoId, String userId) throws Exception;
+    public void addInformationCollect(InformationCollect informationCollect) throws Exception;
 
     public void deleteInformationCollect(int infoId, String userId) throws Exception;
 
