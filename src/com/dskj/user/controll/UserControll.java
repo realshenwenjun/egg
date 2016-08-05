@@ -704,7 +704,9 @@ public class UserControll extends Base {
 			logger.info(jsonString);
 			List<String> ids = jsonToList(jsonString, ArrayList.class,
 					String.class);
-			List<UserEntity> list = userService.getFriendList(ids);
+			List<UserEntity> list = new ArrayList<UserEntity>(0);
+			if(ids != null && ids.size() != 0)
+				list= userService.getFriendList(ids);
 			write(response, null, null, null, list);
 		} catch (Exception e) {
 			e.printStackTrace();
