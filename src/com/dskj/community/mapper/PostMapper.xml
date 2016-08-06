@@ -254,4 +254,15 @@
 		FROM community_post cp
 		WHERE cp.user_id = #{userId}
 	</select>
+	<select id="get" parameterType="java.lang.Integer" resultType="com.dskj.community.entity.Post">
+		select 
+		cp.id as id,
+		cp.user_id as userId,
+		cp.circle_id as circleId,
+		cp.context as context,
+		cp.type as type,
+		cp.topic_id as topicId,
+		cp.create_time as createTime
+		from community_post cp where cp.id = #{0}
+	</select>
 </mapper>

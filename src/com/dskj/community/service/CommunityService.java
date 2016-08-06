@@ -33,7 +33,7 @@ public interface CommunityService {
 
     public void deletePostCollect(int id) throws Exception;
     
-    public void addPostComment(String userId,Integer postId,String context) throws Exception;
+    public Integer addPostComment(String userId,Integer postId,String context) throws Exception;
     
   
     //topic表的业务方法start
@@ -61,4 +61,6 @@ public interface CommunityService {
     public Object getInstitutionCirclePostList(String institutionId,String userId,Page page) throws Exception;
 
     public Object getUserCirclePostList(String visitorId,String userId,Page page) throws Exception;
+    
+    public Post getPostById(Integer postId) throws Exception;
 }

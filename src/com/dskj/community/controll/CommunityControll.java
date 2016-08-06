@@ -2,7 +2,9 @@ package com.dskj.community.controll;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,12 +23,15 @@ import com.dskj.community.entity.PostLove;
 import com.dskj.community.entity.PostVoide;
 import com.dskj.community.entity.Topic;
 import com.dskj.community.service.CommunityService;
+import com.dskj.message.mq.MqManager;
 import com.dskj.util.Page;
 
 @Controller
 public class CommunityControll extends Base {
 	@Autowired
 	private CommunityService communityService;
+	@Autowired
+	private MqManager mqManager;
 
 	/*
 	 * 增加一个圈子 community={"name":"","imgUrl":""}
@@ -319,6 +324,7 @@ public class CommunityControll extends Base {
 			write(response, false, 911, e.getMessage(), null);
 		}
 	}
+
 	/*
 	 * 机构圈子列表
 	 * community={"institutionId":"","userId":"","pageNo":0,"pageSize":10}
@@ -342,9 +348,9 @@ public class CommunityControll extends Base {
 			write(response, false, 911, e.getMessage(), null);
 		}
 	}
+
 	/*
-	 * 个人最新动态
-	 * community={"visitorId":"","userId":"","pageNo":0,"pageSize":10}
+	 * 个人最新动态 community={"visitorId":"","userId":"","pageNo":0,"pageSize":10}
 	 */
 	@RequestMapping("/community/user/post/list")
 	public void getUserPostList(HttpServletRequest request,
@@ -365,13 +371,13 @@ public class CommunityControll extends Base {
 			write(response, false, 911, e.getMessage(), null);
 		}
 	}
+
 	/*
-	 * 个人圈子动态
-	 * community={"visitorId":"","userId":"","pageNo":0,"pageSize":10}
+	 * 个人圈子动态 community={"visitorId":"","userId":"","pageNo":0,"pageSize":10}
 	 */
 	@RequestMapping("/community/user/circle/post/list")
 	public void getUserCirclePostList(HttpServletRequest request,
-								HttpServletResponse response) {
+			HttpServletResponse response) {
 		try {
 
 			String jsonString = request.getParameter("community");
@@ -423,9 +429,18 @@ public class CommunityControll extends Base {
 
 			String jsonString = request.getParameter("community");
 			logger.info(jsonString);
-			communityService.addPostComment(readTree(jsonString, "userId"),
-					readTreeAsInt(jsonString, "postId"),
+			String userId = readTree(jsonString, "userId");
+			Integer postId = readTreeAsInt(jsonString, "postId");
+			Integer commentId = communityService.addPostComment(userId, postId,
 					readTree(jsonString, "context"));
+			Post post = communityService.getPostById(postId);
+			// 产生消息
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("parentUserId", post.getUserId());
+			map.put("parentCommentId", postId);
+			map.put("userId", userId);
+			map.put("commentId", commentId);
+			mqManager.getMqList().get(0).put(map);
 			write(response, null, null, null, null);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -14,6 +14,8 @@ import com.dskj.util.Page;
 public interface PostMapper extends CacheBean {
 
 	public void add(Post post) throws Exception;
+	
+	public Post get(Integer id) throws Exception;
 
 	public void delete(int id) throws Exception;
 

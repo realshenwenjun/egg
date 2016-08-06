@@ -125,7 +125,7 @@ public class CommunityServiceImpl extends Base implements CommunityService {
 
     }
 
-    public void addPostComment(String userId, Integer postId, String context)
+    public Integer addPostComment(String userId, Integer postId, String context)
             throws Exception {
         Comment comment = new Comment();
         comment.setContext(context);
@@ -138,6 +138,7 @@ public class CommunityServiceImpl extends Base implements CommunityService {
         postComment.setPostId(postId);
         postComment.setCreateTime(new Date());
         postCommentMapper.add(postComment);
+        return comment.getId();
     }
 
     public List<PostDetails> getCirclePostList(String userId, int circleId,
@@ -206,5 +207,10 @@ public class CommunityServiceImpl extends Base implements CommunityService {
         map.put("count", count);
         return map;
     }
+
+	@Override
+	public Post getPostById(Integer postId) throws Exception {
+		return postMapper.get(postId);
+	}
 
 }
