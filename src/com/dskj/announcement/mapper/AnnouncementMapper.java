@@ -20,7 +20,7 @@ public interface AnnouncementMapper extends CacheBean{
 
 	public Announcement get(Integer id) throws Exception;
 	
-	public List<AnnouncementVO> list(@Param("userId") String userId,@Param("page") Page page) throws Exception;
+	public List<AnnouncementVO> list(@Param("userId") String userId,@Param("userType") Integer userType,@Param("page") Page page) throws Exception;
 	
 	public List<AnnouncementVO> listByTitle(@Param("userId") String userId, @Param("title") String title,@Param("page") Page page) throws Exception;
 	
@@ -38,9 +38,13 @@ public interface AnnouncementMapper extends CacheBean{
 	
 	public List<Announcement> getPlatformsAnnouncementList(Page page) throws Exception;
 
-	public int getAnnouncementAllCount(String userId) throws Exception;
+	public int getAnnouncementAllCount(@Param("userId") String userId,@Param("userType") Integer userType) throws Exception;
 	
-	public int getAnnouncementReadedCount(String userId) throws Exception;
+	public int getAnnouncementReadedCount(@Param("userId") String userId,@Param("userType") Integer userType) throws Exception;
+	
+	public int getSysAnnouncementAllCount(String userId) throws Exception;
+	
+	public int getSysAnnouncementReadedCount(String userId) throws Exception;
 
 	public void deleteByInstitutionId(String institutionId) throws Exception;
 	

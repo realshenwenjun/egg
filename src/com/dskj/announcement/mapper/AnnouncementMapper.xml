@@ -61,11 +61,7 @@
 	<select id="list" resultMap="announcementVO">
 		(SELECT
 		a.*,i.name AS
-		institution_name,read2.read_id AS read_id,(CASE WHEN
-		TIMESTAMPDIFF(DAY,a.create_time,NOW()) &lt;= 3 THEN 1 ELSE 0 END
-		)
-		AS
-		is_new
+		institution_name,read2.read_id AS read_id,1 AS is_new
 		FROM user u JOIN institution_user iu ON iu.user_id = u.id JOIN
 		announcement a ON
 		iu.institution_id =
@@ -79,15 +75,26 @@
 		= read2.announcement_id
 		WHERE iu.user_id = #{userId} AND (iu.create_time
 		&lt;= a.create_time OR a.type_id = 1))
+		<if test="userType == 1">
 		UNION
-		(SELECT a.*,(SELECT NULL)
+		(SELECT
+			a.*,ii.name AS
+			institution_name,read2.read_id AS read_id,1 AS is_new
+			FROM user u JOIN institution_user iu ON iu.user_id = u.id JOIN institution
+			i ON iu.institution_id = i.id join
+			announcement a ON i.parent_id = a.institution_id join institution ii on a.institution_id = ii.id
+			LEFT JOIN (SELECT ar.id AS
+			read_id,ar.announcement_id AS announcement_id
+			FROM announcement_read ar
+			WHERE ar.user_id = #{userId}) read2 ON a.id
+			= read2.announcement_id
+			WHERE iu.user_id = #{userId} AND a.type_id = 3)
+		</if>
+		UNION
+		(SELECT a.*,'蛋生'
 		AS
 		institution_name,read2.read_id AS
-		read_id,(CASE WHEN
-		TIMESTAMPDIFF(DAY,a.create_time,NOW()) &lt;= 3
-		THEN 1 ELSE 0 END )
-		AS
-		is_new
+		read_id,1 AS is_new
 		FROM announcement a
 		LEFT JOIN (SELECT ar.id
 		AS
@@ -104,11 +111,7 @@
 	<select id="listByTitle" resultMap="announcementVO">
 		(SELECT
 		a.*,i.name AS
-		institution_name,read2.read_id AS read_id,(CASE WHEN
-		TIMESTAMPDIFF(DAY,a.create_time,NOW()) &lt;= 3 THEN 1 ELSE 0 END
-		)
-		AS
-		is_new
+		institution_name,read2.read_id AS read_id,1 AS is_new
 		FROM user u JOIN institution_user iu ON iu.user_id = u.id JOIN
 		announcement a ON
 		iu.institution_id =
@@ -124,15 +127,9 @@
 		&lt;= a.create_time OR a.type_id = 1) AND a.title LIKE '%${title}%')
 		UNION
 		(SELECT
-		a.*,(SELECT NULL) AS
+		a.*,'蛋生' AS
 		institution_name,read2.read_id AS
-		read_id,(CASE
-		WHEN
-		TIMESTAMPDIFF(DAY,a.create_time,NOW()) &lt;= 3
-		THEN 1
-		ELSE 0 END )
-		AS
-		is_new
+		read_id,1 AS is_new
 		FROM announcement a
 		LEFT JOIN (SELECT ar.id
 		AS
@@ -163,11 +160,7 @@
 	<select id="sysList" resultMap="announcementVO">
 		(SELECT
 		a.*,i.name AS
-		institution_name,read2.read_id AS read_id,(CASE WHEN
-		TIMESTAMPDIFF(DAY,a.create_time,NOW()) &lt;= 3 THEN 1 ELSE 0 END
-		)
-		AS
-		is_new
+		institution_name,read2.read_id AS read_id,1 AS is_new
 		FROM user u JOIN institution_user iu ON iu.user_id = u.id JOIN
 		announcement a ON
 		iu.institution_id =
@@ -181,14 +174,9 @@
 		= read2.announcement_id
 		WHERE iu.user_id = #{userId} AND a.type_id = 1)
 		UNION
-		(SELECT a.*,(SELECT NULL) AS
+		(SELECT a.*,'蛋生' AS
 		institution_name,read2.read_id AS
-		read_id,(CASE WHEN
-		TIMESTAMPDIFF(DAY,a.create_time,NOW()) &lt;= 3
-		THEN 1
-		ELSE 0 END )
-		AS
-		is_new
+		read_id,1 AS is_new
 		FROM announcement a
 		LEFT JOIN (SELECT ar.id
 		AS
@@ -224,6 +212,15 @@
 		a.institution_id
 		WHERE iu.user_id = #{userId} AND (iu.create_time
 		&lt;= a.create_time OR a.type_id = 1))
+		<if test="userType == 1">
+		+
+		(SELECT
+		count(*)
+		FROM user u JOIN institution_user iu ON iu.user_id = u.id JOIN institution
+		i ON iu.institution_id = i.id join
+		announcement a ON i.parent_id = a.institution_id join institution ii on a.institution_id = ii.id
+		WHERE iu.user_id = #{userId} AND a.type_id = 3)
+		</if>
 		+
 		(SELECT COUNT(*)
 		FROM announcement a
@@ -239,6 +236,45 @@
 		JOIN announcement_read ar ON ar.announcement_id = a.id
 		WHERE iu.user_id = #{userId} AND ar.user_id = #{userId} AND (iu.create_time
 		&lt;= a.create_time OR a.type_id = 1))
+		<if test="userType == 1">
+		+
+		(SELECT
+		count(*)
+		FROM user u JOIN institution_user iu ON iu.user_id = u.id JOIN institution
+		i ON iu.institution_id = i.id join
+		announcement a ON i.parent_id = a.institution_id join institution ii on a.institution_id = ii.id
+		JOIN announcement_read ar ON ar.announcement_id = a.id
+		WHERE iu.user_id = #{userId} AND ar.user_id = #{userId} AND a.type_id = 3)
+		</if>
+		+
+		(SELECT COUNT(*)
+		FROM announcement a JOIN announcement_read ar ON ar.announcement_id = a.id
+		WHERE a.institution_id IS NULL AND ar.user_id = #{userId} AND (a.create_time &gt;= (SELECT
+		u.create_time FROM user u WHERE u.id = #{userId}) OR a.type_id = 1))
+	</select>
+	<select id="getSysAnnouncementAllCount" resultType="int">
+		SELECT (SELECT COUNT(*)
+		FROM institution_user iu JOIN
+		announcement a ON
+		iu.institution_id =
+		a.institution_id
+		WHERE iu.user_id = #{userId} AND (iu.create_time
+		&lt;= a.create_time and a.type_id = 1))
+		+
+		(SELECT COUNT(*)
+		FROM announcement a
+		WHERE a.institution_id IS NULL AND (a.create_time &gt;= (SELECT
+		u.create_time FROM user u WHERE u.id = #{userId}) OR a.type_id = 1))
+	</select>
+	<select id="getSysAnnouncementReadedCount" resultType="int">
+		SELECT (SELECT COUNT(*)
+		FROM institution_user iu JOIN
+		announcement a ON
+		iu.institution_id =
+		a.institution_id
+		JOIN announcement_read ar ON ar.announcement_id = a.id
+		WHERE iu.user_id = #{userId} AND ar.user_id = #{userId} AND (iu.create_time
+		&lt;= a.create_time and a.type_id = 1))
 		+
 		(SELECT COUNT(*)
 		FROM announcement a JOIN announcement_read ar ON ar.announcement_id = a.id

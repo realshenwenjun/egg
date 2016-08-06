@@ -79,10 +79,12 @@ public class AnnouncementServiceImpl extends Base implements
 		if (type == null)
 			return new ArrayList<AnnouncementVO>();
 		else if (type == 0 || type == 1)
-			return announcementMapper.list(userId, page);
-		if (type == 3 && announcementMapper.getCurrentInstitutionClassSignCount(userId) == 0)
+			return announcementMapper.list(userId, type, page);
+		if (type == 3
+				&& announcementMapper
+						.getCurrentInstitutionClassSignCount(userId) == 0)
 			return announcementMapper.sysList(userId, page);
-		return announcementMapper.list(userId, page);
+		return announcementMapper.list(userId, type, page);
 	}
 
 	public List<AnnouncementVO> getListByTitle(String userId, String title,
@@ -104,7 +106,20 @@ public class AnnouncementServiceImpl extends Base implements
 	}
 
 	public int getAnnouncementNewCount(String userId) throws Exception {
-		return announcementMapper.getAnnouncementAllCount(userId) - announcementMapper.getAnnouncementReadedCount(userId);
+		Integer type = announcementMapper.getUserType(userId);
+		if (type == null)
+			return 0;
+		else if (type == 0 || type == 1)
+			return announcementMapper.getAnnouncementAllCount(userId, type)
+					- announcementMapper.getAnnouncementReadedCount(userId,
+							type);
+		if (type == 3
+				&& announcementMapper
+						.getCurrentInstitutionClassSignCount(userId) == 0)
+			return announcementMapper.getSysAnnouncementAllCount(userId)
+					- announcementMapper.getSysAnnouncementReadedCount(userId);
+		return announcementMapper.getAnnouncementAllCount(userId, type)
+				- announcementMapper.getAnnouncementReadedCount(userId, type);
 	}
 
 }

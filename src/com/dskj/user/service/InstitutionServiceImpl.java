@@ -260,6 +260,8 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
 		InstitutionEntity institutionEntity = institutionMapper.getInstitutionById(credence);
 		if(institutionEntity == null || !institutionEntity.getId().equals(childIds.get(0)))
 			return false;
+		if(institutionEntity.getParentId() != null || !"".equals(institutionEntity.getParentId()))
+			return false;
 		if(childIds != null && childIds.size() != 0)
 			institutionMapper.addBatchMyChildInstitution(institutionId,childIds);
 		return true;
