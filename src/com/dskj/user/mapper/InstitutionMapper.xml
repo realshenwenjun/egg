@@ -198,7 +198,7 @@
 		SELECT i.id AS institution_id,i.name AS institution_name,
 		i.logo AS
 		logo,i.course_type AS course_type,CONCAT((SELECT
-		CONCAT(r_p.name,r.name) FROM region r JOIN region r_p ON r_p.id =
+		CONCAT((CASE WHEN r_p.name IS NULL THEN '' ELSE r_p.name END),r.name) FROM region r left JOIN region r_p ON r_p.id =
 		r.parent_id WHERE r.id = i.region_id)," ",i.address) AS address
 		FROM
 		institution i
