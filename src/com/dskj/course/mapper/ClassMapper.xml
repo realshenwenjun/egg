@@ -290,9 +290,7 @@
 		LIMIT #{page.pageNo},#{page.pageSize}
 	</select>
 	<select id="getCourseClassTeacherList2_0" resultMap="courseClassList">
-		SELECT cc.id
-		AS
-		id,null AS institution_name,cc.user_id AS user_id,u.name AS
+		SELECT cc.id AS id,cc.cover as cover,null AS institution_name,cc.user_id AS user_id,u.name AS
 		user_name,cc.name AS
 		`name`,cc.start_time AS start_time,cc.end_time AS
 		end_time,

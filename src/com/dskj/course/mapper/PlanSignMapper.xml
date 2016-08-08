@@ -575,7 +575,7 @@
 		AS class_id,cc.`address` AS address,cc.`name` AS class_name,
 		cc.`start_time` AS start_time,cc.`end_time` AS end_time,i.`name` AS
 		institution_name,cc.cover AS cover,
-		cc.student_count AS student_count,
+		(SELECT count(*) from course_classes_sign ccs WHERE ccs.classes_id = cc.id) AS student_count,
 		(SELECT COUNT(*)
 		FROM course_classes_plan_sign ccps WHERE ccps.class_id = cc.id AND
 		DATE(ccps.create_time ) &lt;= DATE(#{1}) AND DATE(ccps.create_time )

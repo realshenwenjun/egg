@@ -570,17 +570,17 @@ public class InstitutionControll extends Base {
 			List<String> childIds = jsonToList(
 					readTree(jsonString, "children"), ArrayList.class,
 					String.class);
-			if(childIds != null && childIds.size() != 0){
-				write(response, false, 911, "请一个一个添加", null);
+			if(childIds != null && childIds.size() != 1){
+				write(response, false, 711, "请一个一个添加", null);
 				return;
 			}
-			boolean result = institutionService.addBatchMyChildInstitution(
+			String result = institutionService.addBatchMyChildInstitution(
 					readTree(jsonString, "institutionId"), childIds,readTree(jsonString, "credence"));
-			if(result){
+			if(result == null){
 				write(response, null, null, null, null);
 				return;
 			}else {
-				write(response, false, 911, "添加失败，请确认填写的子机构凭证是正确的", null);
+				write(response, false, 711, result, null);
 				return;
 			}
 		} catch (Exception e) {
