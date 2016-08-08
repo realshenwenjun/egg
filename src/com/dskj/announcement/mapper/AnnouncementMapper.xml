@@ -73,8 +73,8 @@
 		FROM announcement_read ar
 		WHERE ar.user_id = #{userId}) read2 ON a.id
 		= read2.announcement_id
-		WHERE iu.user_id = #{userId} AND (iu.create_time
-		&lt;= a.create_time OR a.type_id = 1))
+		WHERE iu.user_id = #{userId} AND ((iu.create_time
+		&lt;= a.create_time and a.type_id in (1,2)) OR a.type_id = 1))
 		<if test="userType == 1">
 		UNION
 		(SELECT
@@ -210,8 +210,8 @@
 		announcement a ON
 		iu.institution_id =
 		a.institution_id
-		WHERE iu.user_id = #{userId} AND (iu.create_time
-		&lt;= a.create_time OR a.type_id = 1))
+		WHERE iu.user_id = #{userId} AND ((iu.create_time
+		&lt;= a.create_time and a.type_id in (1,2)) OR a.type_id = 1))
 		<if test="userType == 1">
 		+
 		(SELECT
@@ -234,8 +234,8 @@
 		iu.institution_id =
 		a.institution_id
 		JOIN announcement_read ar ON ar.announcement_id = a.id
-		WHERE iu.user_id = #{userId} AND ar.user_id = #{userId} AND (iu.create_time
-		&lt;= a.create_time OR a.type_id = 1))
+		WHERE iu.user_id = #{userId} AND ar.user_id = #{userId} AND ((iu.create_time
+		&lt;= a.create_time and a.type_id in (1,2)) OR a.type_id = 1))
 		<if test="userType == 1">
 		+
 		(SELECT

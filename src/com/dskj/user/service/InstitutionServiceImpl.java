@@ -261,7 +261,7 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
 		if(institutionEntity == null || !institutionEntity.getId().equals(childIds.get(0)))
 			return "添加失败，请确认填写的子机构凭证是正确的";
         logger.info("parentId="+institutionEntity.getParentId());
-		if(institutionEntity.getParentId() != null || !"".equals(institutionEntity.getParentId()))
+		if(institutionEntity.getParentId() != null)
 			return "添加失败，请确认被添加的子机构没有被添加过";
 		if(childIds != null && childIds.size() != 0)
 			institutionMapper.addBatchMyChildInstitution(institutionId,childIds);
