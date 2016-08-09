@@ -14,4 +14,7 @@
 	<insert id="addCommentMessage">
 		INSERT INTO comment_message (user_id,comment_id,parent_user_id,parent_comment_id,create_time) VALUES (#{0},#{1},#{2},#{3},NOW())
 	</insert>
+	<delete id="deleteCommentMessage">
+		DELETE FROM comment_message where comment_id = #{0}
+	</delete>
 </mapper>

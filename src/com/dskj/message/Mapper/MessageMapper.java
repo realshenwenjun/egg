@@ -11,4 +11,6 @@ public interface MessageMapper {
 	public List<MessageConfig> getConfig() throws Exception;
 	
 	public void addCommentMessage(String userId,int commentId,String parentUserId,int parentCommentId) throws Exception;
+
+	public void deleteCommentMessage(int commentId) throws Exception;
 }

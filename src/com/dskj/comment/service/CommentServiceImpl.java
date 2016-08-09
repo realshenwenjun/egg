@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dskj.message.Mapper.MessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,8 @@ public class CommentServiceImpl extends Base implements CommentService {
 	private CommentImageMapper commentImageMapper;
 	@Autowired
 	private CommentVoideMapper commentVoideMapper;
+	@Autowired
+	private MessageMapper messageMapper;
 
 	public List<CommentVO> getChildrenComments(int id, String userId, Page page)
 			throws Exception {
@@ -95,6 +98,7 @@ public class CommentServiceImpl extends Base implements CommentService {
 
 	public void deleteComment(int commentId) throws Exception {
 		commentMapper.delete(commentId);
+		messageMapper.deleteCommentMessage(commentId);
 	}
 
 	public CommentVO getCommentVOById(int commentId, String userId)
