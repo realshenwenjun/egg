@@ -120,6 +120,8 @@ public class PlanSignServiceImpl extends Base implements PlanSignService {
 
 	public Object getTeacherTodayPlanSignList(String institutionId,String userId, Date date) throws Exception {
 //		Map<String,Object> cache = new HashMap<String, Object>();
+		if (institutionId == null || "".equals(institutionId))
+			institutionId = null;
 		List<TeacherSign> list = planSignMapper.getTeacherTodayPlanSignList(institutionId,userId, date);
 //		List<TeacherSign> o = new ArrayList<TeacherSign>();
 //		if (list != null && list.size() != 0){

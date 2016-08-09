@@ -11,6 +11,8 @@
     	<result property="loveCount" column="love_count"/>
     	<result property="collectCount" column="collect_count"/>
     	<result property="commentCount" column="comment_count"/>
+    	<result property="loveId" column="love_id"/>
+    	<result property="collectId" column="collect_id"/>
     	<collection property="imgUrls" ofType="java.util.ArrayList"
 			select="getInfoImgUrls" column="{infoId = id}">
 		</collection>

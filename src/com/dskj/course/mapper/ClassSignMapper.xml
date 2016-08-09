@@ -256,7 +256,7 @@
 	</select>
 	<select id="getCourseTeacherStudentList2_0" resultMap="classSignUser">
 		SELECT
-		u.id AS id,u.photo AS photo,u.name AS `name`,u.phone AS phone
+		DISTINCT(u.id) AS id,u.photo AS photo,u.name AS `name`,u.phone AS phone
 		FROM
 		course_classes_sign ccs JOIN course_classes cc ON ccs.classes_id =
 		cc.id JOIN `user` u ON ccs.user_id = u.id

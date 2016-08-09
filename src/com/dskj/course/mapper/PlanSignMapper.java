@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.dskj.course.entity2_0.TeacherSign;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.dskj.base.CacheBean;
@@ -40,7 +41,7 @@ public interface PlanSignMapper extends CacheBean{
 	
 	public List<UserPlanListByDay> getManageUserPlanSignList(String userId,int classId,Date startDate,Date endDate) throws Exception;
 	
-	public List<TeacherSign> getTeacherTodayPlanSignList(String institutionId,String userId,Date date) throws Exception;
+	public List<TeacherSign> getTeacherTodayPlanSignList(@Param("institutionId") String institutionId,@Param("userId") String userId,@Param("date") Date date) throws Exception;
 	
 	public int getClassSignCount(String userId,int classId) throws Exception;
 	
