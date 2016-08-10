@@ -18,5 +18,5 @@ public interface PostCommentMapper extends CacheBean {
 
 	public List<Integer> getPostCommentIds(@Param("postId") int postId,
 			@Param("page") Page page) throws Exception;
-
+	public int deleteComment(int commentId) throws Exception;
 }

@@ -17,5 +17,5 @@ public interface ChildActivityCommentMapper {
 
     public List<Integer> getActivityCommentIds(@Param("activityId") int activityId,@Param("page") Page page) throws Exception;
     
-    public void deleteComment(int commentId) throws Exception;
+    public int deleteComment(int commentId) throws Exception;
 }

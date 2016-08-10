@@ -22,6 +22,9 @@ import com.dskj.comment.mapper.CommentImageMapper;
 import com.dskj.comment.mapper.CommentLoveMapper;
 import com.dskj.comment.mapper.CommentMapper;
 import com.dskj.comment.mapper.CommentVoideMapper;
+import com.dskj.community.mapper.InformationMapper;
+import com.dskj.community.mapper.PostCommentMapper;
+import com.dskj.spread.mapper.CarouselCommentMapper;
 import com.dskj.user.mapper.InstitutionCommentMapper;
 import com.dskj.util.Page;
 
@@ -41,6 +44,12 @@ public class CommentServiceImpl extends Base implements CommentService {
 	private ChildActivityCommentMapper childActivityCommentMapper;
 	@Autowired
 	private InstitutionCommentMapper institutionCommentMapper;
+	@Autowired
+	private CarouselCommentMapper carouselCommentMapper;
+	@Autowired
+	private PostCommentMapper postCommentMapper;
+	@Autowired
+	private InformationMapper informationMapper;
 
 	public List<CommentVO> getChildrenComments(int id, String userId, Page page)
 			throws Exception {
@@ -105,11 +114,23 @@ public class CommentServiceImpl extends Base implements CommentService {
 	public void deleteComment(int commentId) throws Exception {
 		commentMapper.delete(commentId);
 		//删除这条评论产生的消息
-		messageMapper.deleteCommentMessage(commentId);
+		if(messageMapper.deleteCommentMessage(commentId) != 0)
+			return;
 		//删除活动的评价数量
-		childActivityCommentMapper.deleteComment(commentId);
-		//删除机构的评价
-		institutionCommentMapper.deleteComment(commentId);
+		if(childActivityCommentMapper.deleteComment(commentId) != 0)
+			return;
+		//删除机构的评价数
+		if(institutionCommentMapper.deleteComment(commentId) != 0)
+			return;
+		//删除轮播图评论数
+		if(carouselCommentMapper.deleteComment(commentId) != 0)
+			return;
+		//删除帖子评论数
+		if(postCommentMapper.deleteComment(commentId) != 0)
+			return;
+		//删除资讯评论数
+		if(informationMapper.deleteInformationCommentByCommentId(commentId) != 0)
+			return;
 	}
 
 	public CommentVO getCommentVOById(int commentId, String userId)

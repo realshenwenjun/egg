@@ -16,4 +16,7 @@
 	<select id="getCarouselCommentIds" resultType="java.lang.Integer">
 		SELECT scc.comment_id FROM system_carousel_comment scc WHERE scc.carousel_id =  #{carouselId} ORDER BY scc.create_time DESC LIMIT #{page.pageNo},#{page.pageSize}
 	</select>
+	<delete id="deleteComment">
+		delete from system_carousel_comment where comment_id = #{0}
+	</delete>
 </mapper>

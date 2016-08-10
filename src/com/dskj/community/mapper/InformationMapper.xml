@@ -94,4 +94,7 @@
 	<delete id="deleteInformationCollectById">
 		DELETE from community_info_collect where id = #{0}
 	</delete>
+	<delete id="deleteInformationCommentByCommentId">
+		delete from community_info_comment where comment_id = #{0}
+	</delete>
 </mapper>

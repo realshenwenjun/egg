@@ -12,5 +12,5 @@ public interface MessageMapper {
 	
 	public void addCommentMessage(String userId,int commentId,String parentUserId,int parentCommentId) throws Exception;
 
-	public void deleteCommentMessage(int commentId) throws Exception;
+	public int deleteCommentMessage(int commentId) throws Exception;
 }
