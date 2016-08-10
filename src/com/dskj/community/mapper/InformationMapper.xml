@@ -17,6 +17,17 @@
 			select="getInfoImgUrls" column="{infoId = id}">
 		</collection>
     </resultMap>
+	<resultMap type="com.dskj.user.entity2_0.MyCollect" id="myCollect">
+		<result property="collectId" column="collect_id" />
+		<result property="type" column="type" />
+		<result property="createTime" column="create_time" />
+		<result property="infoId" column="info_id" />
+		<result property="infoTitle" column="info_title" />
+		<result property="infoSummary" column="info_summary" />
+		<collection property="InfoImgUrls" ofType="java.util.ArrayList"
+					select="getInfoImgUrls" column="{infoId = info_id}">
+		</collection>
+	</resultMap>
     <select id="getInfoImgUrls" parameterType="java.util.HashMap"
 		resultType="java.lang.String">
 		SELECT cii.url FROM community_info_img cii WHERE
@@ -72,4 +83,15 @@
 	<update id="update">
 		UPDATE community_info SET context = #{context},title = #{title},summary = #{summary} WHERE id = #{id}
 	</update>
+	<select id="getInfoCollectList2_0" parameterType="java.lang.String"
+			resultMap="myCollect">
+		SELECT cic.id AS collect_id,4 AS `type`,cic.create_time AS
+		create_time,ci.id AS info_id,
+		ci.title AS info_title,ci.summary AS info_summary
+		FROM community_info ci JOIN community_info_collect cic ON ci.id = cic.info_id
+		WHERE cic.user_id = #{0}
+	</select>
+	<delete id="deleteInformationCollect">
+		DELETE from community_info_collect where id = #{0}
+	</delete>
 </mapper>

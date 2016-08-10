@@ -35,6 +35,12 @@ public class MyCollect implements Serializable{
 	private String context;
     private String userName;
     private List<String> imgUrls;
+
+	private Integer infoId;
+	private String infoTitle;
+	private String infoSummary;
+	private List<String> InfoImgUrls;
+
 	public Integer getCollectId() {
 		return collectId;
 	}
@@ -174,5 +180,37 @@ public class MyCollect implements Serializable{
 
 	public void setPostId(Integer postId) {
 		this.postId = postId;
+	}
+
+	public Integer getInfoId() {
+		return infoId;
+	}
+
+	public void setInfoId(Integer infoId) {
+		this.infoId = infoId;
+	}
+
+	public String getInfoTitle() {
+		return infoTitle;
+	}
+
+	public void setInfoTitle(String infoTitle) {
+		this.infoTitle = infoTitle;
+	}
+
+	public String getInfoSummary() {
+		return infoSummary;
+	}
+
+	public void setInfoSummary(String infoSummary) {
+		this.infoSummary = infoSummary;
+	}
+
+	public List<String> getInfoImgUrls() {
+		return InfoImgUrls;
+	}
+
+	public void setInfoImgUrls(List<String> infoImgUrls) {
+		InfoImgUrls = infoImgUrls;
 	}
 }

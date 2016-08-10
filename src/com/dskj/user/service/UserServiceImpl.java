@@ -1,29 +1,21 @@
 package com.dskj.user.service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.dskj.user.entity.*;
-import com.dskj.user.entity2_0.MyCollect;
-import com.dskj.user.entity2_0.MyFans;
-import com.dskj.user.entity2_0.UserAsk;
-import com.dskj.user.entity2_0.UserGroup;
-import com.dskj.user.entity2_0.UserPhoto;
-import com.dskj.user.mapper.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.dskj.activity.mapper.ChildActivityCollectMapper;
 import com.dskj.base.Base;
+import com.dskj.community.mapper.InformationMapper;
 import com.dskj.community.mapper.PostCollectMapper;
 import com.dskj.course.mapper.ClassFansMapper;
 import com.dskj.enu.LevelRule;
+import com.dskj.user.entity.*;
+import com.dskj.user.entity2_0.*;
+import com.dskj.user.mapper.*;
 import com.dskj.util.MD5Util;
 import com.dskj.util.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class UserServiceImpl extends Base implements UserService {
@@ -57,6 +49,8 @@ public class UserServiceImpl extends Base implements UserService {
     private UserAskMapper userAskMapper;
     @Autowired
     private UserGroupMapper userGroupMapper;
+    @Autowired
+    private InformationMapper informationMapper;
     /*
      * 用于重复提交处理
      */
@@ -458,11 +452,14 @@ public class UserServiceImpl extends Base implements UserService {
 		List<MyCollect> activityCollect = childActivityCollectMapper.getUserCollectList2_0(userId);
 		
 		List<MyCollect> postCollect = postCollectMapper.getUserCollectList2_0(userId);
+
+        List<MyCollect> infoCollect = informationMapper.getInfoCollectList2_0(userId);
 		
 		List<MyCollect> collects = new ArrayList<MyCollect>();
 		collects.addAll(postCollect);
 		collects.addAll(activityCollect);
 		collects.addAll(classCollect);
+        collects.addAll(infoCollect);
 		return collects;
 	}
 
@@ -471,9 +468,11 @@ public class UserServiceImpl extends Base implements UserService {
 			classFansMapper.delete(collectId);
 		}else if(type == 2){
 			childActivityCollectMapper.delete(collectId);
-		}else{
+		}else if(type == 3){
 			postCollectMapper.delete(collectId);
-		}
+		}else {
+            informationMapper.deleteInformationCollect(collectId);
+        }
 	}
 
 	public List<UserEntity> getUnfirendSearch2_0(String key,List<String> ids,Page page)
