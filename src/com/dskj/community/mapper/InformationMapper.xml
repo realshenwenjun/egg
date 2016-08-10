@@ -91,7 +91,7 @@
 		FROM community_info ci JOIN community_info_collect cic ON ci.id = cic.info_id
 		WHERE cic.user_id = #{0}
 	</select>
-	<delete id="deleteInformationCollect">
+	<delete id="deleteInformationCollectById">
 		DELETE from community_info_collect where id = #{0}
 	</delete>
 </mapper>

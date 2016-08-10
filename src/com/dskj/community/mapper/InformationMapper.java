@@ -37,5 +37,5 @@ public interface InformationMapper extends CacheBean {
 
     public List<MyCollect> getInfoCollectList2_0(String userId) throws Exception;
 
-    public void deleteInformationCollect(int collectId) throws Exception;
+    public void deleteInformationCollectById(int collectId) throws Exception;
 }

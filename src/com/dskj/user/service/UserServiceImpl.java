@@ -471,7 +471,7 @@ public class UserServiceImpl extends Base implements UserService {
 		}else if(type == 3){
 			postCollectMapper.delete(collectId);
 		}else {
-            informationMapper.deleteInformationCollect(collectId);
+            informationMapper.deleteInformationCollectById(collectId);
         }
 	}
 
