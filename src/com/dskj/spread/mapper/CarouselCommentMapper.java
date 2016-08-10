@@ -17,4 +17,6 @@ public interface CarouselCommentMapper extends CacheBean {
 	public int getCommentCount(int carouselId) throws Exception;
 
 	public List<Integer> getCarouselCommentIds(@Param("carouselId") int carouselId,@Param("page") Page page) throws Exception;
+	
+	public void deleteComment(int commentId) throws Exception;
 }

@@ -20,14 +20,12 @@
 	<select id="getUserCensusByOneCourseType" resultMap="userCensusByCourseType">
 		SELECT
 		ct.name AS course_type_name,
-		(SELECT COUNT(*) FROM (SELECT ccs.user_id
-		AS user_id,c.course_type_id AS course_type_id FROM course_classes_sign
+		(SELECT COUNT(*) FROM course_classes_sign
 		ccs JOIN course_classes cc
 		ON ccs.classes_id = cc.id JOIN course c ON
 		cc.course_id = c.id
-		WHERE c.institution_id = #{0} AND c.course_type_id
-		= #{1} GROUP BY
-		ccs.user_id) un2) AS
+		WHERE cc.institution_id = #{0} AND c.course_type_id
+		= #{1}) AS
 		user_count
 		FROM course_type ct
 		WHERE

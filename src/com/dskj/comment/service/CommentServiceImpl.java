@@ -10,6 +10,7 @@ import com.dskj.message.Mapper.MessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dskj.activity.mapper.ChildActivityCommentMapper;
 import com.dskj.base.Base;
 import com.dskj.comment.entity.Comment;
 import com.dskj.comment.entity.CommentChildVO;
@@ -21,6 +22,7 @@ import com.dskj.comment.mapper.CommentImageMapper;
 import com.dskj.comment.mapper.CommentLoveMapper;
 import com.dskj.comment.mapper.CommentMapper;
 import com.dskj.comment.mapper.CommentVoideMapper;
+import com.dskj.user.mapper.InstitutionCommentMapper;
 import com.dskj.util.Page;
 
 @Service
@@ -35,6 +37,10 @@ public class CommentServiceImpl extends Base implements CommentService {
 	private CommentVoideMapper commentVoideMapper;
 	@Autowired
 	private MessageMapper messageMapper;
+	@Autowired
+	private ChildActivityCommentMapper childActivityCommentMapper;
+	@Autowired
+	private InstitutionCommentMapper institutionCommentMapper;
 
 	public List<CommentVO> getChildrenComments(int id, String userId, Page page)
 			throws Exception {
@@ -98,7 +104,12 @@ public class CommentServiceImpl extends Base implements CommentService {
 
 	public void deleteComment(int commentId) throws Exception {
 		commentMapper.delete(commentId);
+		//删除这条评论产生的消息
 		messageMapper.deleteCommentMessage(commentId);
+		//删除活动的评价数量
+		childActivityCommentMapper.deleteComment(commentId);
+		//删除机构的评价
+		institutionCommentMapper.deleteComment(commentId);
 	}
 
 	public CommentVO getCommentVOById(int commentId, String userId)

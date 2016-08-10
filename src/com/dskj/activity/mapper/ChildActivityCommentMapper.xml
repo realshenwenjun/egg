@@ -13,4 +13,7 @@
     <select id="getActivityCommentIds" resultType="java.lang.Integer">
         SELECT cac.comment_id FROM child_activity_comment cac WHERE cac.activity_id =  #{activityId} ORDER BY cac.create_time DESC LIMIT #{page.pageNo},#{page.pageSize}
     </select>
+    <delete id="deleteComment">
+    	delete from child_activity_comment where comment_id = #{0}
+    </delete>
 </mapper>

@@ -18,5 +18,7 @@ public interface InstitutionCommentMapper extends CacheBean {
                                                   @Param("page") Page page) throws Exception;
 
     public int getCommentCount(String institutionId) throws Exception;
+    
+    public void deleteComment(int commentId) throws Exception;
 
 }
