@@ -24,7 +24,7 @@
 		<result property="infoId" column="info_id" />
 		<result property="infoTitle" column="info_title" />
 		<result property="infoSummary" column="info_summary" />
-		<collection property="InfoImgUrls" ofType="java.util.ArrayList"
+		<collection property="infoImgUrls" ofType="java.util.ArrayList"
 					select="getInfoImgUrls" column="{infoId = info_id}">
 		</collection>
 	</resultMap>

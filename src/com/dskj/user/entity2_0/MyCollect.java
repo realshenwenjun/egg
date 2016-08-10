@@ -39,7 +39,7 @@ public class MyCollect implements Serializable{
 	private Integer infoId;
 	private String infoTitle;
 	private String infoSummary;
-	private List<String> InfoImgUrls;
+	private List<String> infoImgUrls;
 
 	public Integer getCollectId() {
 		return collectId;
@@ -207,10 +207,10 @@ public class MyCollect implements Serializable{
 	}
 
 	public List<String> getInfoImgUrls() {
-		return InfoImgUrls;
+		return infoImgUrls;
 	}
 
 	public void setInfoImgUrls(List<String> infoImgUrls) {
-		InfoImgUrls = infoImgUrls;
+		this.infoImgUrls = infoImgUrls;
 	}
 }
