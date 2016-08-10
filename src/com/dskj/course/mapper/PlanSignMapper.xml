@@ -600,7 +600,7 @@
 		JOIN
 		course_classes_plan_sign ccps ON u.id = ccps.user_id
 		WHERE
-		ccs.classes_id = #{0} AND DATE(ccps.create_time) &lt;= DATE(#{1}) AND
+		ccs.classes_id = #{0} and ccps.class_id = #{0} AND DATE(ccps.create_time) &lt;= DATE(#{1}) AND
 		DATE(ccps.create_time) >= DATE(#{1})
 	</select>
 	<select id="getCourseClassStudentUnSignList2_0" resultMap="classSignUser">
