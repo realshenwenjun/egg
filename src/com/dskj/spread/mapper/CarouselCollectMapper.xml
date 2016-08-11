@@ -38,7 +38,7 @@
 	<select id="getCarouselCollectList2_0" resultMap="myCollect">
 		SELECT scc.id AS collect_id,5 AS `type`,scc.create_time AS
 		create_time,sc.id AS carousel_id,
-		sc.url AS carousel_url,sc.val as carousel_val,sc.title AS carousel_title
+		sc.path AS carousel_url,sc.val as carousel_val,sc.title AS carousel_title
 		FROM system_carousel_collect scc JOIN system_carousel sc ON scc.carousel_id =
 		sc.id
 		JOIN `user` u ON scc.user_id = u.id
