@@ -33,6 +33,7 @@ public class MyCollect implements Serializable{
 
 	private Integer postId;
 	private String context;
+	private String postUserId;
     private String userName;
     private List<String> imgUrls;
 
@@ -212,5 +213,13 @@ public class MyCollect implements Serializable{
 
 	public void setInfoImgUrls(List<String> infoImgUrls) {
 		this.infoImgUrls = infoImgUrls;
+	}
+
+	public String getPostUserId() {
+		return postUserId;
+	}
+
+	public void setPostUserId(String postUserId) {
+		this.postUserId = postUserId;
 	}
 }

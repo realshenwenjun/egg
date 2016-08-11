@@ -8,6 +8,7 @@
 		<result property="type" column="type" />
 		<result property="createTime" column="create_time" />
 		<result property="context" column="context" />
+		<result property="postUserId" column="post_user_id" />
 		<result property="userName" column="user_name" />
 		<result property="postId" column="post_id" />
 		<collection property="imgUrls" ofType="java.util.ArrayList"
@@ -39,7 +40,7 @@
 		resultMap="myCollect">
 		SELECT cpc.id AS collect_id,3 AS `type`,cpc.create_time AS
 		create_time,cp.context AS context,
-		u.name AS user_name,cp.id AS post_id
+		u.name AS user_name,cp.user_id as post_user_id,cp.id AS post_id
 		FROM community_post_collect cpc JOIN community_post cp ON cpc.post_id =
 		cp.id
 		JOIN `user` u ON cp.user_id = u.id

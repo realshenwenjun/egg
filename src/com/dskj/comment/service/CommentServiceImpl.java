@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dskj.course.mapper.ClassCommentMapper;
 import com.dskj.message.Mapper.MessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +51,8 @@ public class CommentServiceImpl extends Base implements CommentService {
 	private PostCommentMapper postCommentMapper;
 	@Autowired
 	private InformationMapper informationMapper;
+	@Autowired
+	private ClassCommentMapper classCommentMapper;
 
 	public List<CommentVO> getChildrenComments(int id, String userId, Page page)
 			throws Exception {
@@ -114,7 +117,9 @@ public class CommentServiceImpl extends Base implements CommentService {
 	public void deleteComment(int commentId) throws Exception {
 		commentMapper.delete(commentId);
 		//删除这条评论产生的消息
-		if(messageMapper.deleteCommentMessage(commentId) != 0)
+		messageMapper.deleteCommentMessage(commentId);
+		//删除帖子评论数
+		if(postCommentMapper.deleteComment(commentId) != 0)
 			return;
 		//删除活动的评价数量
 		if(childActivityCommentMapper.deleteComment(commentId) != 0)
@@ -125,12 +130,11 @@ public class CommentServiceImpl extends Base implements CommentService {
 		//删除轮播图评论数
 		if(carouselCommentMapper.deleteComment(commentId) != 0)
 			return;
-		//删除帖子评论数
-		if(postCommentMapper.deleteComment(commentId) != 0)
-			return;
 		//删除资讯评论数
 		if(informationMapper.deleteInformationCommentByCommentId(commentId) != 0)
 			return;
+		//删除课程评论数量
+		classCommentMapper.deleteComment(commentId);
 	}
 
 	public CommentVO getCommentVOById(int commentId, String userId)
