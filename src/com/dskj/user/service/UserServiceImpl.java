@@ -6,6 +6,7 @@ import com.dskj.community.mapper.InformationMapper;
 import com.dskj.community.mapper.PostCollectMapper;
 import com.dskj.course.mapper.ClassFansMapper;
 import com.dskj.enu.LevelRule;
+import com.dskj.spread.mapper.CarouselCollectMapper;
 import com.dskj.user.entity.*;
 import com.dskj.user.entity2_0.*;
 import com.dskj.user.mapper.*;
@@ -51,6 +52,8 @@ public class UserServiceImpl extends Base implements UserService {
     private UserGroupMapper userGroupMapper;
     @Autowired
     private InformationMapper informationMapper;
+    @Autowired
+    private CarouselCollectMapper carouselCollectMapper;
     /*
      * 用于重复提交处理
      */
@@ -454,12 +457,15 @@ public class UserServiceImpl extends Base implements UserService {
 		List<MyCollect> postCollect = postCollectMapper.getUserCollectList2_0(userId);
 
         List<MyCollect> infoCollect = informationMapper.getInfoCollectList2_0(userId);
+
+        List<MyCollect> carouselCollect = carouselCollectMapper.getCarouselCollectList2_0(userId);
 		
 		List<MyCollect> collects = new ArrayList<MyCollect>();
 		collects.addAll(postCollect);
 		collects.addAll(activityCollect);
 		collects.addAll(classCollect);
         collects.addAll(infoCollect);
+        collects.addAll(carouselCollect);
 		return collects;
 	}
 

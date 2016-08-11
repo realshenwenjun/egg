@@ -5,6 +5,7 @@
     </cache>
     <resultMap type="com.dskj.user.entity2_0.MyFans" id="myFans">
     	<result property="fansId" column="fans_id"/>
+    	<result property="userId" column="user_id"/>
     	<result property="name" column="name"/>
     	<result property="photo" column="photo"/>
     	<result property="type" column="type"/>
@@ -25,7 +26,7 @@
 		DELETE FROM user_fans WHERE id = #{0}
 	</delete>
 	<select id="getUserFansList2_0" resultMap="myFans">
-		SELECT uf.id AS fans_id,u.name AS `name`,u.photo AS photo,3 AS `type` 
+		SELECT uf.id AS fans_id,u.id as user_id,u.name AS `name`,u.photo AS photo,u.type AS `type`
 		FROM user_fans uf JOIN `user` u ON uf.been_user_id = u.id WHERE uf.user_id = #{0}
 	</select>
 </mapper>

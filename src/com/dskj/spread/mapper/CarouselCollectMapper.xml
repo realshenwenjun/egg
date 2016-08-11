@@ -8,6 +8,15 @@
 		<result property="carouselId" column="carousel_id" />
 		<result property="createTime" column="create_time" />
 	</resultMap>
+	<resultMap type="com.dskj.user.entity2_0.MyCollect" id="myCollect">
+		<result property="collectId" column="collect_id" />
+		<result property="type" column="type" />
+		<result property="createTime" column="create_time" />
+		<result property="carouselId" column="carousel_id" />
+		<result property="carouselUrl" column="carousel_url" />
+		<result property="carouselVal" column="carousel_val" />
+		<result property="carouselTitle" column="carousel_title" />
+	</resultMap>
 	<insert id="add" parameterType="com.dskj.spread.entity.CarouselCollect" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO system_carousel_collect
 		(user_id,carousel_id,create_time) values
@@ -25,5 +34,14 @@
 		SELECT scc.id
 		FROM system_carousel_collect scc WHERE scc.carousel_id = #{0} AND
 		scc.user_id = #{1}
+	</select>
+	<select id="getCarouselCollectList2_0" resultMap="myCollect">
+		SELECT scc.id AS collect_id,5 AS `type`,scc.create_time AS
+		create_time,sc.id AS carousel_id,
+		sc.url AS carousel_url,sc.val as carousel_val,sc.title AS carousel_title
+		FROM system_carousel_collect scc JOIN system_carousel sc ON scc.carousel_id =
+		sc.id
+		JOIN `user` u ON scc.user_id = u.id
+		WHERE scc.user_id = #{0}
 	</select>
 </mapper>

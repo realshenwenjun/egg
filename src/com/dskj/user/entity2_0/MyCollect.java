@@ -42,6 +42,44 @@ public class MyCollect implements Serializable{
 	private String infoSummary;
 	private List<String> infoImgUrls;
 
+	private String carouselId;
+	private String carouselUrl;
+	private String carouselVal;
+	private String carouselTitle;
+
+
+	public String getCarouselId() {
+		return carouselId;
+	}
+
+	public void setCarouselId(String carouselId) {
+		this.carouselId = carouselId;
+	}
+
+	public String getCarouselUrl() {
+		return carouselUrl;
+	}
+
+	public void setCarouselUrl(String carouselUrl) {
+		this.carouselUrl = carouselUrl;
+	}
+
+	public String getCarouselVal() {
+		return carouselVal;
+	}
+
+	public void setCarouselVal(String carouselVal) {
+		this.carouselVal = carouselVal;
+	}
+
+	public String getCarouselTitle() {
+		return carouselTitle;
+	}
+
+	public void setCarouselTitle(String carouselTitle) {
+		this.carouselTitle = carouselTitle;
+	}
+
 	public Integer getCollectId() {
 		return collectId;
 	}

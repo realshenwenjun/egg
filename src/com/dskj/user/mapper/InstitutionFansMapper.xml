@@ -7,6 +7,7 @@
 	</select>
 	<resultMap type="com.dskj.user.entity2_0.MyFans" id="myFans">
 		<result property="fansId" column="fans_id" />
+		<result property="institutionId" column="institution_id" />
 		<result property="name" column="name" />
 		<result property="photo" column="photo" />
 		<result property="type" column="type" />
@@ -31,7 +32,7 @@
 	</delete>
 	<select id="getUserFansList2_0" resultMap="myFans">
 		SELECT inf.id AS
-		fans_id,i.name AS `name`,i.logo AS face,1 AS `type`
+		fans_id,i.id as institution_id,i.name AS name,i.logo AS photo,1 AS `type`
 		FROM institution_fans inf JOIN institution i ON inf.institution_id = i.id
 		WHERE inf.user_id = #{userId}
 	</select>
