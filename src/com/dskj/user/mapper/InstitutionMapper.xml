@@ -333,7 +333,9 @@
 	</insert>
 	<select id="getInstitutionStudentAll2_0" resultType="java.lang.String">
 		SELECT
-		iu.user_id FROM institution_user iu WHERE iu.institution_id =
+		DISTINCT(ccs.user_id) FROM course_classes cc
+		JOIN course_classes_sign ccs ON cc.id = ccs.classes_id
+		WHERE cc.institution_id = 
 		#{institutionId} LIMIT #{page.pageNo},#{page.pageSize}
 	</select>
 	<select id="getInstitutionStudentSearch2_0" resultMap="userEntity">
