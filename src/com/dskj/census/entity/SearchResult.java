@@ -42,6 +42,7 @@ public class SearchResult implements Serializable{
 	private String activityUrl;
 
 	private Integer postId;
+	private String postUserId;
 	private String postUserPhoto;
 	private Integer postUserSex;
 	private Date postCreateTime;
@@ -312,5 +313,13 @@ public class SearchResult implements Serializable{
 
 	public void setActivityUrl(String activityUrl) {
 		this.activityUrl = activityUrl;
+	}
+
+	public String getPostUserId() {
+		return postUserId;
+	}
+
+	public void setPostUserId(String postUserId) {
+		this.postUserId = postUserId;
 	}
 }

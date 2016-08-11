@@ -33,6 +33,7 @@
 		<result property="activitySaleCount" column="activity_sale_count" />
 		<result property="activityUrl" column="activity_url" />
 		<result property="postId" column="post_id" />
+		<result property="postUserId" column="post_user_id" />
 		<result property="postContext" column="post_context" />
 		<result property="postUserName" column="post_user_name" />
 		<result property="postLoveCount" column="post_love_count" />
@@ -71,7 +72,7 @@
 		AS class_price,
 		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
 		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,null as activity_url,
-		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
+		NULL AS post_id,null as post_user_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
 		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
 		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
 		friend_phone,NULL AS friend_sex
@@ -90,7 +91,7 @@
 		cc.price AS class_price,
 		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
 		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,null as activity_url,
-		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
+		NULL AS post_id,null as post_user_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
 		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
 		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
 		friend_phone,NULL AS friend_sex
@@ -109,7 +110,7 @@
 		ca.id AS activity_id,ca.adver_img AS activity_adverImg,ca.title AS
 		activity_title,ca.old_price AS activity_old_price,ca.price AS
 		activity_price,ca.sale_count AS activity_sale_count,ca.url as activity_url,
-		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
+		NULL AS post_id,null as post_user_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
 		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
 		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
 		friend_phone,NULL AS friend_sex
@@ -126,7 +127,7 @@
 		AS class_price,
 		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
 		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count,null as activity_url,
-		cp.id AS post_id,cp.context AS post_context,u.name AS post_user_name,
+		cp.id AS post_id,cp.user_id as post_user_id,cp.context AS post_context,u.name AS post_user_name,
 		(SELECT
 		COUNT(*) FROM community_post_love cpl WHERE cpl.post_id = cp.id) AS
 		post_love_count,
@@ -163,21 +164,7 @@
 		class_start_time,cc.end_time AS
 		class_end_time,u.name AS
 		class_teacher_name,
-		cc.price AS class_price,
-		NULL AS institution_id,NULL AS institution_name,NULL AS
-		institution_logo,NULL AS institution_course_type,0 AS
-		institution_comment_count,NULL AS institution_address,
-		NULL AS
-		activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
-		AS
-		activity_old_price,NULL AS activity_price,0 AS activity_sale_count,NULL as activity_url,
-		NULL AS post_id,NULL AS
-		post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
-		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
-		NULL AS friend_id,NULL AS
-		friend_photo,NULL AS friend_name,NULL AS
-		friend_phone,NULL AS
-		friend_sex
+		cc.price AS class_price
 		FROM course_classes cc JOIN `user` u ON u.id = cc.user_id
 		WHERE cc.name
 		LIKE '%${key}%'
@@ -189,38 +176,15 @@
 		institution_logo,i.course_type AS institution_course_type,
 		(SELECT COUNT(*) FROM institution_comment ic WHERE ic.institution_id = i.id)
 		AS institution_comment_count,
-		i.address AS institution_address,
-		NULL AS class_id,NULL AS class_cover,NULL AS class_name,0 AS
-		class_plan_count,0 AS class_student_count,
-		NULL AS class_start_date,NULL AS class_end_date,NULL AS
-		class_start_time,NULL AS class_end_time,NULL class_teacher_name,NULL
-		AS class_price,
-		NULL AS activity_id,NULL AS activity_adverImg,NULL AS activity_title,NULL
-		AS activity_old_price,NULL AS activity_price,0 AS activity_sale_count, null as activity_url,
-		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
-		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
-		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
-		friend_phone,NULL AS friend_sex
+		i.address AS institution_address
 		FROM institution i WHERE i.name LIKE '%${key}%'
 		LIMIT #{page.pageNo},#{page.pageSize}
 	</select>
 	<select id="getActivitySearch" resultMap="searchResult">
 		SELECT 3 AS `type`,
-		NULL AS institution_id,NULL AS institution_name,NULL AS
-		institution_logo,NULL AS institution_course_type,0 AS
-		institution_comment_count,NULL AS institution_address,
-		NULL AS class_id,NULL AS class_cover,NULL AS class_name,0 AS
-		class_plan_count,0 AS class_student_count,
-		NULL AS class_start_date,NULL AS class_end_date,NULL AS
-		class_start_time,NULL AS class_end_time,NULL class_teacher_name,NULL
-		AS class_price,
 		ca.id AS activity_id,ca.adver_img AS activity_adverImg,ca.title AS
 		activity_title,ca.old_price AS activity_old_price,ca.price AS
-		activity_price,ca.sale_count AS activity_sale_count,ca.url as activity_url,
-		NULL AS post_id,NULL AS post_context,NULL AS post_user_name,0 AS post_love_count,0 AS post_collect_count,0 AS post_comment_count,
-		null AS post_user_photo,null AS post_user_sex,null AS post_create_time,null AS post_love_id,null AS post_collect_id,
-		NULL AS friend_id,NULL AS friend_photo,NULL AS friend_name,NULL AS
-		friend_phone,NULL AS friend_sex
+		activity_price,ca.sale_count AS activity_sale_count,ca.url as activity_url
 		FROM child_activity ca WHERE ca.name LIKE '%${key}%'
 		LIMIT #{page.pageNo},#{page.pageSize}
 	</select>

@@ -585,7 +585,10 @@ public class CourseControll extends Base {
 			courseService.addCourseClassSign2_0(classSign);
 			write(response, null, null, null, classSign);
 		} catch (Exception e) {
-			e.printStackTrace();
+			if (e instanceof RuntimeException){
+				write(response, false, 712, e.getMessage(), null);
+				return;
+			}
 			write(response, false, 911, e.getMessage(), null);
 		}
 	}

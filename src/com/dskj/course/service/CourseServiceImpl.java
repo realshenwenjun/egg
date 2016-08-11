@@ -249,7 +249,7 @@ public class CourseServiceImpl extends Base implements CourseService {
 			throws Exception {
 		int classSignOrderCount = classSignMapper.getClassSignOrderByUserIdAndClassId(courseClassSign.getUserId(),courseClassSign.getClassId());
 		if (classSignOrderCount != 0 )
-			throw new Exception("不允许重复报名");
+			throw new RuntimeException("不允许重复报名");
 		classSignMapper.addClassSign2_0(courseClassSign);
 	}
 
