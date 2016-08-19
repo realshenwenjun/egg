@@ -154,7 +154,7 @@
 		course_classes cc ON ccs.classes_id =
 		cc.id JOIN institution_user iu
 		ON cc.institution_id = iu.institution_id
-		WHERE iu.user_id = #{0} AND iu.current = 1 AND ccs.user_id =
+		WHERE iu.user_id = #{0} AND ccs.user_id =
 		#{0}
 	</select>
 	<select id="sysList" resultMap="announcementVO">
