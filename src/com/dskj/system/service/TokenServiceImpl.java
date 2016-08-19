@@ -70,7 +70,6 @@ public class TokenServiceImpl extends Base implements TokenService, Initializing
 			write(response, false, 899, "Header property 'Authorization' is missing", null);
 			return false;
 		}
-		logger.info("authorization:" + authorization + ",netKey:"+netKey);
 		if (authorization.equals(netKey))// 验证是否是PC端
 			return checkOSLimit(request, response);
 		if (!authorization.equals(this.getToekn())) {

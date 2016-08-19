@@ -260,9 +260,11 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
 		InstitutionEntity institutionEntity = institutionMapper.getInstitutionById(credence);
 		if(institutionEntity == null || !institutionEntity.getId().equals(childIds.get(0)))
 			return "添加失败，请确认填写的子机构凭证是正确的";
-        logger.info("parentId="+institutionEntity.getParentId());
 		if(institutionEntity.getParentId() != null)
 			return "添加失败，请确认被添加的子机构没有被添加过";
+		InstitutionEntity institutionParent = institutionMapper.getInstitutionById(institutionId);
+		if(institutionParent.getParentId() != null)
+			return "已是分机构的不能再添加分机构";
 		if(childIds != null && childIds.size() != 0)
 			institutionMapper.addBatchMyChildInstitution(institutionId,childIds);
 		return null;
