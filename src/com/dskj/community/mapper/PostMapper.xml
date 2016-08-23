@@ -172,14 +172,14 @@
 		love_count,
 		(SELECT cpl.id FROM community_post_love cpl WHERE
 		cpl.post_id = cp.id AND
-		cpl.user_id = #{visitorId}) AS love_id,
+		cpl.user_id = #{visitorId} LIMIT 1) AS love_id,
 		(SELECT
 		COUNT(*) FROM community_post_collect cpc WHERE cpc.post_id = cp.id)
 		AS
 		collect_count,
 		(SELECT cpc.id FROM community_post_collect cpc WHERE
 		cpc.post_id = cp.id AND
-		cpc.user_id = #{visitorId}) AS collect_id,
+		cpc.user_id = #{visitorId} limit 1) AS collect_id,
 		(SELECT
 		COUNT(*) FROM community_post_comment cpc WHERE cpc.post_id = cp.id)
 		AS
