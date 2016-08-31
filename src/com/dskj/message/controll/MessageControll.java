@@ -13,24 +13,19 @@ import java.util.Map;
 
 @Controller
 public class MessageControll extends Base {
-	@Autowired
-	private	MqManager mqManager;
+    @Autowired
+    private MqManager mqManager;
 
-	/*
-	 * 发送消息和通知 message={"ticker":"","title":"","text":"","after_open":"","custom":"","display_type":"","type":"","device_tokens":"","alias_type":"","alias":"","description":"","expire_time":""}
-	 */
-	@RequestMapping("/message/send")
-	public void sendMessage(HttpServletRequest request,
-			HttpServletResponse response) {
-		try {
-			String jsoString = request.getParameter("message");
-			logger.info(jsoString);
-			Map<String,String> map = stringToObj(jsoString, HashMap.class);
-			mqManager.getMqList().get(0).put(map);
-			write(response, null, null, null,null);
-		} catch (Exception e) {
-			e.printStackTrace();
-			write(response, false, 911, e.getMessage(), null);
-		}
-	}
+    /*
+     * 发送消息和通知 message={"ticker":"","title":"","text":"","after_open":"","custom":"","display_type":"","type":"","device_tokens":"","alias_type":"","alias":"","description":"","expire_time":""}
+     */
+    @RequestMapping("/message/send")
+    public void sendMessage(HttpServletRequest request,
+                            HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("message");
+        logger.info(jsoString);
+        Map<String, String> map = stringToObj(jsoString, HashMap.class);
+        mqManager.getMqList().get(0).put(map);
+        write(response, null, null, null, null);
+    }
 }

@@ -1,18 +1,16 @@
 package com.dskj.user.controll;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.dskj.base.Base;
+import com.dskj.user.entity.Role;
+import com.dskj.user.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dskj.base.Base;
-import com.dskj.user.entity.Role;
-import com.dskj.user.service.RoleService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 public class RoleControll extends Base {
@@ -27,14 +25,9 @@ public class RoleControll extends Base {
      * @param response
      */
     @RequestMapping("/role/list")
-    public void getRoleList(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            List<Role> list = roleService.getList();
-            write(response, null, null, null, list);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+    public void getRoleList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<Role> list = roleService.getList();
+        write(response, null, null, null, list);
     }
 
     /*
@@ -45,16 +38,11 @@ public class RoleControll extends Base {
      * @param response
      */
     @RequestMapping("/role/get")
-    public void getRole(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("role");
-            logger.info(jsonString);
-            Role role = roleService.get(readTreeAsInt(jsonString, "id"));
-            write(response, null, null, null, role);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+    public void getRole(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("role");
+        logger.info(jsonString);
+        Role role = roleService.get(readTreeAsInt(jsonString, "id"));
+        write(response, null, null, null, role);
     }
 
     /*
@@ -65,19 +53,14 @@ public class RoleControll extends Base {
      * @param response
      */
     @RequestMapping("/role/add")
-    public void addRole(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("role");
-            logger.info(jsonString);
-            Role role = new Role();
-            role.setName(readTree(jsonString, "name"));
-            role.setCreateTime(new Date());
-            roleService.add(role);
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+    public void addRole(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("role");
+        logger.info(jsonString);
+        Role role = new Role();
+        role.setName(readTree(jsonString, "name"));
+        role.setCreateTime(new Date());
+        roleService.add(role);
+        write(response, null, null, null, null);
     }
 
     /*
@@ -88,17 +71,12 @@ public class RoleControll extends Base {
      * @param response
      */
     @RequestMapping("/role/update")
-    public void updateRole(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("role");
-            logger.info(jsonString);
-            Role role = stringToObj(jsonString, Role.class);
-            roleService.update(role);
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+    public void updateRole(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("role");
+        logger.info(jsonString);
+        Role role = stringToObj(jsonString, Role.class);
+        roleService.update(role);
+        write(response, null, null, null, null);
     }
 
     /*
@@ -109,15 +87,10 @@ public class RoleControll extends Base {
      * @param response
      */
     @RequestMapping("/role/delete")
-    public void deleteRole(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("role");
-            logger.info(jsonString);
-            roleService.delete(readTreeAsInt(jsonString, "id"));
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+    public void deleteRole(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("role");
+        logger.info(jsonString);
+        roleService.delete(readTreeAsInt(jsonString, "id"));
+        write(response, null, null, null, null);
     }
 }

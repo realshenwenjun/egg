@@ -26,24 +26,19 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/add")
     public void addInformation(HttpServletRequest request,
-                               HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("information");
-            logger.info(jsoString);
-            List<String> imgUrls = jsonToList(readTree(jsoString, "imgUrls"),
-                    ArrayList.class, String.class);
-            String detailTemp = "";
-            detailTemp = readTree(jsoString, "context").replaceAll("\b", "+").replaceAll(" ", "+");
-            Integer infoId = informationService.addInformation(
-                    readTree(jsoString, "userId"),
-                    readTree(jsoString, "title"),
-                    readTree(jsoString, "summary"),
-                    new String(Base64.decodeBase64(detailTemp), "UTF-8"), imgUrls);
-            write(response, null, null, null, infoId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                               HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("information");
+        logger.info(jsoString);
+        List<String> imgUrls = jsonToList(readTree(jsoString, "imgUrls"),
+                ArrayList.class, String.class);
+        String detailTemp = "";
+        detailTemp = readTree(jsoString, "context").replaceAll("\b", "+").replaceAll(" ", "+");
+        Integer infoId = informationService.addInformation(
+                readTree(jsoString, "userId"),
+                readTree(jsoString, "title"),
+                readTree(jsoString, "summary"),
+                new String(Base64.decodeBase64(detailTemp), "UTF-8"), imgUrls);
+        write(response, null, null, null, infoId);
     }
 
     /*
@@ -51,23 +46,18 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/update")
     public void updateInformation(HttpServletRequest request,
-                                  HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("information");
-            logger.info(jsoString);
-            String detailTemp = "";
-            detailTemp = readTree(jsoString, "context").replaceAll("\b", "+").replaceAll(" ", "+");
-            informationService.updateInformation(
-                    readTreeAsInt(jsoString, "id"),
-                    readTree(jsoString, "title"),
-                    readTree(jsoString, "summary"),
-                    new String(Base64.decodeBase64(detailTemp), "UTF-8"),
-                    readTree(jsoString, "imgUrl"));
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                  HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("information");
+        logger.info(jsoString);
+        String detailTemp = "";
+        detailTemp = readTree(jsoString, "context").replaceAll("\b", "+").replaceAll(" ", "+");
+        informationService.updateInformation(
+                readTreeAsInt(jsoString, "id"),
+                readTree(jsoString, "title"),
+                readTree(jsoString, "summary"),
+                new String(Base64.decodeBase64(detailTemp), "UTF-8"),
+                readTree(jsoString, "imgUrl"));
+        write(response, null, null, null, null);
     }
 
     /*
@@ -75,17 +65,12 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/delete")
     public void deleteInformation(HttpServletRequest request,
-                                  HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("information");
-            logger.info(jsoString);
-            informationService.deleteInformation(readTreeAsInt(jsoString,
-                    "infoId"));
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                  HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("information");
+        logger.info(jsoString);
+        informationService.deleteInformation(readTreeAsInt(jsoString,
+                "infoId"));
+        write(response, null, null, null, null);
     }
 
     /*
@@ -93,20 +78,15 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/list")
     public void getInformationList(HttpServletRequest request,
-                                   HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("information");
-            logger.info(jsonString);
-            Page page = new Page();
-            page.setPageNo(readTreeAsInt(jsonString, "pageNo"));
-            page.setPageSize(readTreeAsInt(jsonString, "pageSize"));
-            List<Information> list = informationService.getInformationList(
-                    readTree(jsonString, "userId"), page);
-            write(response, null, null, null, list);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                   HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("information");
+        logger.info(jsonString);
+        Page page = new Page();
+        page.setPageNo(readTreeAsInt(jsonString, "pageNo"));
+        page.setPageSize(readTreeAsInt(jsonString, "pageSize"));
+        List<Information> list = informationService.getInformationList(
+                readTree(jsonString, "userId"), page);
+        write(response, null, null, null, list);
     }
 
     /*
@@ -114,17 +94,12 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/count")
     public void getInformationCount(HttpServletRequest request,
-                                    HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("information");
-            logger.info(jsonString);
-            Page page = new Page();
-            write(response, null, null, null,
-                    informationService.getInformationCount());
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                    HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("information");
+        logger.info(jsonString);
+        Page page = new Page();
+        write(response, null, null, null,
+                informationService.getInformationCount());
     }
 
     /*
@@ -132,18 +107,13 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/get")
     public void getInformation(HttpServletRequest request,
-                               HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("information");
-            logger.info(jsonString);
-            Information information = informationService.getInformation(
-                    readTreeAsInt(jsonString, "infoId"),
-                    readTree(jsonString, "userId"));
-            write(response, null, null, null, information);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                               HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("information");
+        logger.info(jsonString);
+        Information information = informationService.getInformation(
+                readTreeAsInt(jsonString, "infoId"),
+                readTree(jsonString, "userId"));
+        write(response, null, null, null, information);
     }
 
     /*
@@ -151,18 +121,13 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/love/add")
     public void addInformationLove(HttpServletRequest request,
-                                   HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("information");
-            logger.info(jsonString);
-            InformationLove informationLove = informationService.addInformationLove(
-                    readTreeAsInt(jsonString, "infoId"),
-                    readTree(jsonString, "userId"));
-            write(response, null, null, null, informationLove);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                   HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("information");
+        logger.info(jsonString);
+        InformationLove informationLove = informationService.addInformationLove(
+                readTreeAsInt(jsonString, "infoId"),
+                readTree(jsonString, "userId"));
+        write(response, null, null, null, informationLove);
     }
 
     /*
@@ -170,18 +135,13 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/love/delete")
     public void deleteInformationLove(HttpServletRequest request,
-                                      HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("information");
-            logger.info(jsonString);
-            informationService.deleteInformationLove(
-                    readTreeAsInt(jsonString, "infoId"),
-                    readTree(jsonString, "userId"));
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                      HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("information");
+        logger.info(jsonString);
+        informationService.deleteInformationLove(
+                readTreeAsInt(jsonString, "infoId"),
+                readTree(jsonString, "userId"));
+        write(response, null, null, null, null);
     }
 
     /*
@@ -189,18 +149,13 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/collect/add")
     public void addInformationCollect(HttpServletRequest request,
-                                      HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("information");
-            logger.info(jsonString);
-            InformationCollect informationCollect = informationService.addInformationCollect(
-                    readTreeAsInt(jsonString, "infoId"),
-                    readTree(jsonString, "userId"));
-            write(response, null, null, null, informationCollect);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                      HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("information");
+        logger.info(jsonString);
+        InformationCollect informationCollect = informationService.addInformationCollect(
+                readTreeAsInt(jsonString, "infoId"),
+                readTree(jsonString, "userId"));
+        write(response, null, null, null, informationCollect);
     }
 
     /*
@@ -208,18 +163,13 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/collect/delete")
     public void deteleInformationCollect(HttpServletRequest request,
-                                         HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("information");
-            logger.info(jsonString);
-            informationService.deleteInformationCollect(
-                    readTreeAsInt(jsonString, "infoId"),
-                    readTree(jsonString, "userId"));
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                         HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("information");
+        logger.info(jsonString);
+        informationService.deleteInformationCollect(
+                readTreeAsInt(jsonString, "infoId"),
+                readTree(jsonString, "userId"));
+        write(response, null, null, null, null);
     }
 
     /*
@@ -227,19 +177,14 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/comment/add")
     public void addInformationComment(HttpServletRequest request,
-                                      HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("information");
-            logger.info(jsonString);
-            informationService.addInformationComment(
-                    readTreeAsInt(jsonString, "infoId"),
-                    readTree(jsonString, "userId"),
-                    readTree(jsonString, "context"));
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                      HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("information");
+        logger.info(jsonString);
+        informationService.addInformationComment(
+                readTreeAsInt(jsonString, "infoId"),
+                readTree(jsonString, "userId"),
+                readTree(jsonString, "context"));
+        write(response, null, null, null, null);
     }
 
     /*
@@ -247,18 +192,13 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/comment/delete")
     public void deleteInformationComment(HttpServletRequest request,
-                                         HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("information");
-            logger.info(jsonString);
-            informationService.deleteInformationComment(
-                    readTreeAsInt(jsonString, "infoId"),
-                    readTreeAsInt(jsonString, "commentId"));
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                         HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("information");
+        logger.info(jsonString);
+        informationService.deleteInformationComment(
+                readTreeAsInt(jsonString, "infoId"),
+                readTreeAsInt(jsonString, "commentId"));
+        write(response, null, null, null, null);
     }
 
     /*
@@ -266,20 +206,15 @@ public class InformationControll extends Base {
      */
     @RequestMapping("/information/comment/list")
     public void getInformationCommentList(HttpServletRequest request,
-                                          HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("information");
-            logger.info(jsonString);
-            Page page = new Page();
-            page.setPageNo(readTreeAsInt(jsonString, "pageNo"));
-            page.setPageSize(readTreeAsInt(jsonString, "pageSize"));
-            Object o = informationService.getInformationComments(
-                    readTreeAsInt(jsonString, "infoId"),
-                    readTree(jsonString, "userId"), page);
-            write(response, null, null, null, o);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                          HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("information");
+        logger.info(jsonString);
+        Page page = new Page();
+        page.setPageNo(readTreeAsInt(jsonString, "pageNo"));
+        page.setPageSize(readTreeAsInt(jsonString, "pageSize"));
+        Object o = informationService.getInformationComments(
+                readTreeAsInt(jsonString, "infoId"),
+                readTree(jsonString, "userId"), page);
+        write(response, null, null, null, o);
     }
 }

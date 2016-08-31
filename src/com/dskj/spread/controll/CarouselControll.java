@@ -28,21 +28,16 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/add")
     public void uploadCoursel(HttpServletRequest request,
-                              HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("carousel");
-            logger.info(jsonString);
-            Carousel carousel = stringToObj(jsonString, Carousel.class);
-            String detailTemp = "";
-            detailTemp = carousel.getContext().replaceAll("\b", "+").replaceAll(" ","+");
-            carousel.setContext(new String(Base64.decodeBase64(detailTemp), "UTF-8"));
-            carousel.setCreateTime(new Date());
-            carouselService.add(carousel);
-            write(response, null, null, null, carousel.getPath());
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                              HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("carousel");
+        logger.info(jsonString);
+        Carousel carousel = stringToObj(jsonString, Carousel.class);
+        String detailTemp = "";
+        detailTemp = carousel.getContext().replaceAll("\b", "+").replaceAll(" ", "+");
+        carousel.setContext(new String(Base64.decodeBase64(detailTemp), "UTF-8"));
+        carousel.setCreateTime(new Date());
+        carouselService.add(carousel);
+        write(response, null, null, null, carousel.getPath());
     }
 
     /*
@@ -50,24 +45,19 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/update")
     public void updateCoursel(HttpServletRequest request,
-                              HttpServletResponse response) {
-        try {
-            String jsonString = request.getParameter("carousel");
-            logger.info(jsonString);
-            Carousel carousel = new Carousel();
-            carousel.setId(readTreeAsInt(jsonString, "id"));
-            String detailTemp = "";
-            detailTemp = readTree(jsonString, "context").replaceAll("\b", "+").replaceAll(" ","+");
-            carousel.setContext(new String(Base64.decodeBase64(detailTemp),"UTF-8"));
-            carousel.setPath(readTree(jsonString, "path"));
-            carousel.setVal(readTree(jsonString, "val"));
-            carousel.setTitle(readTree(jsonString, "title"));
-            carouselService.updateCarousel(carousel);
-            write(response, null, null, null, carousel.getPath());
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                              HttpServletResponse response) throws Exception {
+        String jsonString = request.getParameter("carousel");
+        logger.info(jsonString);
+        Carousel carousel = new Carousel();
+        carousel.setId(readTreeAsInt(jsonString, "id"));
+        String detailTemp = "";
+        detailTemp = readTree(jsonString, "context").replaceAll("\b", "+").replaceAll(" ", "+");
+        carousel.setContext(new String(Base64.decodeBase64(detailTemp), "UTF-8"));
+        carousel.setPath(readTree(jsonString, "path"));
+        carousel.setVal(readTree(jsonString, "val"));
+        carousel.setTitle(readTree(jsonString, "title"));
+        carouselService.updateCarousel(carousel);
+        write(response, null, null, null, carousel.getPath());
     }
 
     /*
@@ -75,14 +65,9 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/list")
     public void getCourselList(HttpServletRequest request,
-                               HttpServletResponse response) {
-        try {
-            List<Carousel> list = carouselService.getList();
-            write(response, null, null, null, list);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                               HttpServletResponse response) throws Exception {
+        List<Carousel> list = carouselService.getList();
+        write(response, null, null, null, list);
     }
 
     /*
@@ -90,20 +75,15 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/delete")
     public void delCourselFecth(HttpServletRequest request,
-                                HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("carousel");
-            logger.info(jsoString);
-            List<Integer> carList = jsonToList(jsoString, ArrayList.class,
-                    Integer.class);
-            for (Integer id : carList) {
-                carouselService.deleteById(id);
-            }
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
+                                HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("carousel");
+        logger.info(jsoString);
+        List<Integer> carList = jsonToList(jsoString, ArrayList.class,
+                Integer.class);
+        for (Integer id : carList) {
+            carouselService.deleteById(id);
         }
+        write(response, null, null, null, null);
     }
 
     /*
@@ -111,19 +91,14 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/love/add")
     public void addCourselLove(HttpServletRequest request,
-                               HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("carousel");
-            logger.info(jsoString);
-            CarouselLove carouselLove = stringToObj(jsoString,
-                    CarouselLove.class);
-            carouselLove.setCreateTime(new Date());
-            carouselService.addCarouselLove(carouselLove);
-            write(response, null, null, null, carouselLove);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                               HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("carousel");
+        logger.info(jsoString);
+        CarouselLove carouselLove = stringToObj(jsoString,
+                CarouselLove.class);
+        carouselLove.setCreateTime(new Date());
+        carouselService.addCarouselLove(carouselLove);
+        write(response, null, null, null, carouselLove);
     }
 
     /*
@@ -131,18 +106,13 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/love/delete")
     public void deleteCourselLove(HttpServletRequest request,
-                                  HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("carousel");
-            logger.info(jsoString);
-            carouselService.deleteCarouselLove(
-                    readTreeAsInt(jsoString, "carouselId"),
-                    readTree(jsoString, "userId"));
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                  HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("carousel");
+        logger.info(jsoString);
+        carouselService.deleteCarouselLove(
+                readTreeAsInt(jsoString, "carouselId"),
+                readTree(jsoString, "userId"));
+        write(response, null, null, null, null);
     }
 
     /*
@@ -150,19 +120,14 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/collect/add")
     public void addCourselCollect(HttpServletRequest request,
-                                  HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("carousel");
-            logger.info(jsoString);
-            CarouselCollect carouselCollect = stringToObj(jsoString,
-                    CarouselCollect.class);
-            carouselCollect.setCreateTime(new Date());
-            carouselService.addCarouselCollect(carouselCollect);
-            write(response, null, null, null, carouselCollect);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                  HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("carousel");
+        logger.info(jsoString);
+        CarouselCollect carouselCollect = stringToObj(jsoString,
+                CarouselCollect.class);
+        carouselCollect.setCreateTime(new Date());
+        carouselService.addCarouselCollect(carouselCollect);
+        write(response, null, null, null, carouselCollect);
     }
 
     /*
@@ -170,18 +135,13 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/collect/delete")
     public void deleteCourselCollect(HttpServletRequest request,
-                                     HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("carousel");
-            logger.info(jsoString);
-            carouselService.deleteCarouselCollect(
-                    readTreeAsInt(jsoString, "carouselId"),
-                    readTree(jsoString, "userId"));
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                     HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("carousel");
+        logger.info(jsoString);
+        carouselService.deleteCarouselCollect(
+                readTreeAsInt(jsoString, "carouselId"),
+                readTree(jsoString, "userId"));
+        write(response, null, null, null, null);
     }
 
     /*
@@ -189,19 +149,14 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/comment/add")
     public void addCourselComment(HttpServletRequest request,
-                                  HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("carousel");
-            logger.info(jsoString);
-            carouselService.addCarouselCommet(
-                    readTreeAsInt(jsoString, "carouselId"),
-                    readTree(jsoString, "userId"),
-                    readTree(jsoString, "context"));
-            write(response, null, null, null, null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                  HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("carousel");
+        logger.info(jsoString);
+        carouselService.addCarouselCommet(
+                readTreeAsInt(jsoString, "carouselId"),
+                readTree(jsoString, "userId"),
+                readTree(jsoString, "context"));
+        write(response, null, null, null, null);
     }
 
     /*
@@ -209,18 +164,13 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/get")
     public void getCourselDetail(HttpServletRequest request,
-                                 HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("carousel");
-            logger.info(jsoString);
-            CarouselDetail carouselDetail = carouselService.getDetailById(
-                    readTreeAsInt(jsoString, "id"),
-                    readTree(jsoString, "userId"));
-            write(response, null, null, null, carouselDetail);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                 HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("carousel");
+        logger.info(jsoString);
+        CarouselDetail carouselDetail = carouselService.getDetailById(
+                readTreeAsInt(jsoString, "id"),
+                readTree(jsoString, "userId"));
+        write(response, null, null, null, carouselDetail);
     }
 
     /*
@@ -228,20 +178,15 @@ public class CarouselControll extends Base {
      */
     @RequestMapping("/carousel/comment/list")
     public void getCourselCommentList(HttpServletRequest request,
-                                      HttpServletResponse response) {
-        try {
-            String jsoString = request.getParameter("carousel");
-            logger.info(jsoString);
-            Page page = new Page();
-            page.setPageNo(readTreeAsInt(jsoString, "pageNo"));
-            page.setPageSize(readTreeAsInt(jsoString, "pageSize"));
-            Object o = carouselService.getCarouselComments(
-                    readTreeAsInt(jsoString, "carouselId"),
-                    readTree(jsoString, "userId"), page);
-            write(response, null, null, null, o);
-        } catch (Exception e) {
-            e.printStackTrace();
-            write(response, false, 911, e.getMessage(), null);
-        }
+                                      HttpServletResponse response) throws Exception {
+        String jsoString = request.getParameter("carousel");
+        logger.info(jsoString);
+        Page page = new Page();
+        page.setPageNo(readTreeAsInt(jsoString, "pageNo"));
+        page.setPageSize(readTreeAsInt(jsoString, "pageSize"));
+        Object o = carouselService.getCarouselComments(
+                readTreeAsInt(jsoString, "carouselId"),
+                readTree(jsoString, "userId"), page);
+        write(response, null, null, null, o);
     }
 }
