@@ -79,6 +79,6 @@
         SELECT uc.id FROM user_collect uc WHERE uc.user_id = #{0} AND uc.been_user_id = #{1}
     </select>
     <select id="getClassCollectId" resultType="java.lang.Integer">
-    	SELECT uc.id FROM user_collect uc WHERE uc.user_id = #{1} AND uc.class_id = #{0}
+    	SELECT uc.id FROM user_collect uc WHERE uc.user_id = #{1} AND uc.class_id = #{0} limit 1
     </select>
 </mapper>

@@ -35,7 +35,7 @@
 	<select id="getFansId" resultType="java.lang.Integer">
 		SELECT ccf.id FROM
 		course_classes_fans ccf WHERE ccf.class_id = #{0} AND ccf.user_id =
-		#{1}
+		#{1} limit 1
 	</select>
 	<select id="getUserCollectList2_0" parameterType="java.lang.String"
 		resultMap="myCollect">
