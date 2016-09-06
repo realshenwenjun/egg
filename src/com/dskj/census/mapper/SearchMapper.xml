@@ -164,7 +164,7 @@
 		class_start_time,cc.end_time AS
 		class_end_time,u.name AS
 		class_teacher_name,
-		cc.price AS class_price
+		cc.price AS class_price,0 as post_id
 		FROM course_classes cc JOIN `user` u ON u.id = cc.user_id
 		WHERE cc.name
 		LIKE '%${key}%'
@@ -176,7 +176,7 @@
 		institution_logo,i.course_type AS institution_course_type,
 		(SELECT COUNT(*) FROM institution_comment ic WHERE ic.institution_id = i.id)
 		AS institution_comment_count,
-		i.address AS institution_address
+		i.address AS institution_address,0 as post_id
 		FROM institution i WHERE i.name LIKE '%${key}%'
 		LIMIT #{page.pageNo},#{page.pageSize}
 	</select>
@@ -184,7 +184,7 @@
 		SELECT 3 AS `type`,
 		ca.id AS activity_id,ca.adver_img AS activity_adverImg,ca.title AS
 		activity_title,ca.old_price AS activity_old_price,ca.price AS
-		activity_price,ca.sale_count AS activity_sale_count,ca.url as activity_url
+		activity_price,ca.sale_count AS activity_sale_count,ca.url as activity_url,0 as post_id
 		FROM child_activity ca WHERE ca.name LIKE '%${key}%'
 		LIMIT #{page.pageNo},#{page.pageSize}
 	</select>
