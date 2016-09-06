@@ -247,6 +247,10 @@
 		VALUES
 		(#{cover},#{institutionId},#{courseTypeId},#{courseId},#{userId},#{name},#{summary},#{price},#{startDate},#{endDate},#{startTime},#{endTime},#{address},#{planCount},#{studentCount},#{createTime})
 	</insert>
+	<update id="updateCourseClass2_0" parameterType="com.dskj.course.entity2_0.CourseClass">
+		UPDATE course_classes SET cover = #{cover},course_type_id = #{courseTypeId},course_id = #{courseId},user_id = #{userId},name = #{name},summary = #{summary},price = #{price},start_date = #{startDate},end_date = #{endDate},
+		start_time = #{startTime},end_time = #{endTime},address = #{address},plan_count = #{planCount},student_count = #{studentCount} WHERE id = #{id}
+	</update>
 	<insert id="addCourseClassImg2_0" parameterType="java.util.ArrayList">
 		INSERT INTO course_classes_img (class_id,url,create_time) VALUES
 		<foreach collection="urls" item="url" index="index" separator=",">

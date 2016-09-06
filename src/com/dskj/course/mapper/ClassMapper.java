@@ -40,6 +40,8 @@ public interface ClassMapper extends CacheBean{
 	public List<PassClass> getPassClass(@Param("courseId") int courseId,@Param("page") Page page) throws Exception;
 	
 	public void addCourseClass2_0(CourseClass courseClass) throws Exception;
+
+	public void updateCourseClass2_0(CourseClass courseClass) throws Exception;
 	
 	public void addCourseClassImg2_0(@Param("urls") List<CourseClassImg> urls) throws Exception;
 	
