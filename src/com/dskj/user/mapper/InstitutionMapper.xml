@@ -266,9 +266,9 @@
 		institution_user SET current = 1 WHERE user_id = #{0}
 	</update>
 	<select id="getInstitutionWithPropaListPage" resultMap="institutionWithPropa">
-		SELECT CONCAT((SELECT (CASE WHEN rp.name IS NULL THEN '' ELSE rp.name END) FROM region r left JOIN region rp ON
-		r.parent_id = rp.id WHERE r.id = i.region_id),(SELECT r.name FROM
-		region r WHERE r.id = i.region_id),' ', i.address) AS
+		SELECT CONCAT((case when i.region_id &lt;> 0 THEN (SELECT rp.name FROM region r left JOIN region rp ON
+		r.parent_id = rp.id WHERE r.id = i.region_id) ELSE '' END),(CASE when i.region_id &lt;> 0 then (SELECT r.name FROM
+		region r WHERE r.id = i.region_id) else '' END),' ', i.address) AS
 		address,i.*,(SELECT COUNT(*) FROM institution_propa ip WHERE
 		ip.institution_id = i.id) AS propa_count,
 		(SELECT COUNT(*) FROM
