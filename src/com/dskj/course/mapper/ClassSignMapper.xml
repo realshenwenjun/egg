@@ -51,6 +51,7 @@
 		<result property="studentCount" column="student_count" />
 		<result property="price" column="price" />
 		<result property="institutionName" column="institution_name" />
+		<result property="institutionAddress" column="institution_address" />
 		<result property="address" column="address" />
 		<result property="signId" column="sign_id" />
 		<result property="totalSignCount" column="total_sign_count" />
@@ -198,11 +199,13 @@
 		cc.user_id AS user_id,u.name AS
 		user_name,cc.plan_count AS plan_count,
 		cc.student_count AS
-		student_count,cc.price AS price,i.name AS institution_name,
-		cc.address
+		student_count,cc.price AS price,i.name AS institution_name,i.address as institution_address,
+		(SELECT ccps.address FROM course_classes_plan_sign ccps WHERE
+		ccps.class_id = cc.id AND ccps.user_id = #{0} AND
+		DATE(ccps.create_time) = DATE(#{1}) limit 1 )
 		AS address,(SELECT ccps.id FROM course_classes_plan_sign ccps WHERE
 		ccps.class_id = cc.id AND ccps.user_id = #{0} AND
-		DATE(ccps.create_time) = DATE(#{1}) ) AS sign_id,
+		DATE(ccps.create_time) = DATE(#{1}) limit 1 ) AS sign_id,
 		(SELECT COUNT(*) FROM
 		course_classes_plan_sign ccps WHERE ccps.class_id = cc.id) AS
 		total_sign_count,

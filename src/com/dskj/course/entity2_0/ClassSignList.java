@@ -23,6 +23,7 @@ public class ClassSignList implements Serializable {
     private Double price;
     private String institutionName;
     private String address;
+    private String institutionAddress;
     private Integer signId;
     private int totalSignCount;
     private int totalCount;
@@ -161,5 +162,13 @@ public class ClassSignList implements Serializable {
 
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
+    }
+
+    public String getInstitutionAddress() {
+        return institutionAddress;
+    }
+
+    public void setInstitutionAddress(String institutionAddress) {
+        this.institutionAddress = institutionAddress;
     }
 }
