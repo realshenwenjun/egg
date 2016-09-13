@@ -4,13 +4,10 @@
  */
 package com.dskj.util;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author q
@@ -20,6 +17,7 @@ import java.util.List;
 public class DateUtil {
 	public static final String normalTimeFormat = "yyyy-MM-dd HH:mm:ss";
 	public static final String normalDateFormat = "yyyy-MM-dd";
+	public static final String IOS8601Format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 	public static String formatDate(Date date) {
 		String ret = "";
@@ -995,5 +993,18 @@ public class DateUtil {
 			w = 7;
 
 		return w;
+	}
+
+	/**
+	 * ava时间转换成ISO8601格林威治天文台的标准时间
+	 * @param dt
+	 * @return
+	 */
+	public static String getIOS8601(Date dt){
+		TimeZone tz = TimeZone.getTimeZone("UTC");
+		DateFormat df = new SimpleDateFormat(IOS8601Format);
+		df.setTimeZone(tz);
+		String nowAsISO = df.format(dt);
+		return nowAsISO;
 	}
 }

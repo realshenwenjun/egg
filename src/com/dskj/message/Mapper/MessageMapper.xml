@@ -17,4 +17,7 @@
 	<delete id="deleteCommentMessage">
 		DELETE FROM comment_message where comment_id = #{0}
 	</delete>
+	<select id="getPushConfig" resultMap="messageConfig">
+		SELECT * FROM system_config sc WHERE sc.key like "aliyun_push_%"
+	</select>
 </mapper>
