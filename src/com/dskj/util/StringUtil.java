@@ -1,5 +1,6 @@
 package com.dskj.util;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public class StringUtil {
@@ -22,5 +23,12 @@ public class StringUtil {
 	public static String generateUUID32() {
 		return UUID.randomUUID().toString().replace("-", "");
 
+	}
+	/**
+	 * ×ÖµäÅÅÐò
+	 */
+	public static String[] dictionarySort(String[] s) {
+		Arrays.sort(s);
+		return s;
 	}
 }
