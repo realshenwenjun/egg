@@ -31,6 +31,6 @@ public class MessageControll extends Base {
         pushRequest.setTitle("测试");
         pushRequest.setSummary("summary");
         String s =  pushService.push(pushRequest);
-        write(response, null, null, s, null);
+        write(response, null, null, null, s);
     }
 }
