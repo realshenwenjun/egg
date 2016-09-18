@@ -2,17 +2,13 @@ package com.dskj.message.entity;
 
 import com.dskj.util.DateUtil;
 
-import java.beans.IntrospectionException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by ASUS on 2016/9/15.
  */
-public abstract class PushRequest {
+public abstract class PushRequest implements Serializable{
     public String Format = "JSON";
     public String RegionId = "cn-hangzhou";
     public String Version = "2015-08-27";
@@ -22,29 +18,6 @@ public abstract class PushRequest {
     public String SignatureNonce = String.valueOf(System.currentTimeMillis());
     public String Timestamp = DateUtil.getIOS8601(new Date());
 
-    public Map<String, String> getMap() throws IllegalAccessException, IntrospectionException, InvocationTargetException {
-        return java2Map(this);
-    }
-
-    /**
-     * JavaBean对象转化成Map对象
-     *
-     * @return
-     * @author jqlin
-     */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public static Map java2Map(Object o) throws IntrospectionException, InvocationTargetException, IllegalAccessException {
-        Map<String, Object> map = new HashMap<String, Object>();
-        Field[] fields = null;
-        fields = o.getClass().getFields();
-        for (Field field : fields) {
-            field.setAccessible(true);
-            String proName = field.getName();
-            Object proValue = field.get(o);
-            map.put(proName.toUpperCase(), proValue);
-        }
-        return map;
-    }
 
     public String getFormat() {
         return Format;

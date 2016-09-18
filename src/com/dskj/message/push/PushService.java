@@ -1,11 +1,13 @@
 package com.dskj.message.push;
 
+import com.dskj.base.Base;
 import com.dskj.message.Mapper.MessageMapper;
 import com.dskj.message.entity.MessageConfig;
 import com.dskj.message.entity.PushNoticeToAndroid;
 import com.dskj.message.entity.PushRequest;
 import com.dskj.util.HMACSHA1;
 import com.dskj.util.HttpUtil;
+import com.dskj.util.Java2Map;
 import com.dskj.util.StringUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.InitializingBean;
@@ -21,7 +23,7 @@ import java.util.Map;
  * Created by ASUS on 2016/9/13.
  */
 @Service
-public class PushService implements InitializingBean {
+public class PushService extends Base implements InitializingBean {
     @Autowired
     private MessageMapper messageMapper;
 
@@ -37,8 +39,10 @@ public class PushService implements InitializingBean {
         }
     }
 
-    private String buildUrl(PushRequest pushRequest) throws Exception {
-        Map<String, String> m = pushRequest.getMap();
+    private String buildUrl(PushNoticeToAndroid pushRequest) throws Exception {
+        ((PushNoticeToAndroid) pushRequest).setAccessKeyId(pushConfigs.get("aliyun_push_appid"));
+        ((PushNoticeToAndroid) pushRequest).setAppKey(pushConfigs.get("aliyun_push_appkey"));
+        Map<String, String> m = Java2Map.java2Map(pushRequest);
         String[] p = new String[m.size()];
         int i = 0;
         for (String key : m.keySet()) {
@@ -74,7 +78,9 @@ public class PushService implements InitializingBean {
         return Base64.encodeBase64String(HMACSHA1.getSignature(stringToSign, pushConfigs.get("aliyun_push_appsecret")).getBytes());
     }
 
-    public String push(PushRequest pushRequest) throws Exception {
-        return HttpUtil.get(buildUrl(pushRequest), null);
+    public String push(PushNoticeToAndroid pushRequest) throws Exception {
+        String s = buildUrl(pushRequest);
+        logger.info(s);
+        return HttpUtil.get(s, null);
     }
 }
