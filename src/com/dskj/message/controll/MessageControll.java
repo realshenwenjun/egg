@@ -28,7 +28,7 @@ public class MessageControll extends Base {
         pushRequest.setAction("PushNoticeToAndroid");
         pushRequest.setTarget("account");
         pushRequest.setTargetValue("account111");
-        pushRequest.setTitle("测试");
+        pushRequest.setTitle("test");
         pushRequest.setSummary("summary");
         String s =  pushService.push(pushRequest);
         write(response, null, null, null, s);

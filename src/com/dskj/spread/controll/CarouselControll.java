@@ -30,6 +30,7 @@ public class CarouselControll extends Base {
     public void uploadCoursel(HttpServletRequest request,
                               HttpServletResponse response) throws Exception {
         String jsonString = request.getParameter("carousel");
+        jsonString = jsonString.replaceAll("@","&");
         logger.info(jsonString);
         Carousel carousel = stringToObj(jsonString, Carousel.class);
         String detailTemp = "";
@@ -47,6 +48,7 @@ public class CarouselControll extends Base {
     public void updateCoursel(HttpServletRequest request,
                               HttpServletResponse response) throws Exception {
         String jsonString = request.getParameter("carousel");
+        jsonString = jsonString.replaceAll("@","&");
         logger.info(jsonString);
         Carousel carousel = new Carousel();
         carousel.setId(readTreeAsInt(jsonString, "id"));

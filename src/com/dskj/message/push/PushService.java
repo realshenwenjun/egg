@@ -49,7 +49,7 @@ public class PushService extends Base implements InitializingBean {
 
         String url = "http://" + pushConfigs.get("aliyun_push_url") + "?";
         StringBuffer sb = new StringBuffer();
-        // b)
+        // b) c) d)
         for (int j = 0; j < p.length; j++) {
             if (m.get(p[j]) != null && !"".equals(m.get(p[j])))
                 sb.append(URLCodeUtil.encode(p[j]) + "=" + URLCodeUtil.encode(m.get(p[j])) + "&");
