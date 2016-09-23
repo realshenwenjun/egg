@@ -90,4 +90,8 @@ public interface UserMapper extends CacheBean {
     
     public void deletePlatformsAdmin(String userId) throws Exception;
 
+    public  List<UserEntity> getInsAdminByInsId(String institutionId) throws Exception;
+
+    public void deleteById(String userId) throws Exception;
+
 }

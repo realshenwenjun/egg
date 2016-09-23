@@ -307,4 +307,10 @@
     <update id="deletePlatformsAdmin">
     	UPDATE `user` SET type = old_type,old_type = null WHERE id = #{0}
     </update>
+    <select id="getInsAdminByInsId" parameterType="java.lang.String" resultMap="userEntity">
+        select u.* from institution_user iu JOIN  `user` u on iu.user_id = u.id where u.type = 1 and iu.institution_id = #{0}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE FROM `user` where id = #{0}
+    </delete>
 </mapper>

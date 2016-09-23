@@ -1,42 +1,26 @@
 package com.dskj.user.service;
 
+import com.dskj.announcement.mapper.AnnouncementMapper;
+import com.dskj.announcement.mapper.AnnouncementReadMapper;
+import com.dskj.base.Base;
+import com.dskj.comment.entity.Comment;
+import com.dskj.comment.mapper.CommentMapper;
+import com.dskj.course.mapper.ClassMapper;
+import com.dskj.course.mapper.ClassSignMapper;
+import com.dskj.spread.mapper.PropaMapper;
+import com.dskj.user.entity.*;
+import com.dskj.user.exception.DeleteChildException;
+import com.dskj.user.exception.UserExistException;
+import com.dskj.user.mapper.*;
+import com.dskj.util.MD5Util;
+import com.dskj.util.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.dskj.announcement.mapper.AnnouncementMapper;
-import com.dskj.announcement.mapper.AnnouncementReadMapper;
-import com.dskj.course.mapper.ClassMapper;
-import com.dskj.course.mapper.ClassSignMapper;
-import com.dskj.spread.mapper.PropaMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.dskj.base.Base;
-import com.dskj.comment.entity.Comment;
-import com.dskj.comment.mapper.CommentMapper;
-import com.dskj.user.entity.ChatUser;
-import com.dskj.user.entity.ChildInstitutionList;
-import com.dskj.user.entity.InstitutionComment;
-import com.dskj.user.entity.InstitutionEntity;
-import com.dskj.user.entity.InstitutionFace;
-import com.dskj.user.entity.InstitutionFans;
-import com.dskj.user.entity.InstitutionLove;
-import com.dskj.user.entity.InstitutionUserEntity;
-import com.dskj.user.entity.InstitutionVisit;
-import com.dskj.user.entity.InstitutionWithPropa;
-import com.dskj.user.entity.UserEntity;
-import com.dskj.user.exception.DeleteChildException;
-import com.dskj.user.exception.UserExistException;
-import com.dskj.user.mapper.InstitutionCommentMapper;
-import com.dskj.user.mapper.InstitutionFansMapper;
-import com.dskj.user.mapper.InstitutionLoveMapper;
-import com.dskj.user.mapper.InstitutionMapper;
-import com.dskj.user.mapper.InstitutionVisitMapper;
-import com.dskj.user.mapper.UserMapper;
-import com.dskj.util.MD5Util;
-import com.dskj.util.Page;
 
 @Service
 public class InstitutionServiceImpl extends Base implements InstitutionService {
@@ -340,6 +324,11 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
         institutionLoveMapper.deleteByInstitutionId(institutionId);
         //删除机构propa
         propaMapper.deleteByInstitutionId(institutionId);
+        //删除机构的管理员
+        List<UserEntity> userEntitys = userMapper.getInsAdminByInsId(institutionId);
+        if (userEntitys != null && userEntitys.size() != 0){
+            userMapper.deleteById(userEntitys.get(0).getId());
+        }
         //删除机构user
         institutionMapper.deleteReleationByDeletedInstitution(institutionId);
 	}
