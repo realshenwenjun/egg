@@ -37,6 +37,8 @@ public class CarouselControll extends Base {
         detailTemp = carousel.getContext().replaceAll("\b", "+").replaceAll(" ", "+");
         carousel.setContext(new String(Base64.decodeBase64(detailTemp), "UTF-8"));
         carousel.setCreateTime(new Date());
+        if ("".equals(carousel.getVal()) || carousel.getVal() == null)
+            carousel.setVal(null);
         carouselService.add(carousel);
         write(response, null, null, null, carousel.getPath());
     }
@@ -58,6 +60,8 @@ public class CarouselControll extends Base {
         carousel.setPath(readTree(jsonString, "path"));
         carousel.setVal(readTree(jsonString, "val"));
         carousel.setTitle(readTree(jsonString, "title"));
+        if ("".equals(carousel.getVal()) || carousel.getVal() == null)
+            carousel.setVal(null);
         carouselService.updateCarousel(carousel);
         write(response, null, null, null, carousel.getPath());
     }
