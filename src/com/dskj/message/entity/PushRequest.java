@@ -13,6 +13,7 @@ public abstract class PushRequest implements Serializable{
     public String RegionId = "cn-hangzhou";
     public String Version = "2015-08-27";
     public String AccessKeyId;
+    public String AppKey;
     public String SignatureMethod = "HMAC-SHA1";
     public String SignatureVersion = "1.0";
     public String SignatureNonce = String.valueOf(System.currentTimeMillis());
@@ -81,5 +82,13 @@ public abstract class PushRequest implements Serializable{
 
     public void setTimestamp(String timestamp) {
         Timestamp = timestamp;
+    }
+
+    public String getAppKey() {
+        return AppKey;
+    }
+
+    public void setAppKey(String appKey) {
+        AppKey = appKey;
     }
 }

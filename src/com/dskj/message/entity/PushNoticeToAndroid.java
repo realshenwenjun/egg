@@ -7,7 +7,6 @@ import java.io.Serializable;
  */
 public class PushNoticeToAndroid extends PushRequest implements Serializable {
     private String Action;
-    private String AppKey;
     private String Target;
     private String TargetValue;
     private String Title;//发送的通知标题,最长20个字符，中文算1个字符
@@ -20,14 +19,6 @@ public class PushNoticeToAndroid extends PushRequest implements Serializable {
 
     public void setAction(String action) {
         Action = action;
-    }
-
-    public String getAppKey() {
-        return AppKey;
-    }
-
-    public void setAppKey(String appKey) {
-        AppKey = appKey;
     }
 
     public String getTarget() {
