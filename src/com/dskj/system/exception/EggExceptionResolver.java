@@ -12,7 +12,7 @@ import java.io.IOException;
  * Created by ASUS on 2016/8/31.
  */
 @Component
-public class EggExceptionResolver extends Base implements HandlerExceptionResolver{
+public class EggExceptionResolver extends Base implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse, Object o, Exception e) {
         JsonResponse resultModel = getResultModel(e);
@@ -22,12 +22,12 @@ public class EggExceptionResolver extends Base implements HandlerExceptionResolv
             httpServletResponse.getWriter().write(objToString(resultModel));
             logger.info(objToString(resultModel));
         } catch (IOException e1) {
-            logger.error("Exception " + e1.getMessage());
+            logger.error(e1);
         }
         return null;
     }
 
-    private JsonResponse getResultModel(Exception e){
+    private JsonResponse getResultModel(Exception e) {
         JsonResponse resultModel = new JsonResponse();
         resultModel.setMessage(e.getMessage());
         resultModel.setCode(911);

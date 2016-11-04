@@ -1,8 +1,8 @@
 package com.dskj.message.controll;
 
 import com.dskj.base.Base;
-import com.dskj.message.entity.PushNoticeToAndroid;
-import com.dskj.message.entity.PushRequest;
+import com.dskj.message.entity.MyPushRequest;
+import com.dskj.message.entity.MyPushResponse;
 import com.dskj.message.push.PushService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,13 +24,9 @@ public class MessageControll extends Base {
                             HttpServletResponse response) throws Exception {
         String jsoString = request.getParameter("message");
         logger.info(jsoString);
-        PushNoticeToAndroid pushRequest = new PushNoticeToAndroid();
-        pushRequest.setAction("PushNoticeToAndroid");
-        pushRequest.setTarget("account");
-        pushRequest.setTargetValue("account111");
-        pushRequest.setTitle("test");
-        pushRequest.setSummary("summary");
-        String s =  pushService.push(pushRequest);
-        write(response, null, null, null, s);
+//        String s =  pushService.push(pushRequest);
+//        write(response, null, null, null, s);
+        MyPushResponse myPushResponse = pushService.getPushResponse(new MyPushRequest());
+        write(response, null, null, null, null);
     }
 }
