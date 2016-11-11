@@ -28,39 +28,16 @@ public class OssControll extends Base {
     }
 
     /*
-     * 获取bucket列表 oss={}
+     * 为图片生成小尺寸规格 oss={"url":""}
      */
-    @RequestMapping("/oss/bucket/list")
-    public void getBucketList(HttpServletRequest request,
-                              HttpServletResponse response) throws Exception {
+    @RequestMapping("/oss/object/small/add")
+    public void addSmallObject(HttpServletRequest request,
+                               HttpServletResponse response) throws Exception {
         String jsoString = request.getParameter("oss");
         logger.info(jsoString);
+        ossService.addObjectSmallSpec(readTree(jsoString, "url"));
         write(response, null, null, null,
-                ossService.getBucketList());
-    }
-
-    /*
-     * 获取Object oss={"name":""}
-     */
-    @RequestMapping("/oss/object/get")
-    public void getObject(HttpServletRequest request,
-                          HttpServletResponse response) throws Exception {
-        String jsoString = request.getParameter("oss");
-        logger.info(jsoString);
-        write(response, null, null, null,
-                ossService.getObject(readTree(jsoString, "name")));
-    }
-
-    /*
-     * 获取Object list oss={}
-     */
-    @RequestMapping("/oss/object/list")
-    public void getObjectList(HttpServletRequest request,
-                              HttpServletResponse response) throws Exception {
-        String jsoString = request.getParameter("oss");
-        logger.info(jsoString);
-        write(response, null, null, null,
-                ossService.getListObjects());
+                null);
     }
 
     /*

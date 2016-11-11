@@ -20,6 +20,7 @@ public class EggExceptionResolver extends Base implements HandlerExceptionResolv
         httpServletResponse.setContentType("UTF-8");
         try {
             httpServletResponse.getWriter().write(objToString(resultModel));
+            logger.error(e);
             logger.info(objToString(resultModel));
         } catch (IOException e1) {
             logger.error(e1);
