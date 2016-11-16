@@ -1,8 +1,6 @@
 package com.dskj.message.controll;
 
 import com.dskj.base.Base;
-import com.dskj.message.entity.MyPushRequest;
-import com.dskj.message.entity.MyPushResponse;
 import com.dskj.message.mq.RabbitProducer;
 import com.dskj.message.push.PushService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 @Controller
 public class MessageControll extends Base {
@@ -32,10 +28,7 @@ public class MessageControll extends Base {
 //        String s =  pushService.push(pushRequest);
 //        write(response, null, null, null, s);
 //        MyPushResponse myPushResponse = pushService.getPushResponse(new MyPushRequest());
-        Map<String,String> map = new HashMap<String, String>();
-        map.put("id","1");
-        map.put("name","test");
-        rabbitProducer.sendDataToQueue("com.dskj.message.image.handle",map);
+//        rabbitProducer.sendDataToQueue("com.dskj.message.image.handle", new MyHandle());
         write(response, null, null, null, null);
     }
 }
