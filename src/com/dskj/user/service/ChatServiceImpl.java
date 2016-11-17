@@ -1,13 +1,4 @@
-package com.dskj.user.service;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+﻿package com.dskj.user.service;
 
 import com.dskj.base.Base;
 import com.dskj.user.entity.ChatConfigEntity;
@@ -16,6 +7,14 @@ import com.dskj.user.entity.ChatUser;
 import com.dskj.user.mapper.ChatMapper;
 import com.dskj.util.HttpUtil;
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ChatServiceImpl extends Base implements InitializingBean, ChatService {
@@ -74,6 +73,30 @@ public class ChatServiceImpl extends Base implements InitializingBean, ChatServi
                 return null;
         } catch (Exception e) {
             return chatUser;
+        }
+    }
+
+    /**
+     * 删除 IM 用户[单个]
+     * 删除一个用户会删除以该用户为群主的所有群组和聊天室
+     */
+    public boolean deleteUser(String username) throws Exception {
+        if (!Boolean.valueOf(chatConfigs.get("chat_open")))
+            return true;
+        Map<String, String> headers = new HashMap<String, String>();
+        headers.put("Content-Type", "application/json");
+        headers.put("Authorization", "Bearer " + getCheckAccessToken());
+        String result = HttpUtil.delete(new StringBuffer(chatConfigs.get("chat_domain")).append("/").append(chatConfigs.get("chat_org_name")).append("/").append(chatConfigs.get("chat_app_name")).append("/users").append("/").append(username).toString(), headers);
+        logger.info(result);
+        try {
+            String error = readTree(result, "error");
+            if (error == null || "".equals(error))
+                return true;
+            else
+                return false;
+        } catch (Exception e) {
+            logger.error(e);
+            return false;
         }
     }
 

@@ -1,4 +1,4 @@
-package com.dskj.user.service;
+﻿package com.dskj.user.service;
 
 import com.dskj.announcement.mapper.AnnouncementMapper;
 import com.dskj.announcement.mapper.AnnouncementReadMapper;
@@ -126,10 +126,10 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
         return institutionMapper.getInstitutionListByName(name, page);
     }
 
-    public List<ChildInstitutionList> getMyChildInstitution(String institutionId,String key) throws Exception {
-    	if("".equals(key))
-    		key = null;
-        return institutionMapper.getMyChildInstitution(institutionId,key);
+    public List<ChildInstitutionList> getMyChildInstitution(String institutionId, String key) throws Exception {
+        if ("".equals(key))
+            key = null;
+        return institutionMapper.getMyChildInstitution(institutionId, key);
     }
 
     public void deleteMyChildInstitution(String institutionId) throws Exception {
@@ -152,11 +152,11 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
     }
 
     public List<InstitutionWithPropa> getInstitutionWithPropaListPage(String key, Integer regionId, Page page) throws Exception {
-    	if(regionId == null)
-    		regionId = 0;
-    	if("".equals(key))
-    		key = null;
-        return institutionMapper.getInstitutionWithPropaListPage(key,regionId,page);
+        if (regionId == null)
+            regionId = 0;
+        if ("".equals(key))
+            key = null;
+        return institutionMapper.getInstitutionWithPropaListPage(key, regionId, page);
     }
 
     public void addComment(String userId, String institutionId, String context)
@@ -225,90 +225,90 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
         institutionFansMapper.delete(fansId);
     }
 
-	public Object getInstitutionManagerList(String institutionId,String key)
-			throws Exception {
-		if("".equals(key))
-			key = null;
-		return institutionMapper.getInstitutionManagerList(institutionId,key);
-	}
+    public Object getInstitutionManagerList(String institutionId, String key)
+            throws Exception {
+        if ("".equals(key))
+            key = null;
+        return institutionMapper.getInstitutionManagerList(institutionId, key);
+    }
 
-	public List<ChildInstitutionList> getUnMyChildInstitution(
-			String institutionId, String key) throws Exception {
-		if("".equals(key))
-			key = null;
-		return institutionMapper.getUnMyChildInstitution(institutionId,key);
-	}
+    public List<ChildInstitutionList> getUnMyChildInstitution(
+            String institutionId, String key) throws Exception {
+        if ("".equals(key))
+            key = null;
+        return institutionMapper.getUnMyChildInstitution(institutionId, key);
+    }
 
-	public String addBatchMyChildInstitution(String institutionId,
-			List<String> childIds,String credence) throws Exception {
-		InstitutionEntity institutionEntity = institutionMapper.getInstitutionById(credence);
-		if(institutionEntity == null || !institutionEntity.getId().equals(childIds.get(0)))
-			return "添加失败，请确认填写的子机构凭证是正确的";
-		if(institutionEntity.getParentId() != null)
-			return "添加失败，请确认被添加的子机构没有被添加过";
-		InstitutionEntity institutionParent = institutionMapper.getInstitutionById(institutionId);
-		if(institutionParent.getParentId() != null)
-			return "已是分机构的不能再添加分机构";
-		if(childIds != null && childIds.size() != 0)
-			institutionMapper.addBatchMyChildInstitution(institutionId,childIds);
-		return null;
-	}
+    public String addBatchMyChildInstitution(String institutionId,
+                                             List<String> childIds, String credence) throws Exception {
+        InstitutionEntity institutionEntity = institutionMapper.getInstitutionById(credence);
+        if (institutionEntity == null || !institutionEntity.getId().equals(childIds.get(0)))
+            return "添加失败，请确认填写的子机构凭证是正确的";
+        if (institutionEntity.getParentId() != null)
+            return "添加失败，请确认被添加的子机构没有被添加过";
+        InstitutionEntity institutionParent = institutionMapper.getInstitutionById(institutionId);
+        if (institutionParent.getParentId() != null)
+            return "已是分机构的不能再添加分机构";
+        if (childIds != null && childIds.size() != 0)
+            institutionMapper.addBatchMyChildInstitution(institutionId, childIds);
+        return null;
+    }
 
-	public void deleteBatchMyChildInstitution(String institutionId,
-			List<String> childIds) throws Exception {
-		if(childIds != null && childIds.size() != 0)
-			institutionMapper.deleteBatchMyChildInstitution(institutionId, childIds);
-	}
+    public void deleteBatchMyChildInstitution(String institutionId,
+                                              List<String> childIds) throws Exception {
+        if (childIds != null && childIds.size() != 0)
+            institutionMapper.deleteBatchMyChildInstitution(institutionId, childIds);
+    }
 
-	public Object getInstitutionUnManagerList(String institutionId, String key)
-			throws Exception {
-		if("".equals(key))
-			key = null;
-		return institutionMapper.getInstitutionUnManagerList(institutionId,key);
-	}
+    public Object getInstitutionUnManagerList(String institutionId, String key)
+            throws Exception {
+        if ("".equals(key))
+            key = null;
+        return institutionMapper.getInstitutionUnManagerList(institutionId, key);
+    }
 
-	public String addInstitutionManagerBatch(String institutionId,
-			List<String> userIds) throws Exception {
-		StringBuffer m = new StringBuffer();
-		if(userIds != null && userIds.size() != 0){
-			for(String userId : userIds){
-				// TODO
-				//是否选择了多个机构
-				if(institutionMapper.getMyInstitutionCount(userId) > 1){
-					m.append(userId);
-					continue;
-				}
-				institutionMapper.updateMyOldType(userId);
-				institutionMapper.addInstitutionManagerBatch(userId);
-			}
-		}
-		return m.toString();
-	}
+    public String addInstitutionManagerBatch(String institutionId,
+                                             List<String> userIds) throws Exception {
+        StringBuffer m = new StringBuffer();
+        if (userIds != null && userIds.size() != 0) {
+            for (String userId : userIds) {
+                // TODO
+                //是否选择了多个机构
+                if (institutionMapper.getMyInstitutionCount(userId) > 1) {
+                    m.append(userId);
+                    continue;
+                }
+                institutionMapper.updateMyOldType(userId);
+                institutionMapper.addInstitutionManagerBatch(userId);
+            }
+        }
+        return m.toString();
+    }
 
-	public String deleteInstitutionManagerBatch(String institutionId,
-			List<String> userIds) throws Exception {
-		String m = null;
-		if(userIds != null && userIds.size() != 0){
-			for(String userId : userIds){
-				//主管理员不能删除
-				if(institutionMapper.getMyOldType(userId) == null){
-					m = "主管理员不能删除";
-					continue;
-				}
-				institutionMapper.updateBackMyOldType(userId);
-			}
-		}
-		return m;
-	}
+    public String deleteInstitutionManagerBatch(String institutionId,
+                                                List<String> userIds) throws Exception {
+        String m = null;
+        if (userIds != null && userIds.size() != 0) {
+            for (String userId : userIds) {
+                //主管理员不能删除
+                if (institutionMapper.getMyOldType(userId) == null) {
+                    m = "主管理员不能删除";
+                    continue;
+                }
+                institutionMapper.updateBackMyOldType(userId);
+            }
+        }
+        return m;
+    }
 
-	public int getInstitutionCount(String key) throws Exception {
-		if("".equals(key))
-			key = null;
-		return institutionMapper.getInstitutionCount(key);
-	}
+    public int getInstitutionCount(String key) throws Exception {
+        if ("".equals(key))
+            key = null;
+        return institutionMapper.getInstitutionCount(key);
+    }
 
-	public void deleteInstitution(String institutionId) throws Exception {
-		institutionMapper.deleteInstitution(institutionId);
+    public void deleteInstitution(String institutionId) throws Exception {
+        institutionMapper.deleteInstitution(institutionId);
         //删除机构的公告
         announcementMapper.deleteByInstitutionId(institutionId);
         //删除机构公告读
@@ -326,10 +326,12 @@ public class InstitutionServiceImpl extends Base implements InstitutionService {
         propaMapper.deleteByInstitutionId(institutionId);
         //删除机构的管理员
         List<UserEntity> userEntitys = userMapper.getInsAdminByInsId(institutionId);
-        if (userEntitys != null && userEntitys.size() != 0){
+        if (userEntitys != null && userEntitys.size() != 0) {
             userMapper.deleteById(userEntitys.get(0).getId());
+            //删除环信账号
+            chatService.deleteUser(userEntitys.get(0).getId());
         }
         //删除机构user
         institutionMapper.deleteReleationByDeletedInstitution(institutionId);
-	}
+    }
 }
