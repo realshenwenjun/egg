@@ -1,4 +1,4 @@
-﻿package com.dskj.user.service;
+package com.dskj.user.service;
 
 import com.dskj.announcement.mapper.AnnouncementMapper;
 import com.dskj.announcement.mapper.AnnouncementReadMapper;

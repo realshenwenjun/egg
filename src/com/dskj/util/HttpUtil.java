@@ -1,4 +1,4 @@
-﻿package com.dskj.util;
+package com.dskj.util;
 
 import com.frame.elastic.json.JSONUtil;
 import org.apache.http.HttpEntity;
@@ -205,31 +205,6 @@ public class HttpUtil {
     }
 
     public static void main(String[] args) {
-        String method = "POST";
-        String url = "http://msg.umeng.com/api/send";
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("appkey", "56fa4323e0f55adf32000b30");
-        map.put("timestamp", System.currentTimeMillis());
-        map.put("type", "unicast");
-        map.put("device_tokens", "ArO0VdkW10VHJaa4-Pj7QwZdfU-TYTfMASdXy3WJKSZl");
-        Map<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("display_type", "notification");
-        Map<String, Object> map2 = new HashMap<String, Object>();
-        map2.put("ticker", "呵呵");
-        map2.put("title", "截图我看看");
-        map2.put("text", "傻逼赵硕");
-        map2.put("after_open", "go_app");
-        map1.put("body", map2);
-        map.put("payload", map1);
-        String AppMasterSecret = "0zdtwyykh2vrmqkgfs7osz0mt0jlondi";
-        try {
-            String body = JSONUtil.objToString(map);
-            String sign = MD5Util.MD5Encode(method + url + body + AppMasterSecret, "UTF-8");
-            System.out.println(sign);
-            String result = HttpUtil.post(url + "?sign=" + sign, body);
-            System.out.println(result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        get("http://localhost:8080?q=0",null);
     }
 }
