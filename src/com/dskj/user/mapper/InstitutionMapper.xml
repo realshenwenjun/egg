@@ -273,14 +273,15 @@
 		ip.institution_id = i.id) AS propa_count,
 		(SELECT COUNT(*) FROM
 		institution_comment WHERE institution_id = i.id) AS
-		comment_count,(SELECT ABS(parent_id - #{regionId}) FROM region WHERE
-		id = i.region_id) AS sort1
+		comment_count,case when i.region_id = 0 THEN 10000 else (SELECT ABS(x + y - (SELECT rg.x + rg.y from region rg where rg.id = #{regionId})) FROM region WHERE
+		id = i.region_id) END AS sort1
 		FROM
 		institution i
+		WHERE 1 = 1
 		<if test="key!=null">
-			where (i.tel = #{key} or i.name like '%${key}%')
+			AND (i.tel = #{key} or i.name like '%${key}%')
 		</if>
-		ORDER BY sort1 limit
+		ORDER BY sort1 ASC limit
 		#{page.pageNo},#{page.pageSize}
 	</select>
 	<update id="updateVisitCount" parameterType="java.lang.String">
